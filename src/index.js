@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Inbox from './Inbox/Inbox';
+import New from './Authentication/New';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Inbox/>
+    <New/>
   </React.StrictMode>,
   document.getElementById('root')
 );
