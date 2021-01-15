@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import New from './Authentication/New';
 import './index.css';
+import Createaccount from '../src/Authentication/CreateNewAccount.jsx'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <New/>
+    <Createaccount/>
   </React.StrictMode>,
   document.getElementById('root')
 );

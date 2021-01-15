@@ -10,6 +10,8 @@ const joiUserSchema = joi.object().keys({
     companyname: joi.string().required(),
     email: joi.string().email().required(),
     password: joi.string().min(8).regex(/[a-zA-Z]/).required(),
-    repeatpassword:joi.string().required().valid(joi.ref('password')).options({language: {any: {allowOnly: '!!Passwords do not match',}}}),
-})
+    repeatpassword:joi.string().required().valid(joi.ref('password'))
+});
 var userSchema = new mongoose.Schema(joigoose.convert(joiUserSchema));
+
+module.exports = mongoose.model('User', userSchema);

@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/alt-text */
-import React from 'react';
 import setintro from '/Users/saibabaalapati/Desktop/magexpress/src/Authentication/setintro.png';
 import {useForm} from 'react-hook-form';
 function Youraccount(){

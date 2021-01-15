@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/alt-text */
-import React from 'react';
 import CreateAccount from '/Users/saibabaalapati/Desktop/magexpress/src/Authentication/CreateAccount.png';
 import {Controller, useForm,useRef} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup'
@@ -23,7 +22,6 @@ function Createaccount(){
     const onSubmit = (data) => {
         alert(JSON.stringify(data));
     };
-    
     return(
         <div className="body flex flex-row bg-gray-800 w-full h-screen">
             <img className=" bg-black w-3/5 h-full p-10" src={CreateAccount}></img>
