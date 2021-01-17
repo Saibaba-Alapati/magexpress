@@ -6,7 +6,7 @@ const joiUserSchema = joi.object().keys({
     firstname: joi.string().required(),
     lastname: joi.string().required(),
     username: joi.string().required(),
-    gender: joi.string().required(),
+    gender: joi.string().valid("male","female","rathernotsay").equired(),
     companyname: joi.string().required(),
     email: joi.string().email().required(),
     password: joi.string().min(8).regex(/[a-zA-Z]/).required(),
