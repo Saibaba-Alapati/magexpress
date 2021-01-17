@@ -1,17 +1,22 @@
 import React from 'react';
+import {BrowserRouter, Route} from 'react-router-dom'
 import ReactDOM from 'react-dom';
 import './index.css';
 import Createaccount from '../src/Authentication/CreateNewAccount.jsx'
-import reportWebVitals from './reportWebVitals';
+import Youraccount from './Authentication/Youraccount';
+import HomePage from './Authentication/HomePage';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Createaccount/>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Route path="/home">
+      <HomePage/>
+    </Route>
+    <Route path="/login">
+      <Youraccount/>
+    </Route>
+    <Route path="/register">
+      <Createaccount />
+    </Route>
+  </BrowserRouter>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

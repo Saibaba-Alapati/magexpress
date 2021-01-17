@@ -5,7 +5,17 @@
 /.pnp
 .pnp.js
 /notes
-
+/src/emailmarketing
+/src/CDDM
+/src/bots
+/src/tracker
+/src/pushnotifications
+/src/infopanel
+/src/videoconference
+/src/voiceconference
+/src/directchat
+/src/chatroom
+/src/BCAAO
 # testing
 /coverage
 
