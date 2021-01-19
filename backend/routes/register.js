@@ -1,10 +1,10 @@
 const express   = require('express');
 var router = express.Router();
-const User = require('../models/User.model');
+const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-const { findById } = require('../models/User.model');
+const { findById } = require('../models/user.model');
 const {checkNotAuthenticated} = require('../functions')
 passport.use("/",new LocalStrategy(
     function (username,password,done) {

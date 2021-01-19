@@ -1,15 +1,21 @@
 const mongoose = require('mongoose');
-const joi = require('joi');
-const joigoose = require('joigoose')(mongoose);
-const User = require('./User.model');
-const {Tracker,TrackerContainer}= require('./tracker.model');
-const joiTrackerCommentSchema = joi.object().keys({
-    created : joi.date().timestamp(),
-    tracker: Tracker.required(),
-    container  :TrackerContainer.required(),
-    comments : joi.object(),
-    author  : User.required(),
+const Schema = mongoose.Schema;
+const trackerCommentSchema = new Schema({
+    author  : {type: mongoose.Schema.Types.ObjectId, ref: 'User',required: true},
+    comments : {type:Object},
+    tracker: {type: mongoose.Schema.Types.ObjectId, ref: 'Tracker',required: true},
+    container  :{type: mongoose.Schema.Types.ObjectId, ref: 'TrackerContainer',required: true}
+},{
+    timestamps: { createdAt: true, updatedAt: true }
 })
-
-var trackerCommentSchema = new mongoose.Schema(joigoose.convert(joiTrackerCommentSchema));
+const roomThreadCommentSchema = new Schema({
+    author  : {type: mongoose.Schema.Types.ObjectId, ref: 'User',required: true},
+    comments : {type:Object},
+    room : {type: mongoose.Schema.Types.ObjectId, ref: 'Chatroom',required: true},
+    channel  : {type: mongoose.Schema.Types.ObjectId, ref: 'RoomChannel',required: true},
+    thread : {type: mongoose.Schema.Types.ObjectId, ref: 'RoomThread',required: true},
+},{
+    timestamps: { createdAt: true, updatedAt: true }
+})
 module.exports = mongoose.model('TrackerComment',trackerCommentSchema );
+module.exports = mongoose.model('RoomThreadComment',roomThreadCommentSchema );

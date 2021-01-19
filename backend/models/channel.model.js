@@ -1,14 +1,9 @@
 const mongoose = require('mongoose');
-const joi = require('joi');
-const joigoose = require('joigoose')(mongoose);
-const {Chatroom} = require('./chatroom.model');
-const {RoomChat} = require('./chatcontainers.model');
+const Schema = mongoose.Schema;
 
-const joiChannelSchema = joi.object().keys({
-    room : Chatroom.required(),
-    chatcontainer  : RoomChat.required(),
+const channelSchema = new Schema({
+    room : {type: mongoose.Schema.Types.ObjectId, ref: 'Chatroom',required : true},
+    chatcontainer :{type: mongoose.Schema.Types.ObjectId, ref: 'ChatContainer',required : true},
 });
 
-
-var channelSchema = new mongoose.Schema(joigoose.convert(joiChannelSchema));
 module.exports = mongoose.model('RoomChannel',channelSchema);
