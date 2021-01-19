@@ -8,8 +8,8 @@ const userSchema = new Schema({
     gender: {type: String,enum:['male','female','rather-not-say'], required: 'Your gender is required.'},
     companyname: String,
     email: {type: String,validate: [ isEmail, 'invalid email' ],required: 'Email address is required'},
-    password: {type:String,match:[/[a-zA-Z]/],required:'Password is required.'},//add min(8)
-    chatrooms :[{type: mongoose.Schema.Types.ObjectId, ref: 'Chatroom'}],
+    password: {type:String,match:[/[a-zA-Z]/],required:'Password is required.',min:8},
+    chatrooms : [{type: mongoose.Schema.Types.ObjectId, ref: 'Chatroom'}],
     roles : [{type: mongoose.Schema.Types.ObjectId, ref: 'Role'}],
     trackercontainers : [{type: mongoose.Schema.Types.ObjectId, ref: 'TrackerContainer'}],
 });
