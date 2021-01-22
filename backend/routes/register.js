@@ -1,5 +1,5 @@
 const express   = require('express');
-var router = express.Router();
+const router = express.Router();
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
@@ -41,7 +41,6 @@ router.post('/register', checkNotAuthenticated,async (req,res)=>{
         else{
             bcrypt.hash(req.body.password, 10).then((hashedPassword)=>{
                 const user = new User({
-                    id: (new Date()).getTime().toString(36) + Math.random().toString(36).slice(2),
                     firstname : req.body.firstname,
                     lastname : req.body.lastname,
                     username : req.body.username,
@@ -49,6 +48,9 @@ router.post('/register', checkNotAuthenticated,async (req,res)=>{
                     companyname : req.body.companyname,
                     email : req.body.email,
                     password : hashedPassword,
+                    chatrooms : req.body.chatrooms,
+                    roles : req.body.roles,
+                    trackercontainers : req.body.trackercontainers,
                 });
                 user.save().then(()=>{
                     res.status(201).json({
