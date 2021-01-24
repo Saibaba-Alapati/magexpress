@@ -36,7 +36,7 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all CC from the database.
-exports.findAll = (req, res) => {
+exports.findAllCCOfTC = (req, res) => {
     const tcId = req.params.tcId;
     CategoryContainer.findAll({where:{trackercontainer : tcId}})
         .then(data => {
@@ -65,11 +65,11 @@ exports.findAllTrackersOfCC = (req, res) => {
         });
 };
 
-//Moving tracker form one container to other
+//Moving tracker from one categorycontainer to othercategorycontainer
 exports.moveToOtherCC = (req, res) => {
-    const otherccId = req.params.otherccId
+    const otherccId = req.body.otherccId
     const trackerId = req.params.trackerId
-    Tracker.findAll({categorycontainer: otherccId},{where:{tracker: trackerId}})
+    Tracker.update({categorycontainer: otherccId},{where:{id: trackerId}})
         .then(num => {
             if(num === 1){
                 res.send({

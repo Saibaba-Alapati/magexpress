@@ -51,6 +51,14 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true,
       defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    room: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'chatroom',
+        key: 'id'
+      }
     }
   }, {
     sequelize,

@@ -30,9 +30,25 @@ module.exports = function(sequelize, DataTypes) {
     },
     tracker: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
       references: {
         model: 'tracker',
+        key: 'id'
+      }
+    },
+    trackercontainer: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'trackercontainer',
+        key: 'id'
+      }
+    },
+    categorycontainer: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'categorycontainer',
         key: 'id'
       }
     }

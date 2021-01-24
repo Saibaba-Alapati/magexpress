@@ -1,10 +1,22 @@
 const initModels = require('../models/init-models');
 const sequelize = require("sequelize");
 const models = initModels(sequelize);
-const ChatRoom = models.ChatRoom;
+const ChatRoom = models.chatroom;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
+    const channelId = req.params.channelId;
+    const chatroomId   = req.params.chatroomId;
+    const userId = req.params.userId;
+    const directmessage = {
+        creator  : userId,
+        room  : chatroomId,
+        channel : channelId,
+        content : req.body.content,
+        forwarded  : 0,
+    }
+    DirectMessage.create()
+        .then(() =>)
 
 };
 

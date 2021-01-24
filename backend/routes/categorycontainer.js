@@ -1,0 +1,10 @@
+const categorycontainer = require('../controllers/categorycontainer.controller');
+const  express = require('express');
+const categorycontainerroute = express.Router();
+categorycontainerroute.post("/:userId/:tcId/createcategorycontainer",categorycontainer.create);
+categorycontainerroute.get("/:userId/:tcId/findAllCCOfTC",categorycontainer.findAllCCOfTC);
+categorycontainerroute.put("/:userId/:tcId/:ccId/:trackerId/shifttracker",categorycontainer.moveToOtherCC);
+categorycontainerroute.put("/:userId/:tcId/:ccId/updateCC",categorycontainer.updateCC);
+categorycontainerroute.get("/:userId/:tcId/:ccId/findAllTrackersOfCC",categorycontainer.findAllTrackersOfCC);
+categorycontainerroute.delete("/:userId/:tcId/:ccId/deleteCCWithTrackers",categorycontainer.deleteCCWithTrackers);
+categorycontainerroute.delete("/:userId/:tcId/:ccId/deleteAllTrackersFromCC",categorycontainer.deleteAllTrackersFromCC);

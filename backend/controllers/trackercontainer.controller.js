@@ -4,6 +4,8 @@ const models = initModels(sequelize);
 const TrackerContainer = models.trackercontainer;
 const UserAndTCS = models.userandtcs;
 const Tracker =  models.tracker;
+const TrackerComments =  models.trackercomments;
+const CategoryContainer =  models.categorycontainer;
 // Create and Save a new TrackerContainer
 exports.create = (req, res) => {
     if(!req.body.name){
@@ -33,7 +35,7 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Trackercontainers realted to the user from the database.
-exports.findAll = (req, res) => {
+exports.findAllContainersRelatedToUser = (req, res) => {
     const userId = req.params.userId;
     const tcId = req.params.tcId;
     UserAndTCS.findAll({where:{user_id: userId,trackercontainer_id:tcId}})
@@ -50,7 +52,6 @@ exports.findAll = (req, res) => {
 // Find a single TrackerContainer with an id in the request
 exports.findOne = (req, res) => {
     const id = req.params.tcId;
-
     TrackerContainer.findByPk(id)
         .then(data =>{
             res.send(data);
@@ -91,8 +92,18 @@ exports.userAccessCheck = (req,res) => {
         .then(function(data){
             if(!data){
                 return 'user notfound'
+            }else{
+                const id = req.params.tcId;
+                    TrackerContainer.findByPk(id)
+                        .then(data =>{
+                            res.send(data);
+                        })
+                        .catch(err => {
+                            res.status(500).send({
+                                message:"Error retrieving the TrackerContainer"
+                            });
+                        });
             }
-            return 'user found'
         })
         .catch(err => {
             res.status(500).send({
@@ -114,9 +125,13 @@ exports.update = (req, res) => {
 };
 
 // Delete all Trackers from the TrackerContainer.
-exports.deleteTCandCCandTR = (req, res) => {
+exports.deleteTCandCCandTRandTCR = (req, res) => {
     const tcId = req.params.tcId;
-    Tracker.destroy({where:{trackercontainer: tcId}})
+    TrackerComments.destroy({ trackercontainer: tcId});
+    Tracker.destroy({where: {trackercontainer: tcId}});
+    CategoryContainer.destroy({where: {trackercontainer: tcId}});
+    UserAndTCS.destroy({where: {trackercontainer_id : tcId}});
+    TrackerContainer.destroy({where:{id: tcId}})
         .then(num => {
             if(num === 1){
                 res.send({

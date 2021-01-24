@@ -62,6 +62,8 @@ function initModels(sequelize) {
   person.hasMany(roommessage, { foreignKey: "privatereplyto"});
   roommessage.belongsTo(roommessage, { foreignKey: "replyto"});
   roommessage.hasMany(roommessage, { foreignKey: "replyto"});
+  roommessage.belongsTo(chatroom, { foreignKey: "room"});
+  chatroom.hasMany(roommessage, { foreignKey: "room"});
   subtrackers.belongsTo(tracker, { foreignKey: "childtracker"});
   tracker.hasMany(subtrackers, { foreignKey: "childtracker"});
   subtrackers.belongsTo(tracker, { foreignKey: "parenttracker"});
@@ -72,10 +74,14 @@ function initModels(sequelize) {
   person.hasMany(tracker, { foreignKey: "reporter"});
   tracker.belongsTo(trackercontainer, { foreignKey: "trackercontainer"});
   trackercontainer.hasMany(tracker, { foreignKey: "trackercontainer"});
+  trackercomments.belongsTo(categorycontainer, { foreignKey: "categorycontainer"});
+  categorycontainer.hasMany(trackercomments, { foreignKey: "categorycontainer"});
   trackercomments.belongsTo(person, { foreignKey: "creator"});
   person.hasMany(trackercomments, { foreignKey: "creator"});
   trackercomments.belongsTo(tracker, { foreignKey: "tracker"});
   tracker.hasMany(trackercomments, { foreignKey: "tracker"});
+  trackercomments.belongsTo(trackercontainer, { foreignKey: "trackercontainer"});
+  trackercontainer.hasMany(trackercomments, { foreignKey: "trackercontainer"});
   trackercontainer.belongsTo(person, { foreignKey: "creator"});
   person.hasMany(trackercontainer, { foreignKey: "creator"});
   userandtcs.belongsTo(trackercontainer, { foreignKey: "trackercontainer_id"});

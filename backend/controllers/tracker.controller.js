@@ -78,6 +78,23 @@ exports.update = (req, res) => {
 // Delete a Tracker from database completely
 exports.delete = (req, res) => {
     const trackerId = req.params.trackerId
+    TrackerComments.destroy({where:{tracker: trackerId}})
+        .then(num => {
+            if (num === 1) {
+            res.send({
+                message: "deleted comments on tracker successfully."
+            });
+            } else {
+            res.send({
+                message: "can't find tracker."
+            });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+            message: "Could not delete comments on tracker"
+            });
+        });
     Tracker.destroy({where:{tracker: trackerId}})
         .then(num => {
             if(num === 1){

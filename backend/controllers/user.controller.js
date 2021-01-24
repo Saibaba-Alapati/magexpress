@@ -57,6 +57,18 @@ exports.create = (req,res) => {
             });
         });
 }
+exports.findOne = (req, res) =>{
+    const userId = req.params.userId;
+    User.findByPk(userId)
+        .then(data=>{
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "user not found."
+            })
+        })
+}
 
 exports.update = (req,res) => {
     const userId = req.params.userId;
