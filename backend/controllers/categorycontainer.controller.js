@@ -4,7 +4,7 @@ const models = initModels(sequelize);
 const Tracker = models.tracker;
 const CategoryContainer = models.categorycontainer;
 
-// Create and Save a new TrackerContainer
+// Create and Save a new CC
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.label) {
@@ -13,14 +13,16 @@ exports.create = (req, res) => {
         });
         return;
     }
-    // Create a CategoryContainer
+    // Create a CC
     const tcId = req.params.tcId;
+    const userId = req.params.userId;
     const categorycontainer = {
         label: req.body.label,
         description: req.body.description,
-        trackercontainer: tcId
+        creator : userId,
+        trackercontainer_id: tcId,
     };
-    // Save CategoryContainer in the database
+    // Save CC in the database
     CategoryContainer.create(categorycontainer)
         .then(data => {
             res.send(data);
@@ -33,7 +35,7 @@ exports.create = (req, res) => {
         });
 };
 
-// Retrieve all Tutorials from the database.
+// Retrieve all CC from the database.
 exports.findAll = (req, res) => {
     const tcId = req.params.tcId;
     CategoryContainer.findAll({where:{trackercontainer : tcId}})
@@ -49,7 +51,7 @@ exports.findAll = (req, res) => {
     };
 
 // Find all trackers realted to categorycontainer
-exports.LoadTrackers = (req, res) => {
+exports.findAllTrackersOfCC = (req, res) => {
     const ccId = req.params.ccId;
     Tracker.findAll({where:{categorycontainer : ccId}})
         .then(data => {
@@ -63,8 +65,28 @@ exports.LoadTrackers = (req, res) => {
         });
 };
 
+//Moving tracker form one container to other
+exports.moveToOtherCC = (req, res) => {
+    const otherccId = req.params.otherccId
+    const trackerId = req.params.trackerId
+    Tracker.findAll({categorycontainer: otherccId},{where:{tracker: trackerId}})
+        .then(num => {
+            if(num === 1){
+                res.send({
+                    message: "Shifted successfully to other category."
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+            message:
+                err.message || "Some error occurred while shifting Tracker."
+            });
+        });
+};
+
 // Update a CategoryContainer by the id in the request
-exports.update = (req, res) => {
+exports.updateCC = (req, res) => {
     CategoryContainer.update({label:req.body.label,description: req.body.description},{where: {id: req.params.ccId},returning : true,plain:true})
         .then(data =>{
             res.send(data);
@@ -75,83 +97,32 @@ exports.update = (req, res) => {
             })
         })
 };
-
-exports.deleteallCategoryContainerswithtrackers = (req, res) => {
-    const tcId = req.params.tcId;
-    Tracker.destroy({where:{id : tcId}})
-        .then(num =>{
-            if(num === 1){
-                res.send({message: "Deletion was successful."
-                });
-            }else{
-                res.send({message: "Failed to Delete."
-                });
-            }})
-            .catch(err =>{
-                res.status(500).send({
-                    message: "Couldn't find the container."
-                });
-            })
-};
-// Delete all trackers all category containers
-exports.deleteCategoryContainerWithTrackers = (req, res) => {
-    const tcId = req.params.tcId;
-    Tracker.destroy({where:{trackercontainer : tcId}})
-        .then(num =>{
-            if(num === 1){
-                res.send({message: "Deletion was successful."
-                });
-            }else{
-                res.send({message: "Failed to Delete."
-                });
-            }})
-            .catch(err =>{
-                res.status(500).send({
-                    message: "Couldn't find the container."
-                });
-            })
-    CategoryContainer.destroy({where:{trackercontainer : tcId}})
-        .then(num =>{
-            if(num === 1){
-                res.send({message: "Deletion was successful."
-                });
-            }else{
-                res.send({message: "Failed to Delete."
-                });
-            }})
-            .catch(err =>{
-                res.status(500).send({
-                    message: "Couldn't find the container."
-                });
-            })
-};
-exports.deleteshifttrackers = (req, res) => {
+//Delete CC along with Trackers
+exports.deleteCCWithTrackers = (req, res) => {
     const ccId = req.params.ccId;
-    const ccId2 = req.params.ccId2;
-    Tracker.update({categorycontainer: ccId2},{where:{categorycontainer : ccId2}})
+    Tracker.destroy({where:{categorycontainer: ccId}})
         .then(num => {
-            if (num === 1) {
-            res.send({
-                message: "Trackers of the deleted container are shifted successfully."
-            });
-            } else {
-            res.send({
-                message: `Not able to shift the trackers of deleted container`
-            });
+            if(num === 1){
+                res.send({
+                    message: "Deleted all trackers of trackercontainer successfully."
+                });
             }
         })
         .catch(err => {
             res.status(500).send({
-            message: "Cannot perform the operations due to following error" + err
+            message:
+                err.message || "Some error occurred while deleting all Trackers of tracker conatiners."
             });
         });
     CategoryContainer.destroy({where:{id : ccId}})
         .then(num =>{
             if(num === 1){
-                res.send({message: "Deletion was successful."
+                res.send({
+                    message: "Deletion was successful."
                 });
             }else{
-                res.send({message: "Failed to Delete."
+                res.send({
+                    message: "Failed to Delete."
                 });
             }})
             .catch(err =>{
@@ -160,21 +131,21 @@ exports.deleteshifttrackers = (req, res) => {
                 });
             })
 };
-// Delete all Tutorials from the database.
-exports.deleteAll = (req, res) => {
-    const tcId = req.params.tcId;
-    CategoryContainer.destroy({where:{trackercontainer : tcId}})
-        .then(num =>{
+// Delete all Trackers from the CategoryContainer.
+exports.deleteAllTrackersFromCC = (req, res) => {
+    const ccId = req.params.ccId;
+    Tracker.destroy({where:{categorycontainer: ccId}})
+        .then(num => {
             if(num === 1){
-                res.send({message: "Deletion was successful."
+                res.send({
+                    message: "Deleted all trackers of trackercontainer successfully."
                 });
-            }else{
-                res.send({message: "Failed to Delete."
-                });
-            }})
-            .catch(err =>{
-                res.status(500).send({
-                    message: "Couldn't find the container."
-                });
-            })
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+            message:
+                err.message || "Some error occurred while deleting all Trackers of tracker conatiners."
+            });
+        });
 };

@@ -32,7 +32,7 @@ exports.create = (req, res) => {
         });
 };
 
-// Retrieve all Comments made on the Tracaker from Database.
+// Retrieve all Comments made on the Tracker from Database.
 exports.findAllCommentsOnTracker = (req, res) => {
     const trackerId= req.params.trackerId
     TrackerComments.findAll({where:{tracker: trackerId}})
@@ -47,7 +47,7 @@ exports.findAllCommentsOnTracker = (req, res) => {
         });
 };
 
-// Find a single Tutorial with an id
+// Find a single Tracker with an id
 exports.findOne = (req, res) => {
     const trackerId = req.params.trackerId;
     Tracker.findByPk({where:{id:trackerId}})
@@ -61,7 +61,7 @@ exports.findOne = (req, res) => {
 });
 };
 
-// Update a Tutorial by the id in the request
+// Update a Tracker by the id in the request
 exports.update = (req, res) => {
     const trackerId = req.params.trackerId;
     Tracker.update({content: req.body.content},{where:{tracker: trackerId},returning:true,plain:true})
@@ -90,62 +90,6 @@ exports.delete = (req, res) => {
             res.status(500).send({
             message:
                 err.message || "Some error occurred while deleting Tracker."
-            });
-        });
-};
-//Moving tracker form one container to other
-exports.moveToOtherCC = (req, res) => {
-    const otherccId = req.params.otherccId
-    const trackerId = req.params.trackerId
-    Tracker.findAll({categorycontainer: otherccId},{where:{tracker: trackerId}})
-        .then(num => {
-            if(num === 1){
-                res.send({
-                    message: "Shifted successfully to other category."
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-            message:
-                err.message || "Some error occurred while shifting Tracker."
-            });
-        });
-};
-// Delete all Trackers from the TrackerContainer.
-exports.deleteAllTrackersFromTC = (req, res) => {
-    const tcId = req.params.tcId;
-    Tracker.destroy({where:{trackercontainer: tcId}})
-        .then(num => {
-            if(num === 1){
-                res.send({
-                    message: "Deleted all trackers of trackercontainer successfully."
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-            message:
-                err.message || "Some error occurred while deleting all Trackers of tracker conatiners."
-            });
-        });
-};
-
-// Delete all Trackers from the CategoryContainer.
-exports.deleteAllTrackersFromCC = (req, res) => {
-    const ccId = req.params.ccId;
-    Tracker.destroy({where:{categorycontainer: ccId}})
-        .then(num => {
-            if(num === 1){
-                res.send({
-                    message: "Deleted all trackers of trackercontainer successfully."
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-            message:
-                err.message || "Some error occurred while deleting all Trackers of tracker conatiners."
             });
         });
 };

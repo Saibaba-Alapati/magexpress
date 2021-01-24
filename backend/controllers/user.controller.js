@@ -1,8 +1,13 @@
 const initModels = require('../models/init-models');
 const sequelize = require("sequelize");
 const models = initModels(sequelize);
+const Tracker = models.tracker;
+const TrackerComments = models.trackercomments;
 const User = models.person;
 const bcrypt = require('bcrypt');
+const TrackerContainer = models.trackercontainer;
+const CategoryContainer = models.categorycontainer;
+const UserAndTCS = models.userandtcs
 exports.create = (req,res) => {
     if(!req.body.first_name){
         res.status(400).send({
@@ -54,10 +59,42 @@ exports.create = (req,res) => {
 }
 
 exports.update = (req,res) => {
-    const id = req.params.id;
-
-    User.destroy({
-        where: { id: id }
+    const userId = req.params.userId;
+    User.update(
+        {
+            first_name : req.body.first_name,
+            last_name : req.body.last_name,
+            user_name: req.body.username,
+            email : req.body.email,
+        },
+        {
+        where: { id: userId }
+    })
+        .then(num => {
+            if (num === 1) {
+                res.send({
+                    message: "User info updated successfully!"
+                });
+            } else {
+            res.send({
+                message: `User not found.`
+            });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+            message: " Could not update User info."
+        });
+        });
+}
+exports.updatePassword = (req,res) => {
+    const userId = req.params.userId;
+    User.update(
+        {
+            password : bcrypt.hashSync(req.body.password, 10),
+        },
+        {
+        where: { id: userId }
     })
         .then(num => {
             if (num === 1) {
@@ -66,13 +103,42 @@ exports.update = (req,res) => {
                 });
             } else {
             res.send({
-                message: `Cannot delete User with id=${id}. Maybe User was not found!`
+                message:"Password has been updated successfully!"
             });
             }
         })
         .catch(err => {
             res.status(500).send({
-            message: "Could not delete Tutorial with id=" + id
+            message: "Could not update password."
         });
         });
 }
+
+exports.deleteUserandInfo = (req,res) => {
+    const userId = req.params.userId;
+    TrackerComments.destroy({creator : userId});
+    Tracker.destroy({where: {reporter: userId}});
+    CategoryContainer.destroy({where: {creator : userId}});
+    UserAndTCS.destroy({where: {creator : userId}});
+    TrackerContainer.destroy({where: {creator : userId}});
+    User.destroy({
+        where: { id: userId }
+    })
+        .then(num => {
+            if (num === 1) {
+                res.send({
+                    message: "User account and info deleted successfully."
+                });
+            } else {
+            res.send({
+                message: `User account and info deletes successfully.`
+            });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+            message: "Could not delete User account and info."
+        });
+        });
+}
+

@@ -3,7 +3,8 @@ const sequelize = require("sequelize");
 const models = initModels(sequelize);
 const TrackerContainer = models.trackercontainer;
 const UserAndTCS = models.userandtcs;
-// Create and Save a new TrackerContainer and creates an none category
+const Tracker =  models.tracker;
+// Create and Save a new TrackerContainer
 exports.create = (req, res) => {
     if(!req.body.name){
         res.status(400).send({
@@ -46,7 +47,7 @@ exports.findAll = (req, res) => {
         })
 };
 
-// Find a single Tutorial with an id
+// Find a single TrackerContainer with an id in the request
 exports.findOne = (req, res) => {
     const id = req.params.tcId;
 
@@ -60,8 +61,46 @@ exports.findOne = (req, res) => {
             });
         });
 };
+exports.joinTrackerContainer = (req, res) => {
+    const userId = req.params.userId;
+    const tcId = req.params.tcId;
+    TrackerContainer.findByPk(tcId)
+        .then(data =>{
+            UserAndTCS.create({user_id : userId,trackercontainer_id: tcId,trackercontainercreator : data.creator})
+                .then(data =>{
+                    res.send(data);
+                })
+                .catch(err => {
+                    res.status(500).send({
+                        message:"Error retrieving the TrackerContainer"
+                    });
+                })
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:"Error retrieving the TrackerContainer"
+            });
+        });
 
-// Update a Tutorial by the id in the request
+}
+//check if user has access to tracker container
+exports.userAccessCheck = (req,res) => {
+    const userId = req.params.userId;
+    const tcId = req.params.tcId;
+    TrackerContainer.find({where:{user_id: userId,trackercontainer_id: tcId}})
+        .then(function(data){
+            if(!data){
+                return 'user notfound'
+            }
+            return 'user found'
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:"Error check for access."
+            });
+        });
+}
+// Update a TrackerContainer by the id in the request
 exports.update = (req, res) => {
     TrackerContainer.update({name:req.body.name,description: req.body.description},{where: {id: req.params.id},returning : true,plain:true})
         .then(data =>{
@@ -74,35 +113,21 @@ exports.update = (req, res) => {
         })
 };
 
-// Delete a Tutorial with the specified id in the request
-exports.delete = (req, res) => {
+// Delete all Trackers from the TrackerContainer.
+exports.deleteTCandCCandTR = (req, res) => {
     const tcId = req.params.tcId;
-    const userId = req.params.userId;
-
-    TrackerContainer.findByPk(tcId)
-        .then(data =>{
-            if(data.creator === userId){
-                TrackerContainer.destroy({where:{id : tcId}})
-                    .then(num =>{
-                        if(num === 1){
-                            res.send({message: "Deletion was successful."
-                            });
-                        }else{
-                            res.send({message: "Failed to Delete."
-                        });
-                    }})
-                    .catch(err =>{
-                        res.status(500).send({
-                            message: "Couldn't find the container."
-                        });
-                    })
-            }else{
-                res.send({message: "Only creator can delete the TrackerContainers."})
+    Tracker.destroy({where:{trackercontainer: tcId}})
+        .then(num => {
+            if(num === 1){
+                res.send({
+                    message: "Deleted all trackers of trackercontainer successfully."
+                });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message:"Error retrieving the TrackerContainer"
+            message:
+                err.message || "Some error occurred while deleting all Trackers of tracker conatiners."
             });
         });
 };
