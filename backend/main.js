@@ -1,27 +1,17 @@
 const express = require('express');
 const cors = require('cors');
-const {Client } = require('pg')
 require('dotenv').config();
 const session = require("express-session");
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
+const db = require('./models/index');
 //app
 const app = express();
 //db
-const client = new Client({
-    "user": process.env.PG_USERNAME,
-    "password": process.env.PG_PASSWORD,
-    "host": process.env.PG_HOST,
-    "port" : process.env.PG_PORT,
-    "database" : process.env.PG_DATABASE
-})
-client.connect((err)=>{
-    if(err){
-        console.log("connection error,")
-    }else{
-        console.log('connected successfully')
-    }
-})
+// db.authenticate()
+//     .then(() => console.log('Database Connected......'))
+//     .catch(err => console.log('Error: ' + err))
+db.sequelize.sync();
 //middlewares
 app.use(cors);
 app.use(express.static("public"));
