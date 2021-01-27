@@ -1,26 +1,41 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('assignees', {
+const {
+  DataTypes
+} = require('sequelize');
+
+module.exports = sequelize => {
+  const attributes = {
     assignee: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "assignee",
+      autoIncrement: false,
       references: {
-        model: 'person',
-        key: 'id'
+        key: "id",
+        model: "person_model"
       }
     },
     tracker: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "tracker",
+      autoIncrement: false,
       references: {
-        model: 'tracker',
-        key: 'id'
+        key: "id",
+        model: "tracker_model"
       }
     }
-  }, {
-    sequelize,
-    tableName: 'assignees',
-    schema: 'public',
-    timestamps: false
-  });
+  };
+  const options = {
+    tableName: "assignees",
+    comment: "",
+    indexes: []
+  };
+  const AssigneesModel = sequelize.define("assignees_model", attributes, options);
+  return AssigneesModel;
 };

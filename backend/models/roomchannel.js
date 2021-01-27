@@ -1,50 +1,73 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('roomchannel', {
+const {
+  DataTypes
+} = require('sequelize');
+
+module.exports = sequelize => {
+  const attributes = {
     id: {
-      autoIncrement: true,
       type: DataTypes.BIGINT,
       allowNull: false,
-      primaryKey: true
+      defaultValue: null,
+      comment: null,
+      primaryKey: true,
+      field: "id",
+      autoIncrement: true
     },
     name: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.CHAR,
+      allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "name",
+      autoIncrement: false
     },
     creator: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "creator",
+      autoIncrement: false
     },
     room: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "room",
+      autoIncrement: false,
       references: {
-        model: 'chatroom',
-        key: 'id'
+        key: "id",
+        model: "chatroom_model"
       }
     },
     created_at: {
       type: DataTypes.DATE,
-      allowNull: true
+      allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "created_at",
+      autoIncrement: false
     },
     updated_at: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+      comment: null,
+      primaryKey: false,
+      field: "updated_at",
+      autoIncrement: false
     }
-  }, {
-    sequelize,
-    tableName: 'roomchannel',
-    schema: 'public',
-    timestamps: false,
-    indexes: [
-      {
-        name: "roomchannel_pkey",
-        unique: true,
-        fields: [
-          { name: "id" },
-        ]
-      },
-    ]
-  });
+  };
+  const options = {
+    tableName: "roomchannel",
+    comment: "",
+    indexes: []
+  };
+  const RoomchannelModel = sequelize.define("roomchannel_model", attributes, options);
+  return RoomchannelModel;
 };

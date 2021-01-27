@@ -1,7 +1,4 @@
-const initModels = require('../models/init-models');
-const sequelize = require("sequelize");
-const models = initModels(sequelize);
-const ChatRoom = models.ChatRoom;
+const ChatRoom = require('../models/chatroom');
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {

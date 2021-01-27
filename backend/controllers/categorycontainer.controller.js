@@ -1,8 +1,5 @@
-const initModels = require('../models/init-models');
-const sequelize = require("sequelize");
-const models = initModels(sequelize);
-const Tracker = models.tracker;
-const CategoryContainer = models.categorycontainer;
+const Tracker = require('../models/tracker');
+const CategoryContainer = require('../models/categorycontainer');
 
 // Create and Save a new CC
 exports.create = (req, res) => {

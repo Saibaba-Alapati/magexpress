@@ -1,78 +1,121 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('roommessage', {
+const {
+  DataTypes
+} = require('sequelize');
+
+module.exports = sequelize => {
+  const attributes = {
     id: {
-      autoIncrement: true,
       type: DataTypes.BIGINT,
       allowNull: false,
-      primaryKey: true
+      defaultValue: null,
+      comment: null,
+      primaryKey: true,
+      field: "id",
+      autoIncrement: true
     },
     creator: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "creator",
+      autoIncrement: false
     },
     channel: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "channel",
+      autoIncrement: false,
       references: {
-        model: 'roomchannel',
-        key: 'id'
+        key: "id",
+        model: "roomchannel_model"
       }
     },
     content: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "content",
+      autoIncrement: false
     },
     forwarded: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "forwarded",
+      autoIncrement: false
     },
     replyto: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "replyto",
+      autoIncrement: false,
       references: {
-        model: 'roommessage',
-        key: 'id'
+        key: "id",
+        model: "roommessage_model"
       }
     },
     privatereplyto: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "privatereplyto",
+      autoIncrement: false,
       references: {
-        model: 'person',
-        key: 'id'
+        key: "id",
+        model: "person_model"
       }
     },
     created_at: {
       type: DataTypes.DATE,
-      allowNull: true
+      allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "created_at",
+      autoIncrement: false
     },
     updated_at: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+      comment: null,
+      primaryKey: false,
+      field: "updated_at",
+      autoIncrement: false
     },
     room: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "room",
+      autoIncrement: false,
       references: {
-        model: 'chatroom',
-        key: 'id'
+        key: "id",
+        model: "chatroom_model"
       }
     }
-  }, {
-    sequelize,
-    tableName: 'roommessage',
-    schema: 'public',
-    timestamps: false,
-    indexes: [
-      {
-        name: "roommessage_pkey",
-        unique: true,
-        fields: [
-          { name: "id" },
-        ]
-      },
-    ]
-  });
+  };
+  const options = {
+    tableName: "roommessage",
+    comment: "",
+    indexes: []
+  };
+  const RoommessageModel = sequelize.define("roommessage_model", attributes, options);
+  return RoommessageModel;
 };

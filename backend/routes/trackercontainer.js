@@ -7,3 +7,4 @@ trackercontainerroute.get("/:userId/:tcId",trackercontainer.findOne);
 trackercontainerroute.post("/:userId/:tcId/addusers",trackercontainer.joinTrackerContainer);
 trackercontainerroute.post("/:userId/updatecontainer",trackercontainer.update);
 trackercontainerroute.delete("/:userId/deletetrackercontainer",trackercontainer.deleteTCandCCandTRandTCR);
+module.exports =  trackercontainerroute;

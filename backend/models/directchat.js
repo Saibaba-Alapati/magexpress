@@ -1,50 +1,68 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('directchat', {
+const {
+  DataTypes
+} = require('sequelize');
+
+module.exports = sequelize => {
+  const attributes = {
     id: {
-      autoIncrement: true,
       type: DataTypes.BIGINT,
       allowNull: false,
-      primaryKey: true
+      defaultValue: null,
+      comment: null,
+      primaryKey: true,
+      field: "id",
+      autoIncrement: true
     },
     created_at: {
       type: DataTypes.DATE,
-      allowNull: true
+      allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "created_at",
+      autoIncrement: false
     },
     updated_at: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+      comment: null,
+      primaryKey: false,
+      field: "updated_at",
+      autoIncrement: false
     },
     user1_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "user1_id",
+      autoIncrement: false,
       references: {
-        model: 'person',
-        key: 'id'
+        key: "id",
+        model: "person_model"
       }
     },
     user2_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "user2_id",
+      autoIncrement: false,
       references: {
-        model: 'person',
-        key: 'id'
+        key: "id",
+        model: "person_model"
       }
     }
-  }, {
-    sequelize,
-    tableName: 'directchat',
-    schema: 'public',
-    timestamps: false,
-    indexes: [
-      {
-        name: "directchat_pkey",
-        unique: true,
-        fields: [
-          { name: "id" },
-        ]
-      },
-    ]
-  });
+  };
+  const options = {
+    tableName: "directchat",
+    comment: "",
+    indexes: []
+  };
+  const DirectchatModel = sequelize.define("directchat_model", attributes, options);
+  return DirectchatModel;
 };

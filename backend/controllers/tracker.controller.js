@@ -1,8 +1,5 @@
-const initModels = require('../models/init-models');
-const sequelize = require("sequelize");
-const models = initModels(sequelize);
-const Tracker = models.tracker;
-const TrackerComments = models.trackercomments;
+const Tracker = require('../models/tracker')
+const TrackerComments = require('../models/trackercomments')
 // Create and Save a new TrackerContainer
 exports.create = (req, res) => {
     // Validate request

@@ -1,13 +1,9 @@
-const initModels = require('../models/init-models');
-const sequelize = require("sequelize");
-const models = initModels(sequelize);
-const Tracker = models.tracker;
-const TrackerComments = models.trackercomments;
-const User = models.person;
-const bcrypt = require('bcrypt');
-const TrackerContainer = models.trackercontainer;
-const CategoryContainer = models.categorycontainer;
-const UserAndTCS = models.userandtcs
+const User = require('../models/person');
+const TrackerContainer = require('../models/trackercontainer');
+const UserAndTCS = require('../models/userandtcs');
+const Tracker =  require('../models/tracker');
+const TrackerComments = require('../models/trackercomments');
+const CategoryContainer = require('../models/categorycontainer');
 exports.create = (req,res) => {
     if(!req.body.first_name){
         res.status(400).send({
@@ -44,7 +40,7 @@ exports.create = (req,res) => {
         last_name : req.body.last_name,
         user_name: req.body.username,
         email : req.body.email,
-        password : bcrypt.hashSync(req.body.password, 10),
+        password : req.body.password,
     };
     User.create(user)
         .then(data => {
@@ -103,7 +99,7 @@ exports.updatePassword = (req,res) => {
     const userId = req.params.userId;
     User.update(
         {
-            password : bcrypt.hashSync(req.body.password, 10),
+            password : req.body.password,
         },
         {
         where: { id: userId }

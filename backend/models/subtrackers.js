@@ -1,26 +1,41 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('subtrackers', {
+const {
+  DataTypes
+} = require('sequelize');
+
+module.exports = sequelize => {
+  const attributes = {
     parenttracker: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "parenttracker",
+      autoIncrement: false,
       references: {
-        model: 'tracker',
-        key: 'id'
+        key: "id",
+        model: "tracker_model"
       }
     },
     childtracker: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "childtracker",
+      autoIncrement: false,
       references: {
-        model: 'tracker',
-        key: 'id'
+        key: "id",
+        model: "tracker_model"
       }
     }
-  }, {
-    sequelize,
-    tableName: 'subtrackers',
-    schema: 'public',
-    timestamps: false
-  });
+  };
+  const options = {
+    tableName: "subtrackers",
+    comment: "",
+    indexes: []
+  };
+  const SubtrackersModel = sequelize.define("subtrackers_model", attributes, options);
+  return SubtrackersModel;
 };

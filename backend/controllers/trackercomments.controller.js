@@ -1,7 +1,4 @@
-const initModels = require('../models/init-models');
-const sequelize = require("sequelize");
-const models = initModels(sequelize);
-const TrackerComments = models.trackercomments;
+const TrackerComments = require('../models/trackercomments');
 
 exports.create = (req, res) =>{
     const userId = req.params.userId;

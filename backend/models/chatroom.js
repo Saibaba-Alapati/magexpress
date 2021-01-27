@@ -1,42 +1,60 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('chatroom', {
+const {
+  DataTypes
+} = require('sequelize');
+
+module.exports = sequelize => {
+  const attributes = {
     id: {
-      autoIncrement: true,
       type: DataTypes.BIGINT,
       allowNull: false,
-      primaryKey: true
+      defaultValue: null,
+      comment: null,
+      primaryKey: true,
+      field: "id",
+      autoIncrement: true
     },
     name: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.CHAR,
+      allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "name",
+      autoIncrement: false
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "description",
+      autoIncrement: false
     },
     created_at: {
       type: DataTypes.DATE,
-      allowNull: true
+      allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "created_at",
+      autoIncrement: false
     },
     updated_at: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+      comment: null,
+      primaryKey: false,
+      field: "updated_at",
+      autoIncrement: false
     }
-  }, {
-    sequelize,
-    tableName: 'chatroom',
-    schema: 'public',
-    timestamps: false,
-    indexes: [
-      {
-        name: "chatroom_pkey",
-        unique: true,
-        fields: [
-          { name: "id" },
-        ]
-      },
-    ]
-  });
+  };
+  const options = {
+    tableName: "chatroom",
+    comment: "",
+    indexes: []
+  };
+  const ChatroomModel = sequelize.define("chatroom_model", attributes, options);
+  return ChatroomModel;
 };

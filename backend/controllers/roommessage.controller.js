@@ -1,7 +1,4 @@
-const initModels = require('../models/init-models');
-const sequelize = require("sequelize");
-const models = initModels(sequelize);
-const ChatRoom = models.chatroom;
+const ChatRoom = require('../models/chatroom');
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -15,9 +12,6 @@ exports.create = (req, res) => {
         content : req.body.content,
         forwarded  : 0,
     }
-    DirectMessage.create()
-        .then(() =>)
-
 };
 
 // Retrieve all Tutorials from the database.

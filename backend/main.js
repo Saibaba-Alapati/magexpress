@@ -5,7 +5,7 @@ const session = require("express-session");
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const db = require('./models/index');
-const userroute = require('./routes/user')
+// const userroute = require('./routes/user')
 const trackerroute = require('./routes/tracker');
 const categorycontainerroute = require('./routes/categorycontainer');
 const trackercontainerroute = require('./routes/trackercontainer');
@@ -37,7 +37,7 @@ app.use(passport.session());
 app.use(passport.initialize());
 const PORT = process.env.PORT || 8000;
 //routes
-app.use('/api/users',userroute)
+// app.use('/api/users',userroute)
 app.use('/api/tracker',trackerroute);
 app.use('/api/categorycontainer',categorycontainerroute);
 app.use('/api/trackercontainer',trackercontainerroute);

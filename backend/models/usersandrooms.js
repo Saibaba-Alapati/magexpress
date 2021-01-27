@@ -1,34 +1,54 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('usersandrooms', {
+const {
+  DataTypes
+} = require('sequelize');
+
+module.exports = sequelize => {
+  const attributes = {
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "user_id",
+      autoIncrement: false,
       references: {
-        model: 'person',
-        key: 'id'
+        key: "id",
+        model: "person_model"
       }
     },
     chatroom_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "chatroom_id",
+      autoIncrement: false,
       references: {
-        model: 'chatroom',
-        key: 'id'
+        key: "id",
+        model: "chatroom_model"
       }
     },
     roomcreator: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "roomcreator",
+      autoIncrement: false,
       references: {
-        model: 'person',
-        key: 'id'
+        key: "id",
+        model: "person_model"
       }
     }
-  }, {
-    sequelize,
-    tableName: 'usersandrooms',
-    schema: 'public',
-    timestamps: false
-  });
+  };
+  const options = {
+    tableName: "usersandrooms",
+    comment: "",
+    indexes: []
+  };
+  const UsersandroomsModel = sequelize.define("usersandrooms_model", attributes, options);
+  return UsersandroomsModel;
 };

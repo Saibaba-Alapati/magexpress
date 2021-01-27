@@ -7,3 +7,5 @@ userroute.get("/:userId/getuser",user.findOne);
 userroute.delete("/:userId/deleteuseracount",user.deleteUserandInfo);
 userroute.put("/:userId/updateuserinfo",user.update);
 userroute.put("/:userId/changepassword",user.updatePassword);
+
+module.exports =  userroute;

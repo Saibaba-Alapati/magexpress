@@ -1,86 +1,108 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('person', {
+const {
+  DataTypes
+} = require('sequelize');
+
+module.exports = sequelize => {
+  const attributes = {
     id: {
-      autoIncrement: true,
       type: DataTypes.BIGINT,
       allowNull: false,
-      primaryKey: true
+      defaultValue: null,
+      comment: null,
+      primaryKey: true,
+      field: "id",
+      autoIncrement: true
     },
     first_name: {
-      type: DataTypes.STRING,
+      type: DataTypes.CHAR,
       allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "first_name",
+      autoIncrement: false,
       unique: "person_first_name_key"
     },
     last_name: {
-      type: DataTypes.STRING,
+      type: DataTypes.CHAR,
       allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "last_name",
+      autoIncrement: false,
       unique: "person_last_name_key"
     },
     user_name: {
-      type: DataTypes.STRING,
+      type: DataTypes.CHAR,
       allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "user_name",
+      autoIncrement: false,
       unique: "person_user_name_key"
     },
     company_name: {
-      type: DataTypes.STRING,
-      allowNull: true
+      type: DataTypes.CHAR,
+      allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "company_name",
+      autoIncrement: false
     },
     email: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.CHAR,
+      allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "email",
+      autoIncrement: false
     },
     password: {
-      type: DataTypes.STRING(60),
-      allowNull: false
+      type: DataTypes.CHAR(60),
+      allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "password",
+      autoIncrement: false
     },
     status: {
-      type: DataTypes.ENUM("offline", "online"),
-      allowNull: true
+      type: user - defined,
+      allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "status",
+      autoIncrement: false
     },
     created_at: {
       type: DataTypes.DATE,
-      allowNull: true
+      allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "created_at",
+      autoIncrement: false
     },
     updated_at: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+      comment: null,
+      primaryKey: false,
+      field: "updated_at",
+      autoIncrement: false
     }
-  }, {
-    sequelize,
-    tableName: 'person',
-    schema: 'public',
-    timestamps: false,
-    indexes: [
-      {
-        name: "person_first_name_key",
-        unique: true,
-        fields: [
-          { name: "first_name" },
-        ]
-      },
-      {
-        name: "person_last_name_key",
-        unique: true,
-        fields: [
-          { name: "last_name" },
-        ]
-      },
-      {
-        name: "person_pkey",
-        unique: true,
-        fields: [
-          { name: "id" },
-        ]
-      },
-      {
-        name: "person_user_name_key",
-        unique: true,
-        fields: [
-          { name: "user_name" },
-        ]
-      },
-    ]
-  });
+  };
+  const options = {
+    tableName: "person",
+    comment: "",
+    indexes: []
+  };
+  const PersonModel = sequelize.define("person_model", attributes, options);
+  return PersonModel;
 };

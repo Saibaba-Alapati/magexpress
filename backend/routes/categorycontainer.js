@@ -8,3 +8,4 @@ categorycontainerroute.put("/:userId/:tcId/:ccId/updateCC",categorycontainer.upd
 categorycontainerroute.get("/:userId/:tcId/:ccId/findAllTrackersOfCC",categorycontainer.findAllTrackersOfCC);
 categorycontainerroute.delete("/:userId/:tcId/:ccId/deleteCCWithTrackers",categorycontainer.deleteCCWithTrackers);
 categorycontainerroute.delete("/:userId/:tcId/:ccId/deleteAllTrackersFromCC",categorycontainer.deleteAllTrackersFromCC);
+module.exports =  categorycontainerroute;

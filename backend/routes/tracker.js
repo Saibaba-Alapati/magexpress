@@ -7,3 +7,4 @@ trackerroute.get("/:userId/:tcId/:ccId/:trackerId/findAllCommentsOnTracker",trac
 trackerroute.get("/:userId/:tcId/:ccId/:trackerId/gettracker",tracker.findOne);
 trackerroute.put("/:userId/:tcId/:ccId/:trackerId/updatetracker",tracker.update);
 trackerroute.delete("/:userId/:tcId/:ccId/:trackerId/deletetracker",tracker.delete);
+module.exports =  trackerroute;

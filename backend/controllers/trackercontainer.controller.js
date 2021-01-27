@@ -1,11 +1,8 @@
-const initModels = require('../models/init-models');
-const sequelize = require("sequelize");
-const models = initModels(sequelize);
-const TrackerContainer = models.trackercontainer;
-const UserAndTCS = models.userandtcs;
-const Tracker =  models.tracker;
-const TrackerComments =  models.trackercomments;
-const CategoryContainer =  models.categorycontainer;
+const TrackerContainer = require('../models/trackercontainer');
+const UserAndTCS = require('../models/userandtcs');
+const Tracker =  require('../models/tracker');
+const TrackerComments = require('../models/trackercomments');
+const CategoryContainer = require('../models/categorycontainer');
 // Create and Save a new TrackerContainer
 exports.create = (req, res) => {
     if(!req.body.name){

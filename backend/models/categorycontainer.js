@@ -1,58 +1,86 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('categorycontainer', {
+const {
+  DataTypes
+} = require('sequelize');
+
+module.exports = sequelize => {
+  const attributes = {
     id: {
-      autoIncrement: true,
       type: DataTypes.BIGINT,
       allowNull: false,
-      primaryKey: true
+      defaultValue: null,
+      comment: null,
+      primaryKey: true,
+      field: "id",
+      autoIncrement: true
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "description",
+      autoIncrement: false
     },
     label: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.CHAR,
+      allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "label",
+      autoIncrement: false
     },
     created_at: {
       type: DataTypes.DATE,
-      allowNull: true
+      allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "created_at",
+      autoIncrement: false
     },
     updated_at: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+      comment: null,
+      primaryKey: false,
+      field: "updated_at",
+      autoIncrement: false
     },
     trackercontainer: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "trackercontainer",
+      autoIncrement: false,
       references: {
-        model: 'trackercontainer',
-        key: 'id'
+        key: "id",
+        model: "trackercontainer_model"
       }
     },
     creator: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "creator",
+      autoIncrement: false,
       references: {
-        model: 'person',
-        key: 'id'
+        key: "id",
+        model: "person_model"
       }
     }
-  }, {
-    sequelize,
-    tableName: 'categorycontainer',
-    schema: 'public',
-    timestamps: false,
-    indexes: [
-      {
-        name: "categorycontainer_pkey",
-        unique: true,
-        fields: [
-          { name: "id" },
-        ]
-      },
-    ]
-  });
+  };
+  const options = {
+    tableName: "categorycontainer",
+    comment: "",
+    indexes: []
+  };
+  const CategorycontainerModel = sequelize.define("categorycontainer_model", attributes, options);
+  return CategorycontainerModel;
 };
