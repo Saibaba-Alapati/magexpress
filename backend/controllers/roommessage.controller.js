@@ -1,5 +1,5 @@
 const RoomMessage = require('../models/roommessage')
-const RoomChannel = require('../models/roomchannel');
+const RoomChannel = require('../models/channel');
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
     const channelId = req.params.channelId;

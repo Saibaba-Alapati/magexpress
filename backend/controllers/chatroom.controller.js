@@ -1,4 +1,4 @@
-const ChatRoom = require('../models/chatroom');
+const ChatRoom = require('../models/room');
 const UsersAndRooms = require('../models/usersandrooms');
 const RoomMessage = require('../models/roommessage')
 // Create and Save a new ChatRoom

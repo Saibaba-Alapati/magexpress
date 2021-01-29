@@ -1,11 +1,10 @@
 const {
-  DataTypes
+  Sequelize
 } = require('sequelize');
-
-module.exports = sequelize => {
-  const attributes = {
+const db  = require('../models/database')
+const DirectMessage = db.define('directmessage',{
     id: {
-      type: DataTypes.BIGINT,
+      type: Sequelize.BIGINT,
       allowNull: false,
       defaultValue: null,
       comment: null,
@@ -13,21 +12,47 @@ module.exports = sequelize => {
       field: "id",
       autoIncrement: true
     },
-    creator: {
-      type: DataTypes.INTEGER,
+    authorid: {
+      type: Sequelize.INTEGER,
       allowNull: false,
       defaultValue: null,
       comment: null,
       primaryKey: false,
-      field: "creator",
+      field: "authorid",
       autoIncrement: false,
       references: {
         key: "id",
-        model: "person_model"
+        model: "person"
+      }
+    },
+    receiverid: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "receiverid",
+      autoIncrement: false,
+      references: {
+        key: "id",
+        model: "person"
+      }
+    },
+    directchatid: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "directchatid",
+      autoIncrement: false,
+      references: {
+        key: "id",
+        model: "directchat"
       }
     },
     content: {
-      type: DataTypes.TEXT,
+      type: Sequelize.TEXT,
       allowNull: false,
       defaultValue: null,
       comment: null,
@@ -35,82 +60,50 @@ module.exports = sequelize => {
       field: "content",
       autoIncrement: false
     },
-    receiver: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: null,
-      comment: null,
-      primaryKey: false,
-      field: "receiver",
-      autoIncrement: false,
-      references: {
-        key: "id",
-        model: "person_model"
-      }
-    },
-    created_at: {
-      type: DataTypes.DATE,
+    replyid: {
+      type: Sequelize.INTEGER,
       allowNull: true,
       defaultValue: null,
       comment: null,
       primaryKey: false,
-      field: "created_at",
+      field: "replyid",
+      autoIncrement: false,
+      references: {
+        key: "id",
+        model: "directmessage"
+      }
+    },
+    privatereplyid: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "privatereplyid",
+      autoIncrement: false,
+      references: {
+        key: "id",
+        model: "roommessage"
+      }
+    },
+    createdat: {
+      type: Sequelize.DATE,
+      allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "createdat",
       autoIncrement: false
     },
-    directchat: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: null,
-      comment: null,
-      primaryKey: false,
-      field: "directchat",
-      autoIncrement: false,
-      references: {
-        key: "id",
-        model: "directchat_model"
-      }
-    },
-    updated_at: {
-      type: DataTypes.DATE,
+    updatedat: {
+      type: Sequelize.DATE,
       allowNull: true,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       comment: null,
       primaryKey: false,
-      field: "updated_at",
+      field: "updatedat",
       autoIncrement: false
-    },
-    replyto: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      comment: null,
-      primaryKey: false,
-      field: "replyto",
-      autoIncrement: false,
-      references: {
-        key: "id",
-        model: "directmessage_model"
-      }
-    },
-    privatereplyto: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      comment: null,
-      primaryKey: false,
-      field: "privatereplyto",
-      autoIncrement: false,
-      references: {
-        key: "id",
-        model: "roommessage_model"
-      }
     }
-  };
-  const options = {
-    tableName: "directmessage",
-    comment: "",
-    indexes: []
-  };
-  const DirectmessageModel = sequelize.define("directmessage_model", attributes, options);
-  return DirectmessageModel;
-};
+});
+
+module.exports = DirectMessage

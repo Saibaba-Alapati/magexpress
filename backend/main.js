@@ -4,7 +4,6 @@ require('dotenv').config();
 const session = require("express-session");
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
-const db = require('./models/index');
 // const userroute = require('./routes/user')
 const trackerroute = require('./routes/tracker');
 const categorycontainerroute = require('./routes/categorycontainer');
@@ -13,10 +12,10 @@ const trackercommentroute = require('./routes/trackercomments');
 //app
 const app = express();
 //db
-// db.authenticate()
-//     .then(() => console.log('Database Connected......'))
-//     .catch(err => console.log('Error: ' + err))
-db.sequelize.sync();
+const db = require('./models/database')
+db.authenticate()
+    .then(() => console.log('Database Connected......'))
+    .catch(err => console.log('Error: ' + err))
 //middlewares
 app.use(cors);
 app.use(express.static("public"));

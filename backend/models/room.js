@@ -2,7 +2,7 @@ const {
   Sequelize
 } = require('sequelize');
 const db  = require('../models/database')
-const RoomMessage = db.define('roommessage',{
+const Room = db.define('room', {
     id: {
       type: Sequelize.BIGINT,
       allowNull: false,
@@ -25,61 +25,22 @@ const RoomMessage = db.define('roommessage',{
         model: "person"
       }
     },
-    roomid: {
-      type: Sequelize.INTEGER,
+    name: {
+      type: Sequelize.CHAR,
       allowNull: false,
       defaultValue: null,
       comment: null,
       primaryKey: false,
-      field: "roomid",
-      autoIncrement: false,
-      references: {
-        key: "id",
-        model: "room"
-      }
-    },
-    channelid: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: null,
-      comment: null,
-      primaryKey: false,
-      field: "channelid",
-      autoIncrement: false,
-      references: {
-        key: "id",
-        model: "channel"
-      }
-    },
-    content: {
-      type: Sequelize.TEXT,
-      allowNull: false,
-      defaultValue: null,
-      comment: null,
-      primaryKey: false,
-      field: "content",
+      field: "name",
       autoIncrement: false
     },
-    replyid: {
-      type: Sequelize.INTEGER,
+    description: {
+      type: Sequelize.CHAR,
       allowNull: true,
       defaultValue: null,
       comment: null,
       primaryKey: false,
-      field: "replyid",
-      autoIncrement: false,
-      references: {
-        key: "id",
-        model: "roommessage"
-      }
-    },
-    forwarded: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      comment: null,
-      primaryKey: false,
-      field: "forwarded",
+      field: "description",
       autoIncrement: false
     },
     createdat: {
@@ -101,4 +62,5 @@ const RoomMessage = db.define('roommessage',{
       autoIncrement: false
     }
 });
-module.exports = RoomMessage
+
+module.exports = Room;

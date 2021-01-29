@@ -1,8 +1,8 @@
 const User = require('../models/person');
 const TrackerContainer = require('../models/trackercontainer');
-const UserAndTCS = require('../models/userandtcs');
+const UserAndTCS = require('../models/usersandtrackercontainers');
 const Tracker =  require('../models/tracker');
-const TrackerComments = require('../models/trackercomments');
+const TrackerComment = require('../models/trackercomment');
 const CategoryContainer = require('../models/categorycontainer');
 exports.create = (req,res) => {
     if(!req.body.first_name){
@@ -124,7 +124,7 @@ exports.updatePassword = (req,res) => {
 
 exports.deleteUserandInfo = (req,res) => {
     const userId = req.params.userId;
-    TrackerComments.destroy({creator : userId});
+    TrackerComment.destroy({creator : userId});
     Tracker.destroy({where: {reporter: userId}});
     CategoryContainer.destroy({where: {creator : userId}});
     UserAndTCS.destroy({where: {creator : userId}});

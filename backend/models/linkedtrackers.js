@@ -1,41 +1,34 @@
 const {
-  DataTypes
+  Sequelize
 } = require('sequelize');
-
-module.exports = sequelize => {
-  const attributes = {
-    firsttracker_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
+const db  = require('../models/database')
+const LinkedTrackers  = db.define('linkedtrackers',{
+    trackerid1: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
       defaultValue: null,
       comment: null,
       primaryKey: false,
-      field: "firsttracker_id",
+      field: "trackerid1",
       autoIncrement: false,
       references: {
         key: "id",
-        model: "person_model"
+        model: "tracker"
       }
     },
-    secondtracker_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
+    trackerid2: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
       defaultValue: null,
       comment: null,
       primaryKey: false,
-      field: "secondtracker_id",
+      field: "trackerid2",
       autoIncrement: false,
       references: {
         key: "id",
-        model: "person_model"
+        model: "tracker"
       }
     }
-  };
-  const options = {
-    tableName: "linkedtrackers",
-    comment: "",
-    indexes: []
-  };
-  const LinkedtrackersModel = sequelize.define("linkedtrackers_model", attributes, options);
-  return LinkedtrackersModel;
-};
+});
+
+module.exports = LinkedTrackers

@@ -1,5 +1,5 @@
 const Tracker = require('../models/tracker')
-const TrackerComments = require('../models/trackercomments')
+const TrackerComments = require('../models/trackercomment')
 // Create and Save a new TrackerContainer
 exports.create = (req, res) => {
     // Validate request

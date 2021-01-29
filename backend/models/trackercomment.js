@@ -2,7 +2,7 @@ const {
   Sequelize
 } = require('sequelize');
 const db  = require('../models/database')
-const RoomMessage = db.define('roommessage',{
+const TrackerComment = db.define('trackercomment',{
     id: {
       type: Sequelize.BIGINT,
       allowNull: false,
@@ -25,61 +25,52 @@ const RoomMessage = db.define('roommessage',{
         model: "person"
       }
     },
-    roomid: {
+    trackercontainerid: {
       type: Sequelize.INTEGER,
       allowNull: false,
       defaultValue: null,
       comment: null,
       primaryKey: false,
-      field: "roomid",
+      field: "trackercontainerid",
       autoIncrement: false,
       references: {
         key: "id",
-        model: "room"
+        model: "trackercontainer"
       }
     },
-    channelid: {
+    categorycontainerid: {
       type: Sequelize.INTEGER,
       allowNull: false,
       defaultValue: null,
       comment: null,
       primaryKey: false,
-      field: "channelid",
+      field: "categorycontainerid",
       autoIncrement: false,
       references: {
         key: "id",
-        model: "channel"
+        model: "categorycontainer"
+      }
+    },
+    trackerid: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "trackerid",
+      autoIncrement: false,
+      references: {
+        key: "id",
+        model: "tracker"
       }
     },
     content: {
       type: Sequelize.TEXT,
-      allowNull: false,
+      allowNull: true,
       defaultValue: null,
       comment: null,
       primaryKey: false,
       field: "content",
-      autoIncrement: false
-    },
-    replyid: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      comment: null,
-      primaryKey: false,
-      field: "replyid",
-      autoIncrement: false,
-      references: {
-        key: "id",
-        model: "roommessage"
-      }
-    },
-    forwarded: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      comment: null,
-      primaryKey: false,
-      field: "forwarded",
       autoIncrement: false
     },
     createdat: {
@@ -101,4 +92,5 @@ const RoomMessage = db.define('roommessage',{
       autoIncrement: false
     }
 });
-module.exports = RoomMessage
+
+module.exports = TrackerComment;

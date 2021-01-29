@@ -1,11 +1,10 @@
 const {
-  DataTypes
+  Sequelize
 } = require('sequelize');
-
-module.exports = sequelize => {
-  const attributes = {
+const db  = require('../models/database')
+const CategoryContainer = db.define('categorycontainer',{
     id: {
-      type: DataTypes.BIGINT,
+      type: Sequelize.BIGINT,
       allowNull: false,
       defaultValue: null,
       comment: null,
@@ -13,8 +12,43 @@ module.exports = sequelize => {
       field: "id",
       autoIncrement: true
     },
+    creatorid: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "creatorid",
+      autoIncrement: false,
+      references: {
+        key: "id",
+        model: "person"
+      }
+    },
+    trackercontainerid: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "trackercontainerid",
+      autoIncrement: false,
+      references: {
+        key: "id",
+        model: "trackercontainer"
+      }
+    },
+    name: {
+      type: Sequelize.CHAR,
+      allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "name",
+      autoIncrement: false
+    },
     description: {
-      type: DataTypes.TEXT,
+      type: Sequelize.CHAR,
       allowNull: true,
       defaultValue: null,
       comment: null,
@@ -22,65 +56,23 @@ module.exports = sequelize => {
       field: "description",
       autoIncrement: false
     },
-    label: {
-      type: DataTypes.CHAR,
-      allowNull: false,
+    createdat: {
+      type: Sequelize.DATE,
+      allowNull: true,
       defaultValue: null,
       comment: null,
       primaryKey: false,
-      field: "label",
+      field: "createdat",
       autoIncrement: false
     },
-    created_at: {
-      type: DataTypes.DATE,
+    updatedat: {
+      type: Sequelize.DATE,
       allowNull: true,
-      defaultValue: null,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       comment: null,
       primaryKey: false,
-      field: "created_at",
+      field: "updatedat",
       autoIncrement: false
-    },
-    updated_at: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
-      comment: null,
-      primaryKey: false,
-      field: "updated_at",
-      autoIncrement: false
-    },
-    trackercontainer: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      comment: null,
-      primaryKey: false,
-      field: "trackercontainer",
-      autoIncrement: false,
-      references: {
-        key: "id",
-        model: "trackercontainer_model"
-      }
-    },
-    creator: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      comment: null,
-      primaryKey: false,
-      field: "creator",
-      autoIncrement: false,
-      references: {
-        key: "id",
-        model: "person_model"
-      }
     }
-  };
-  const options = {
-    tableName: "categorycontainer",
-    comment: "",
-    indexes: []
-  };
-  const CategorycontainerModel = sequelize.define("categorycontainer_model", attributes, options);
-  return CategorycontainerModel;
-};
+});
+module.exports =  CategoryContainer

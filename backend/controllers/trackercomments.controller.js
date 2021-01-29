@@ -1,4 +1,4 @@
-const TrackerComments = require('../models/trackercomments');
+const TrackerComments = require('../models/trackercomment');
 
 exports.create = (req, res) =>{
     const userId = req.params.userId;

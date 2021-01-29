@@ -1,7 +1,7 @@
 const TrackerContainer = require('../models/trackercontainer');
-const UserAndTCS = require('../models/userandtcs');
+const UserAndTCS = require('../models/usersandtrackercontainers');
 const Tracker =  require('../models/tracker');
-const TrackerComments = require('../models/trackercomments');
+const TrackerComments = require('../models/trackercomment');
 const CategoryContainer = require('../models/categorycontainer');
 // Create and Save a new TrackerContainer
 exports.create = (req, res) => {

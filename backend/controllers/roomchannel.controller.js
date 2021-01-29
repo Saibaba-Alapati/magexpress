@@ -1,6 +1,6 @@
-const ChatRoom = require('../models/chatroom');
+const ChatRoom = require('../models/room');
 const RoomMessage = require('../models/roommessage')
-const RoomChannel = require('../models/roomchannel')
+const RoomChannel = require('../models/channel')
 
 // Create and Save a new roomchannel
 exports.create = (req, res) => {

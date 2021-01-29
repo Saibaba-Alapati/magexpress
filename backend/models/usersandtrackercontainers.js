@@ -2,32 +2,33 @@ const {
   Sequelize
 } = require('sequelize');
 const db  = require('../models/database')
-const Assignees = db.define('assignees',{
-    assigneeid: {
+const UsersandTrackerContainers = db.define('usersandtrackercontainers',{
+    userid: {
       type: Sequelize.INTEGER,
       allowNull: false,
       defaultValue: null,
       comment: null,
       primaryKey: false,
-      field: "assigneeid",
+      field: "userid",
       autoIncrement: false,
       references: {
         key: "id",
         model: "person"
       }
     },
-    trackerid: {
+    trackercontainerid: {
       type: Sequelize.INTEGER,
       allowNull: false,
       defaultValue: null,
       comment: null,
       primaryKey: false,
-      field: "trackerid",
+      field: "trackercontainerid",
       autoIncrement: false,
       references: {
         key: "id",
-        model: "tracker"
+        model: "trackercontainer"
       }
     }
 });
-module.exports = Assignees;
+
+  module.exports = UsersandTrackerContainers;

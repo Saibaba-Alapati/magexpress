@@ -1,11 +1,10 @@
 const {
-  DataTypes
+  Sequelize
 } = require('sequelize');
-
-module.exports = sequelize => {
-  const attributes = {
+const db  = require('../models/database')
+const DirectChat  = db.define('directchat',{
     id: {
-      type: DataTypes.BIGINT,
+      type: Sequelize.BIGINT,
       allowNull: false,
       defaultValue: null,
       comment: null,
@@ -13,56 +12,50 @@ module.exports = sequelize => {
       field: "id",
       autoIncrement: true
     },
-    created_at: {
-      type: DataTypes.DATE,
-      allowNull: true,
+    userid1: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
       defaultValue: null,
       comment: null,
       primaryKey: false,
-      field: "created_at",
-      autoIncrement: false
-    },
-    updated_at: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
-      comment: null,
-      primaryKey: false,
-      field: "updated_at",
-      autoIncrement: false
-    },
-    user1_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      comment: null,
-      primaryKey: false,
-      field: "user1_id",
+      field: "userid1",
       autoIncrement: false,
       references: {
         key: "id",
-        model: "person_model"
+        model: "person"
       }
     },
-    user2_id: {
-      type: DataTypes.INTEGER,
+    userid2: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "userid2",
+      autoIncrement: false,
+      references: {
+        key: "id",
+        model: "person"
+      }
+    },
+    createdat: {
+      type: Sequelize.DATE,
       allowNull: true,
       defaultValue: null,
       comment: null,
       primaryKey: false,
-      field: "user2_id",
-      autoIncrement: false,
-      references: {
-        key: "id",
-        model: "person_model"
-      }
+      field: "createdat",
+      autoIncrement: false
+    },
+    updatedat: {
+      type: Sequelize.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      comment: null,
+      primaryKey: false,
+      field: "updatedat",
+      autoIncrement: false
     }
-  };
-  const options = {
-    tableName: "directchat",
-    comment: "",
-    indexes: []
-  };
-  const DirectchatModel = sequelize.define("directchat_model", attributes, options);
-  return DirectchatModel;
-};
+});
+
+module.exports = DirectChat;
