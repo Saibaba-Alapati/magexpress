@@ -78,6 +78,32 @@ module.exports = sequelize => {
       primaryKey: false,
       field: "updated_at",
       autoIncrement: false
+    },
+    replyto: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "replyto",
+      autoIncrement: false,
+      references: {
+        key: "id",
+        model: "directmessage_model"
+      }
+    },
+    privatereplyto: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "privatereplyto",
+      autoIncrement: false,
+      references: {
+        key: "id",
+        model: "roommessage_model"
+      }
     }
   };
   const options = {

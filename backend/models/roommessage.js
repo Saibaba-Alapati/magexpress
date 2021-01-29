@@ -66,19 +66,6 @@ module.exports = sequelize => {
         model: "roommessage_model"
       }
     },
-    privatereplyto: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      comment: null,
-      primaryKey: false,
-      field: "privatereplyto",
-      autoIncrement: false,
-      references: {
-        key: "id",
-        model: "person_model"
-      }
-    },
     created_at: {
       type: DataTypes.DATE,
       allowNull: true,

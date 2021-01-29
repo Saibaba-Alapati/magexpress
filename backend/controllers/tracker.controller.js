@@ -107,3 +107,25 @@ exports.delete = (req, res) => {
             });
         });
 };
+
+
+// Delete few trackers from the database.
+exports.deleteFew = (req, res) => {
+    Tracker.destroy({where:{id : req.params.chatIds}})
+        .then(num => {
+            if (num === 1) {
+            res.send({
+                message: "deleted trackers successfully."
+            });
+            } else {
+            res.send({
+                message: "can't find trackers."
+            });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+            message: "Could not delete trackers."
+            });
+        });
+};

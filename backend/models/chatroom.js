@@ -48,6 +48,19 @@ module.exports = sequelize => {
       primaryKey: false,
       field: "updated_at",
       autoIncrement: false
+    },
+    creator: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "creator",
+      autoIncrement: false,
+      references: {
+        key: "id",
+        model: "person_model"
+      }
     }
   };
   const options = {
