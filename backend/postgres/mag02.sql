@@ -10,120 +10,121 @@ CREATE TABLE  person (
 	email VARCHAR NOT NULL,
 	password VARCHAR NOT NULL,
 	status activitystatus default 'online',
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE directchat (
 	id BIGSERIAL PRIMARY KEY,
-	userId1 INT NOT NULL,
-	userId2 INT NOT NULL,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	userid1 INT NOT NULL,
+	userid2 INT NOT NULL,
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE directmessage(
 	id BIGSERIAL PRIMARY KEY,
-	authorId INT NOT NULL,
-	receiverId INT NOT NULL,
-    directchatId INT NOT NULL,
+	authorid INT NOT NULL,
+	receiverid INT NOT NULL,
+    directchatid INT NOT NULL,
 	content TEXT NOT NULL,
 	replyId INT,
-	privatereplyId INT,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	privatereplyid INT,
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE room (
 	id BIGSERIAL PRIMARY KEY,
-    creatorId INT NOT NULL,
+    creatorid INT NOT NULL,
 	name VARCHAR NOT NULL,
 	description VARCHAR,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE channel (
 	id BIGSERIAL PRIMARY KEY,
-    creatorId INT NOT NULL,
-    roomId INT NOT NULL,
+    creatorid INT NOT NULL,
+    roomid INT NOT NULL,
 	name VARCHAR NOT NULL,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE roommessage (
 	id BIGSERIAL PRIMARY KEY,
-    creatorId INT NOT NULL,
-	roomId INT NOT NULL,
-	channelId INT NOT NULL,
+    creatorid INT NOT NULL,
+	roomid INT NOT NULL,
+	channelid INT NOT NULL,
 	content TEXT NOT NULL,
-	replyId INT,
+	replyid INT,
 	forwarded INT,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE trackercontainer (
 	id BIGSERIAL PRIMARY KEY,
-    creatorId INT NOT NULL,
+    creatorid INT NOT NULL,
 	name VARCHAR NOT NULL,
 	description VARCHAR,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE categorycontainer (
     id BIGSERIAL PRIMARY KEY,
-    creatorId INT NOT NULL,
-    trackercontainerId INT NOT NULL,
+    creatorid INT NOT NULL,
+    trackercontainerid INT NOT NULL,
 	name VARCHAR NOT NULL,
     description VARCHAR,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE tracker(
 	id BIGSERIAL PRIMARY KEY,
-    creatorId INT NOT NULL,
-    trackercontainerId INT NOT NULL,
-    categorycontainerId INT NOT NULL,
+    creatorid INT NOT NULL,
+    trackercontainerid INT NOT NULL,
+    categorycontainerid INT NOT NULL,
+	name VARCHAR NOT NULL,
 	content TEXT,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE trackercomment (
 	id BIGSERIAL PRIMARY KEY,
-    creatorId INT NOT NULL,
-	trackercontainerId INT NOT NULL,
-	categorycontainerId INT NOT NULL,
-	trackerId INT NOT NULL,
-	content TEXT,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    creatorid INT NOT NULL,
+	trackercontainerid INT NOT NULL,
+	categorycontainerid INT NOT NULL,
+	trackerid INT NOT NULL,
+	content TEXT NOT NULL,
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE subtrackers (
-	parenttrackerId INT NOT NULL,
-	childtrackerId INT NOT NULL,
+	parenttrackerid INT NOT NULL,
+	childtrackerid INT NOT NULL
 );
 
 CREATE TABLE linkedtrackers (
-	trackerId1 INT,
-	trackerId2 INT,
+	trackerid1 INT NOT NULL,
+	trackerid2 INT NOT NULL
 );
 
 CREATE TABLE assignees (
-    assigneeId INT NOT NULL,
-    trackerId INT NOT NULL,
+    assigneeid INT NOT NULL,
+    trackerid INT NOT NULL
 );
 CREATE TABLE usersandrooms (
-	userId INT NOT NULL,
-	roomId INT NOT NULL,
+	userid INT NOT NULL,
+	roomid INT NOT NULL
 );
 
 CREATE TABLE usersandtrackercontainers(
-	userId INT NOT NULL,
-	trackercontainerId INT NOT NULL
+	userid INT NOT NULL,
+	trackercontainerid INT NOT NULL
 );

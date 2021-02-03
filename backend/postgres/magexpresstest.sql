@@ -10,188 +10,189 @@ CREATE TABLE  person (
 	email VARCHAR NOT NULL,
 	password VARCHAR NOT NULL,
 	status activitystatus default 'online',
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE directchat (
 	id BIGSERIAL PRIMARY KEY,
-	userId1 INT NOT NULL,
-	userId2 INT NOT NULL,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	userid1 INT NOT NULL,
+	userid2 INT NOT NULL,
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE directmessage(
 	id BIGSERIAL PRIMARY KEY,
-	authorId INT NOT NULL,
-	receiverId INT NOT NULL,
-    directchatId INT NOT NULL,
+	authorid INT NOT NULL,
+	receiverid INT NOT NULL,
+    directchatid INT NOT NULL,
 	content TEXT NOT NULL,
 	replyId INT,
-	privatereplyId INT,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	privatereplyid INT,
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE room (
 	id BIGSERIAL PRIMARY KEY,
-    creatorId INT NOT NULL,
+    creatorid INT NOT NULL,
 	name VARCHAR NOT NULL,
 	description VARCHAR,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE channel (
 	id BIGSERIAL PRIMARY KEY,
-    creatorId INT NOT NULL,
-    roomId INT NOT NULL,
+    creatorid INT NOT NULL,
+    roomid INT NOT NULL,
 	name VARCHAR NOT NULL,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE roommessage (
 	id BIGSERIAL PRIMARY KEY,
-    creatorId INT NOT NULL,
-	roomId INT NOT NULL,
-	channelId INT NOT NULL,
+    creatorid INT NOT NULL,
+	roomid INT NOT NULL,
+	channelid INT NOT NULL,
 	content TEXT NOT NULL,
-	replyId INT,
+	replyid INT,
 	forwarded INT,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE trackercontainer (
 	id BIGSERIAL PRIMARY KEY,
-    creatorId INT NOT NULL,
+    creatorid INT NOT NULL,
 	name VARCHAR NOT NULL,
 	description VARCHAR,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE categorycontainer (
     id BIGSERIAL PRIMARY KEY,
-    creatorId INT NOT NULL,
-    trackercontainerId INT NOT NULL,
+    creatorid INT NOT NULL,
+    trackercontainerid INT NOT NULL,
 	name VARCHAR NOT NULL,
     description VARCHAR,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE tracker(
 	id BIGSERIAL PRIMARY KEY,
-    creatorId INT NOT NULL,
-    trackercontainerId INT NOT NULL,
-    categorycontainerId INT NOT NULL,
+    creatorid INT NOT NULL,
+    trackercontainerid INT NOT NULL,
+    categorycontainerid INT NOT NULL,
+	name VARCHAR NOT NULL,
 	content TEXT,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE trackercomment (
 	id BIGSERIAL PRIMARY KEY,
-    creatorId INT NOT NULL,
-	trackercontainerId INT NOT NULL,
-	categorycontainerId INT NOT NULL,
-	trackerId INT NOT NULL,
-	content TEXT,
-	createdAt TIMESTAMP,
-	updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    creatorid INT NOT NULL,
+	trackercontainerid INT NOT NULL,
+	categorycontainerid INT NOT NULL,
+	trackerid INT NOT NULL,
+	content TEXT NOT NULL,
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE subtrackers (
-	parenttrackerId INT NOT NULL,
-	childtrackerId INT NOT NULL
+	parenttrackerid INT NOT NULL,
+	childtrackerid INT NOT NULL
 );
 
 CREATE TABLE linkedtrackers (
-	trackerId1 INT NOT NULL,
-	trackerId2 INT NOT NULL
+	trackerid1 INT NOT NULL,
+	trackerid2 INT NOT NULL
 );
 
 CREATE TABLE assignees (
-    assigneeId INT NOT NULL,
-    trackerId INT NOT NULL
+    assigneeid INT NOT NULL,
+    trackerid INT NOT NULL
 );
 CREATE TABLE usersandrooms (
-	userId INT NOT NULL,
-	roomId INT NOT NULL
+	userid INT NOT NULL,
+	roomid INT NOT NULL
 );
 
 CREATE TABLE usersandtrackercontainers(
-	userId INT NOT NULL,
-	trackercontainerId INT NOT NULL
+	userid INT NOT NULL,
+	trackercontainerid INT NOT NULL
 );
 
-ALTER TABLE directchat ADD FOREIGN KEY (userId1) REFERENCES person (id);
+ALTER TABLE directchat ADD FOREIGN KEY (userid1) REFERENCES person (id);
 
-ALTER TABLE directchat ADD FOREIGN KEY (userId2) REFERENCES person (id);
+ALTER TABLE directchat ADD FOREIGN KEY (userid2) REFERENCES person (id);
 
-ALTER TABLE directmessage ADD FOREIGN KEY (authorId) REFERENCES person (id);
+ALTER TABLE directmessage ADD FOREIGN KEY (authorid) REFERENCES person (id);
 
-ALTER TABLE directmessage ADD FOREIGN KEY (receiverId) REFERENCES person (id);
+ALTER TABLE directmessage ADD FOREIGN KEY (receiverid) REFERENCES person (id);
 
-ALTER TABLE directmessage ADD FOREIGN KEY (directchatId) REFERENCES directchat (id);
+ALTER TABLE directmessage ADD FOREIGN KEY (directchatid) REFERENCES directchat (id);
 
-ALTER TABLE directmessage ADD FOREIGN KEY (replyId) REFERENCES directmessage (id);
+ALTER TABLE directmessage ADD FOREIGN KEY (replyid) REFERENCES directmessage (id);
 
-ALTER TABLE directmessage ADD FOREIGN KEY (privatereplyId) REFERENCES roommessage (id);
+ALTER TABLE directmessage ADD FOREIGN KEY (privatereplyid) REFERENCES roommessage (id);
 
-ALTER TABLE room ADD FOREIGN KEY (creatorId) REFERENCES person (id);
+ALTER TABLE room ADD FOREIGN KEY (creatorid) REFERENCES person (id);
 
-ALTER TABLE channel ADD FOREIGN KEY (roomId) REFERENCES room (id);
+ALTER TABLE channel ADD FOREIGN KEY (roomid) REFERENCES room (id);
 
-ALTER TABLE channel ADD FOREIGN KEY (creatorId) REFERENCES person (id);
+ALTER TABLE channel ADD FOREIGN KEY (creatorid) REFERENCES person (id);
 
-ALTER TABLE roommessage ADD FOREIGN KEY (roomId) REFERENCES room (id);
+ALTER TABLE roommessage ADD FOREIGN KEY (roomid) REFERENCES room (id);
 
-ALTER TABLE roommessage ADD FOREIGN KEY (channelId) REFERENCES channel (id);
+ALTER TABLE roommessage ADD FOREIGN KEY (channelid) REFERENCES channel (id);
 
-ALTER TABLE roommessage ADD FOREIGN KEY (creatorId) REFERENCES person (id);
+ALTER TABLE roommessage ADD FOREIGN KEY (creatorid) REFERENCES person (id);
 
-ALTER TABLE roommessage ADD FOREIGN KEY (replyId) REFERENCES roommessage (id);
+ALTER TABLE roommessage ADD FOREIGN KEY (replyid) REFERENCES roommessage (id);
 
-ALTER TABLE trackercontainer ADD FOREIGN KEY (creatorId) REFERENCES person (id);
+ALTER TABLE trackercontainer ADD FOREIGN KEY (creatorid) REFERENCES person (id);
 
-ALTER TABLE categorycontainer ADD FOREIGN KEY (trackercontainerId) REFERENCES trackercontainer (id);
+ALTER TABLE categorycontainer ADD FOREIGN KEY (trackercontainerid) REFERENCES trackercontainer (id);
 
-ALTER TABLE categorycontainer ADD FOREIGN KEY (creatorId) REFERENCES person (id);
+ALTER TABLE categorycontainer ADD FOREIGN KEY (creatorid) REFERENCES person (id);
 
-ALTER TABLE tracker ADD FOREIGN KEY (trackercontainerId) REFERENCES trackercontainer (id);
+ALTER TABLE tracker ADD FOREIGN KEY (trackercontainerid) REFERENCES trackercontainer (id);
 
-ALTER TABLE tracker ADD FOREIGN KEY (categorycontainerId) REFERENCES categorycontainer (id);
+ALTER TABLE tracker ADD FOREIGN KEY (categorycontainerid) REFERENCES categorycontainer (id);
 
-ALTER TABLE tracker ADD FOREIGN KEY (creatorId) REFERENCES person (id);
+ALTER TABLE tracker ADD FOREIGN KEY (creatorid) REFERENCES person (id);
 
-ALTER TABLE trackercomment ADD FOREIGN KEY (trackercontainerId) REFERENCES trackercontainer (id);
+ALTER TABLE trackercomment ADD FOREIGN KEY (trackercontainerid) REFERENCES trackercontainer (id);
 
-ALTER TABLE trackercomment ADD FOREIGN KEY (categorycontainerId) REFERENCES categorycontainer (id);
+ALTER TABLE trackercomment ADD FOREIGN KEY (categorycontainerid) REFERENCES categorycontainer (id);
 
-ALTER TABLE trackercomment ADD FOREIGN KEY (creatorId) REFERENCES person (id);
+ALTER TABLE trackercomment ADD FOREIGN KEY (creatorid) REFERENCES person (id);
 
-ALTER TABLE trackercomment ADD FOREIGN KEY (trackerId) REFERENCES tracker (id);
+ALTER TABLE trackercomment ADD FOREIGN KEY (trackerid) REFERENCES tracker (id);
 
-ALTER TABLE subtrackers ADD FOREIGN KEY (parenttrackerId ) REFERENCES tracker (id);
+ALTER TABLE subtrackers ADD FOREIGN KEY (parenttrackerid ) REFERENCES tracker (id);
 
-ALTER TABLE subtrackers ADD FOREIGN KEY (childtrackerId ) REFERENCES tracker (id);
+ALTER TABLE subtrackers ADD FOREIGN KEY (childtrackerid ) REFERENCES tracker (id);
 
-ALTER TABLE linkedtrackers ADD FOREIGN KEY (trackerId1 ) REFERENCES tracker (id);
+ALTER TABLE linkedtrackers ADD FOREIGN KEY (trackerid1 ) REFERENCES tracker (id);
 
-ALTER TABLE linkedtrackers ADD FOREIGN KEY (trackerId2 ) REFERENCES tracker (id);
+ALTER TABLE linkedtrackers ADD FOREIGN KEY (trackerid2 ) REFERENCES tracker (id);
 
-ALTER TABLE assignees ADD FOREIGN KEY (assigneeId ) REFERENCES person (id);
+ALTER TABLE assignees ADD FOREIGN KEY (assigneeid ) REFERENCES person (id);
 
-ALTER TABLE assignees ADD FOREIGN KEY (trackerId ) REFERENCES tracker (id);
+ALTER TABLE assignees ADD FOREIGN KEY (trackerid ) REFERENCES tracker (id);
 
-ALTER TABLE usersandrooms ADD FOREIGN KEY (userId ) REFERENCES person (id);
+ALTER TABLE usersandrooms ADD FOREIGN KEY (userid ) REFERENCES person (id);
 
-ALTER TABLE usersandrooms ADD FOREIGN KEY (roomId ) REFERENCES room (id);
+ALTER TABLE usersandrooms ADD FOREIGN KEY (roomid ) REFERENCES room (id);
 
-ALTER TABLE usersandtrackercontainers ADD FOREIGN KEY (userId ) REFERENCES person (id);
+ALTER TABLE usersandtrackercontainers ADD FOREIGN KEY (userid ) REFERENCES person (id);
 
-ALTER TABLE usersandtrackercontainers ADD FOREIGN KEY (trackercontainerId ) REFERENCES trackercontainer (id);
+ALTER TABLE usersandtrackercontainers ADD FOREIGN KEY (trackercontainerid ) REFERENCES trackercontainer (id);

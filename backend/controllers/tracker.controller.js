@@ -1,131 +1,159 @@
 const Tracker = require('../models/tracker')
-const TrackerComments = require('../models/trackercomment')
-// Create and Save a new TrackerContainer
-exports.create = (req, res) => {
+const TrackerComment = require('../models/trackercomment')
+// CREATE AND SAVE TRACKER
+exports.createTracker = (req, res) => {
     // Validate request
     if (!req.body.title) {
         res.status(400).send({
-            message: "Content can not be empty!"
+            message: " Content can not be empty! "
         });
         return;
     }
-    // Create a Tracker
-    const tracker = {
-        reporter: req.params.userId,
-        content: req.body.content,
-        categorycontainer: req.params.ccId,
-        trackercontainer : req.params.tcId
-    };
-    // Save Tracker in the database
-    Tracker.create(tracker)
+    Tracker.create({
+        creatorid: req.params.userid,
+        trackercontainerid : req.params.trackercontainerid,
+        categorycontainerid: req.params.categorycontainerid,
+        content: req.body.content
+    })
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
             message:
-                err.message || "Some error occurred while creating the Tracker."
+                err.message || " Some error occurred while creating the Tracker. "
             });
         });
 };
 
-// Retrieve all Comments made on the Tracker from Database.
+// FIND ALL COMMENTS ON A TRACKER
 exports.findAllCommentsOnTracker = (req, res) => {
-    const trackerId= req.params.trackerId
-    TrackerComments.findAll({where:{tracker: trackerId}})
+    TrackerComment.findAll({
+        where:{
+            tracker: req.params.trackerid
+        }
+    })
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
             message:
-                err.message || "Some error occurred while loading Comments."
+                err.message || " Some error occurred while loading comments. "
             });
         });
 };
 
-// Find a single Tracker with an id
+// FIND A TRACKER
 exports.findOne = (req, res) => {
-    const trackerId = req.params.trackerId;
-    Tracker.findByPk({where:{id:trackerId}})
+    Tracker.findByPk({
+        where:{
+            id:req.params.trackerid
+        }
+    })
         .then(data=> {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving Tracker"
+                message:
+                    err.message || " Error retrieving tracker. "
             });
 });
 };
 
-// Update a Tracker by the id in the request
+// UPDATE TRACKER CONTENT
 exports.update = (req, res) => {
-    const trackerId = req.params.trackerId;
-    Tracker.update({content: req.body.content},{where:{tracker: trackerId},returning:true,plain:true})
+    Tracker.update({
+        content: req.body.content
+    },{
+        where:{
+            tracker: req.params.trackerid
+        },
+        returning:true,
+        plain:true
+    })
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
             message:
-                err.message || "Some error occurred while updating Tracker."
+                err.message || " Some error occurred while updating Tracker. "
             });
         });
 };
-// Delete a Tracker from database completely
+// DELETE A TRACKER
 exports.delete = (req, res) => {
-    const trackerId = req.params.trackerId
-    TrackerComments.destroy({where:{tracker: trackerId}})
+    TrackerComment.destroy({
+        where:{
+            tracker: req.params.trackerid
+        }
+    })
         .then(num => {
             if (num === 1) {
             res.send({
-                message: "deleted comments on tracker successfully."
+                message:
+                    " Deleted comments on tracker successfully. "
             });
             } else {
             res.send({
-                message: "can't find tracker."
+                message:
+                    " Could not find tracker. "
             });
             }
         })
         .catch(err => {
             res.status(500).send({
-            message: "Could not delete comments on tracker"
+            message:
+                err.message || " Could not delete comments on tracker. "
             });
         });
-    Tracker.destroy({where:{tracker: trackerId}})
+    Tracker.destroy({
+        where:{
+            id : req.body.id
+        }
+    })
         .then(num => {
             if(num === 1){
                 res.send({
-                    message: "Deleted successfully to other category."
+                    message: " Deleted successfully to other category. "
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
             message:
-                err.message || "Some error occurred while deleting Tracker."
+                err.message || " Some error occurred while deleting Tracker. "
             });
         });
 };
 
 
-// Delete few trackers from the database.
+// DELETE FEW TRACKERS
 exports.deleteFew = (req, res) => {
-    Tracker.destroy({where:{id : req.params.chatIds}})
+    Tracker.destroy({
+        where:{
+            id : req.params.trackerids
+        }
+    })
         .then(num => {
             if (num === 1) {
             res.send({
-                message: "deleted trackers successfully."
+                message:
+                    " Deleted trackers successfully. "
             });
             } else {
             res.send({
-                message: "can't find trackers."
+                message:
+                    "Could not find trackers. "
             });
             }
         })
         .catch(err => {
             res.status(500).send({
-            message: "Could not delete trackers."
+            message:
+                err.message || " Could not delete trackers. "
             });
         });
 };

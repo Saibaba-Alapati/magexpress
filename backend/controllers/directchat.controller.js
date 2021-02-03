@@ -2,30 +2,34 @@ const DirectChat = require('../models/directchat');
 const DirectMessage  = require('../models/directmessage');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-// Create and Save a new DirectChat
+// CREATE SAVE DIRECT CHAT
 exports.create = (req, res) => {
-    const userId1 = req.params.userId1;
-    const userId2 = req.params.userId2;
     DirectChat.create({
-        user1_id: userId1,
-        user2_id: userId2,
+        userid1: req.params.userid1,
+        userid2: req.params.userid2,
     },)
         .then(data =>{
             res.send(data)
         })
         .catch(err =>{
             res.status(500).send({
-                message: "Operation not completed due to following error: " + err,
+                message:
+                    err.message || " Not able to create direct chat. ",
             })
         })
 };
 
-// Retrieve all Directchats of user from the database.
+// FIND ALL DIRECT CHATS OF THE USER
 exports.findAllDirectchatOfUser = (req, res) => {
     DirectChat.findAll(
         {
             where:{
-                [Op.or]  : [{user1_iId: req.params.userId}, {user2_id: req.params.userId}]
+                [Op.or]  : [{
+                    userid1: req.params.userid
+                },
+                {userid2: req.params.userid
+                }
+            ]
             }
         }
     )
@@ -34,99 +38,126 @@ exports.findAllDirectchatOfUser = (req, res) => {
         })
         .catch(err =>{
             res.status(500).send({
-                message: "Operation not completed due to following error: " + err,
+                message:
+                    err.message || " Not able to get all user realted directchats. "
             })
         })
 };
 
-// Find get and directchat with an id
+// FIND DIRECT CHAT
 exports.findOneDirectChat = (req, res) => {
-    const directchatId = req.params.directchatId;
-    DirectChat.findById(directchatId)
+    DirectChat.findById(req.params.directchatid)
         .then(data => {
             res.send(data);
         })
         .catch(err =>{
             res.status(500).send({
-                message: "Operation not completed due to following error: " + err,
+                message:
+                    err.message || " Not able to find direct chat. "
             })
         })
 };
 
-// Delete a directchat with the specified id in the request
+// DELETE A DIRECT CHAT
 exports.deleteDirectChat = (req, res) => {
-    const directchatId = req.params.directchatId;
-    DirectMessage.destroy({where: {directchat: directchatId}})
+    DirectMessage.destroy({
+        where: {
+            directchatid: req.params.directchatid
+        }
+    })
         .then(num => {
             if (num === 1) {
             res.send({
-                message: "deleted all directmessages successfully."
+                message:
+                    " Deleted all directmessages successfully. "
             });
             } else {
             res.send({
-                message: "can't find directmessages."
+                message:
+                    " Could not find directmessages. "
             });
             }
         })
         .catch(err => {
             res.status(500).send({
-            message: "Could not delete directmessages."
+            message: " Could not delete directmessages. "
             });
         });
-        DirectChat.destroy({where: {id: directchatId}})
+        DirectChat.destroy({
+            where: {
+                id: req.params.directchatid
+            }
+        })
         .then(num => {
             if (num === 1) {
             res.send({
-                message: "deleted all directmessages successfully."
+                message:
+                    " Deleted all directmessages successfully. "
             });
             } else {
             res.send({
-                message: "can't find directmessages."
+                message:
+                    " Could not find directmessages. "
             });
             }
         })
         .catch(err => {
             res.status(500).send({
-            message: "Could not delete directmessages."
+            message:
+                err.message || "Could not delete directmessages."
             });
         });
 };
 
 //revise and reviseandfix
-// Delete few directchats from the database.
+// DELETE FEW DIRECT CHATS
 exports.deleteFew = (req, res) => {
-    DirectMessage.destroy({where: {directchat: req.params.chatIds}})
+    DirectMessage.destroy({
+        where: {
+            directchatid: req.params.chatids
+        }
+    })
         .then(num => {
             if (num === 1) {
             res.send({
-                message: "deleted all directmessages successfully."
+                message:
+                    " Deleted all directmessages successfully. "
             });
             } else {
             res.send({
-                message: "can't find directmessages."
+                message:
+                    " Could not find directmessages. "
             });
             }
         })
         .catch(err => {
             res.status(500).send({
-            message: "Could not delete directmessages."
+            message:
+                err.message || " Could not delete directmessages. "
             });
         });
-    DirectChat.destroy({where:{id : req.params.chatIds}})
+    DirectChat.destroy({
+        where:{
+            id : req.params.chatIds
+        }
+    })
         .then(num => {
             if (num === 1) {
             res.send({
-                message: "deleted directchats successfully."
+                message:
+                    " Deleted directchats successfully. "
             });
             } else {
             res.send({
-                message: "can't find directchats."
+                message:
+                    " Could not find directchats. "
             });
             }
         })
         .catch(err => {
             res.status(500).send({
-            message: "Could not delete directchats."
+            message:
+                err.message || " Could not delete directchats. "
             });
         });
 };

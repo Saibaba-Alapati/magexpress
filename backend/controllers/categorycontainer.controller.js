@@ -1,148 +1,193 @@
 const Tracker = require('../models/tracker');
 const CategoryContainer = require('../models/categorycontainer');
 
-// Create and Save a new CC
-exports.create = (req, res) => {
-    // Validate request
-    if (!req.body.label) {
+// CREATE AND SAVE A CATEGORY CONTAINER TO DATABASE
+exports.createCategoryContainer = (req, res) => {
+    // VALIDATE REQUEST
+    if (!req.body.name) {
         res.status(400).send({
-            message: "Label cannot be empty."
+            message:
+                " Name cannot be empty. "
         });
         return;
     }
-    // Create a CC
-    const tcId = req.params.tcId;
-    const userId = req.params.userId;
-    const categorycontainer = {
-        label: req.body.label,
+    CategoryContainer.create({
+        creatorid : req.params.userid,
+        trackercontainerid: req.params.trackercontainerid,
+        name: req.body.name,
         description: req.body.description,
-        creator : userId,
-        trackercontainer_id: tcId,
-    };
-    // Save CC in the database
-    CategoryContainer.create(categorycontainer)
+    })
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
             message:
-                err.message || "Some error occurred while creating the CategoryContainer."
+                err.message || " Could not create a CategoryContainer. "
             });
         });
 };
 
-// Retrieve all CC from the database.
-exports.findAllCCOfTC = (req, res) => {
-    const tcId = req.params.tcId;
-    CategoryContainer.findAll({where:{trackercontainer : tcId}})
+// FIND ALL CATEGORY CONTAINERS OF TRACKER CONTAINER
+exports.FACCOTC = (req, res) => {
+    CategoryContainer.findAll({
+        where:{
+            trackercontainerid : req.params.trackercontainerid
+        }
+    })
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
             message:
-                err.message || "Some error occurred while retrieving category containers."
+                err.message || " Some error occurred while retrieving category containers. "
             });
         });
     };
 
-// Find all trackers realted to categorycontainer
-exports.findAllTrackersOfCC = (req, res) => {
-    const ccId = req.params.ccId;
-    Tracker.findAll({where:{categorycontainer : ccId}})
+// FIND ALL TRACKERS OF CATEGORY CONTAINER
+exports.FATOCC = (req, res) => {
+    Tracker.findAll({
+        where:{
+            categorycontainerid : req.body.categorycontainerid
+        }
+    })
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
             message:
-                err.message || "Some error occurred while retrieving trackers."
+                err.message || " Could not find trackers of category container. "
             });
         });
 };
 
-//Moving tracker from one categorycontainer to othercategorycontainer
-exports.moveToOtherCC = (req, res) => {
-    const otherccId = req.body.otherccId
-    const trackerId = req.params.trackerId
-    Tracker.update({categorycontainer: otherccId},{where:{id: trackerId}})
+// MOVE TRACKER TO OTHER CATEGORY CONTAINER
+exports.MTOCC = (req, res) => {
+    Tracker.update({
+        categorycontainerid : req.body.tocategorycontainerid
+    },
+    {
+        where:{
+            id: req.body.trackerid
+        }
+    })
         .then(num => {
             if(num === 1){
                 res.send({
-                    message: "Shifted successfully to other category."
+                    message:
+                        " Shifted successfully to other category. "
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
             message:
-                err.message || "Some error occurred while shifting Tracker."
+                err.message || " Could not shift the tracker. "
             });
         });
 };
 
-// Update a CategoryContainer by the id in the request
-exports.updateCC = (req, res) => {
-    CategoryContainer.update({label:req.body.label,description: req.body.description},{where: {id: req.params.ccId},returning : true,plain:true})
+// UPADTE A CATEGORYCONTAINER NAME AND DESCRIPTION
+exports.updateCategoryContainer = (req, res) => {
+    if (!req.body.name) {
+        res.status(400).send({
+            message:
+                " Name cannot be empty. "
+        });
+        return;
+    }
+    CategoryContainer.update({
+        name:req.body.name,
+        description: req.body.description
+    },
+    {
+        where: {
+            id: req.params.categorycontainerid
+        },
+        returning : true,
+        plain:true
+    })
         .then(data =>{
             res.send(data);
         })
         .catch(err =>{
             res.status(500).send({
-                message:"Cannot perform the operations due to following error" + err
+                message:
+                    err.message || " Not able to update the category container. "
             })
         })
 };
-//Delete CC along with Trackers
-exports.deleteCCWithTrackers = (req, res) => {
-    const ccId = req.params.ccId;
-    Tracker.destroy({where:{categorycontainer: ccId}})
+
+
+// DELETE CATEGORY CONTAINER WITH TRACKERS
+exports.DCCWT = (req, res) => {
+    Tracker.destroy({
+        where:{
+            categorycontainerid: req.body.categorycontainerid
+        }
+    })
         .then(num => {
             if(num === 1){
                 res.send({
-                    message: "Deleted all trackers of trackercontainer successfully."
+                    message:
+                        " Deleted all trackers of trackercontainer successfully. "
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
             message:
-                err.message || "Some error occurred while deleting all Trackers of tracker conatiners."
+                err.message || " Could not delete all trackers of tracker conatiners. "
             });
         });
-    CategoryContainer.destroy({where:{id : ccId}})
+    CategoryContainer.destroy({
+        where:{
+            id : req.body.categorycontainerid
+        }
+    })
         .then(num =>{
             if(num === 1){
                 res.send({
-                    message: "Deletion was successful."
+                    message:
+                        " Deletion was successful. "
                 });
             }else{
                 res.send({
-                    message: "Failed to Delete."
+                    message:
+                        " Failed to Delete. "
                 });
             }})
             .catch(err =>{
                 res.status(500).send({
-                    message: "Couldn't find the container."
+                    message:
+                        err.message ||" Couldn't find the categorycontainer. "
                 });
             })
 };
-// Delete all Trackers from the CategoryContainer.
-exports.deleteAllTrackersFromCC = (req, res) => {
-    const ccId = req.params.ccId;
-    Tracker.destroy({where:{categorycontainer: ccId}})
+
+
+// DELETE ALL TRACKERS FROM CATEGORY CONTAINER
+exports.DATFCC = (req, res) => {
+    Tracker.destroy({
+        where:{
+            categorycontainerid : req.body.categorycontainerid
+        }
+    })
         .then(num => {
             if(num === 1){
                 res.send({
-                    message: "Deleted all trackers of trackercontainer successfully."
+                    message:
+                        " Deleted all trackers of trackercontainer successfully. "
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
             message:
-                err.message || "Some error occurred while deleting all Trackers of tracker conatiners."
+                err.message || " Some error occurred while deleting all trackers of tracker conatiners. "
             });
         });
 };

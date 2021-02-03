@@ -2,10 +2,10 @@ const tracker = require('../controllers/tracker.controller');
 const express = require('express');
 const trackerroute = express.Router();
 
-trackerroute.post("/:userId/:tcId/:ccId/createtracker",tracker.create);
-trackerroute.get("/:userId/:tcId/:ccId/:trackerId/findAllCommentsOnTracker",tracker.findAllCommentsOnTracker);
-trackerroute.get("/:userId/:tcId/:ccId/:trackerId/gettracker",tracker.findOne);
-trackerroute.put("/:userId/:tcId/:ccId/:trackerId/updatetracker",tracker.update);
-trackerroute.delete("/:userId/:tcId/:ccId/:trackerId/deletetracker",tracker.delete);
-trackerroute.delete("/:userId/:tcId/:ccId/:trackerId/deletefewtrackers",tracker.deleteFew);
+trackerroute.post("/:userid/:trackercontainerid/:categorycontainerid/createtracker",tracker.create);
+trackerroute.get("/:userid/:trackercontainerid/:categorycontainerid/:trackerid/findAllCommentsOnTracker",tracker.findAllCommentsOnTracker);
+trackerroute.get("/:userid/:trackercontainerid/:categorycontainerid/:trackerid/gettracker",tracker.findOne);
+trackerroute.put("/:userid/:trackercontainerid/:categorycontainerid/:trackerid/updatetracker",tracker.update);
+trackerroute.delete("/:userid/:trackercontainerid/:categorycontainerid/:trackerid/deletetracker",tracker.delete);
+trackerroute.delete("/:userid/:trackercontainerid/:categorycontainerid/:trackerid/deletefewtrackers",tracker.deleteFew);
 module.exports =  trackerroute;

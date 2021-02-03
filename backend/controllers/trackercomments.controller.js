@@ -1,55 +1,77 @@
 const TrackerComments = require('../models/trackercomment');
-
+// CREATE A TRACKER CONTAINER
 exports.create = (req, res) =>{
-    const userId = req.params.userId;
-    const tcId = req.params.tcId;
-    const ccId = req.params.ccId;
-    const trackerId = req.params.trackerId;
-    const trackercomment = {
-        creator : userId,
-        trackercontainer :tcId,
-        categorycontainer : ccId,
-        content : req.body.content,
-        tracker: trackerId
+    // VAlIDATE REQUEST
+    if (!req.body.content) {
+        res.status(400).send({
+            message:
+                " Content cannot be empty. "
+        });
+        return;
     }
-    TrackerComments.create(trackercomment)
+    TrackerComments.create({
+        creatorid : req.params.userid,
+        trackercontainerid :req.params.trackercontainerid,
+        categorycontainerid : req.params.categorycontainerid,
+        content : req.body.content,
+        tracker: req.params.trackerid
+    })
         .then(data =>{
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
             message:
-                err.message || "Some error occurred while creating the Trackercomment."
+                err.message || " Could not create the trackercomment. "
             });
         });
 }
 exports.update = (req, res) =>{
-    const trackercommentId = req.params.trackercommentId
-    TrackerComments.update({content:req.body.content},{where:{id : trackercommentId},returning:true,plain:true})
+    // VAlIDATE REQUEST
+    if (!req.body.content) {
+        res.status(400).send({
+            message:
+                " Content cannot be empty. "
+        });
+        return;
+    }
+    TrackerComments.update({
+        content:req.body.content
+    },{
+        where:{
+            id : req.body.id
+        },
+        returning:true,
+        plain:true
+    })
         .then(data =>{
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
             message:
-                err.message || "Some error occurred while updating the Trackercomment."
+                err.message || " Could not update the trackercomment. "
             });
         });
 }
 exports.delete = (req, res) => {
-    const trackercommentId = req.params.trackercommentId
-    TrackerComments.destroy({where : { id : trackercommentId}})
+    TrackerComments.destroy({
+        where : {
+            id : req.body.id
+        }
+    })
         .then(num => {
             if(num === 1){
                 res.send({
-                    message: "Deleted trackercomment successfully."
+                    message:
+                        " Deleted trackercomment successfully. "
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
             message:
-                err.message || "Some error occurred while deleting all Trackercomment."
+                err.message || " Could not delete all trackercomment. "
             });
         });
 }

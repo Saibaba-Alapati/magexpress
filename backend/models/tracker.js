@@ -77,6 +77,15 @@ const Tracker = db.define('tracker',{
       primaryKey: false,
       field: "updatedat",
       autoIncrement: false
+    },
+    name: {
+      type: Sequelize.CHAR,
+      allowNull: false,
+      defaultValue: null,
+      comment: null,
+      primaryKey: false,
+      field: "name",
+      autoIncrement: false
     }
 });
 

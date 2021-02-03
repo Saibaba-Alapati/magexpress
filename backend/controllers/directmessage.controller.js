@@ -1,91 +1,116 @@
 const DirectMessage = require('../models/directmessage')
-// Create and Save a new direct message
-exports.create = (req, res) => {
-    const userId = req.params.userId
+// CREATE AND SAVE DIRECT MESSAGE
+exports.createDirectMessage = (req, res) => {
     DirectMessage.create({
-        creator : userId,
+        aurthorid : req.params.userid,
+        receiverid : req.body.receiverid,
+        directchatid : req.params.directchatid,
         content : req.body.content,
-        receiver : req.body.receiver,
-        directchat : req.params.directchatId,
-        replyto : req.body.replyto,
-        privatereplyto : req.body.privatereplyto,
+        replyid : req.body.replyid,
+        privatereplyid : req.body.privatereplyid,
     })
         .then(data =>{
             res.send(data)
         })
         .catch(err =>{
             res.status(500).send({
-                message: "Operation not completed due to following error: " + err,
+                message:
+                    err.message || " Could not create direct message. ",
             })
         })
 };
 
-// Find a single directmessage with an id
-exports.findOne = (req, res) => {
-    DirectMessage.findOne({where: {id : req.params.id}})
+// FIND A DIRECT MESSAGE
+exports.findOneDirectMessage = (req, res) => {
+    DirectMessage.findOne({
+        where: {
+            id : req.params.id
+        }
+    })
         .then(data => {
             res.send(data)
         })
         .catch(err => {
             res.status(500).send({
-                message: "Operation not completed due to following error: " + err,
+                message:
+                    err.message || " Could not find directmessage. " + err,
             })
         })
 };
 
-// Delete a directmessage with the specified id in the request
-exports.deleteDirectMessage = (req, res) => {
-    DirectMessage.destroy({where: {id: req.body.id}})
-        .then(num => {
-            if (num === 1) {
-            res.send({
-                message: "deleted all directmessages successfully."
-            });
-            } else {
-            res.send({
-                message: "can't find directmessages."
-            });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-            message: "Could not delete directmessages."
-            });
-        });
-
-};
-
-// Delete all directMessages from the database.
-exports.deleteAllMessages = (req, res) => {
-    const directchatId = req.params.directchatId;
-    DirectMessage.destroy({where: {directchat: req.body.directchat}})
-        .then(num => {
-            if (num === 1) {
-            res.send({
-                message: "deleted all directmessages successfully."
-            });
-            } else {
-            res.send({
-                message: "can't find directmessages."
-            });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-            message: "Could not delete directmessages."
-            });
-        });
-};
-
-// Find all directmessages
+// FIND ALL DIRECT MESSAGES
 exports.findAllDirectMessages = (req, res) => {
-    DirectMessage.findAll({where: {directchat: req.params.directchat}})
+    DirectMessage.findAll({
+        where: {
+            directchatid: req.params.directchatid
+        }
+    })
         .then(data => {
             res.send(data)
         })
         .catch(err =>{
             res.status(500).send({
-                message: "Operation not completed due to following error: " + err,
+                message:
+                    err.message || " Could not find all directmessages of user. " + err,
             })
         })
 };
+
+
+// DELETE A DIRECT MESSAGE
+exports.deleteDirectMessage = (req, res) => {
+    DirectMessage.destroy({
+        where: {
+            id: req.body.id
+        }
+    })
+        .then(num => {
+            if (num === 1) {
+            res.send({
+                message:
+                    " Deleted all directmessages successfully. "
+            });
+            } else {
+            res.send({
+                message:
+                    " Could not find directmessages. "
+            });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+            message:
+                err.message || " Could not delete directmessages. "
+            });
+        });
+
+};
+
+// DELETE ALL DIRECT MESSAGES
+exports.deleteAllDirectMessages = (req, res) => {
+    DirectMessage.destroy({
+        where: {
+            directchatid: req.body.directchatid
+        }
+    })
+        .then(num => {
+            if (num === 1) {
+            res.send({
+                message:
+                    " Deleted all directmessages successfully. "
+            });
+            } else {
+            res.send({
+                message:
+                    " Could not find directmessages. "
+            });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+            message:
+                err.message || " Could not delete directmessages. "
+            });
+        });
+};
+

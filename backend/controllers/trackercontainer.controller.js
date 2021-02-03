@@ -3,7 +3,7 @@ const UserAndTCS = require('../models/usersandtrackercontainers');
 const Tracker =  require('../models/tracker');
 const TrackerComments = require('../models/trackercomment');
 const CategoryContainer = require('../models/categorycontainer');
-// Create and Save a new TrackerContainer
+// CREATE AND SAVE TRACKER CONTAINER
 exports.create = (req, res) => {
     if(!req.body.name){
         res.status(400).send({
@@ -11,81 +11,94 @@ exports.create = (req, res) => {
         });
         return;
     }
-    const userId = req.params.userId
-    const Trackercontainer = {
+    TrackerContainer.create({
         name : req.body.name,
         description : req.body.description,
-        creator : userId,
-    }
-    TrackerContainer.create(Trackercontainer)
+        creatorid : req.params.userid,
+    })
         .then(data =>
         {
-            UserAndTCS.create({user_id : data.creator,trackercontainer_id : data.id});
+            UserAndTCS.create({
+                userid : data.creator,
+                trackercontainerid : data.id
+            });
             res.send(data);
         })
         .catch(err =>
             res.status(500).send({
                 message:
-                    err.message || "Some error ocurred TrackerContainer could not be created."
+                    err.message || " Some error ocurred TrackerContainer could not be created. "
             })
         )
 };
 
-// Retrieve all Trackercontainers realted to the user from the database.
+// FIND ALL TRACKER CONTAINERS USER HAD ACCESS TO
 exports.findAllContainersRelatedToUser = (req, res) => {
-    const userId = req.params.userId;
-    const tcId = req.params.tcId;
-    UserAndTCS.findAll({where:{user_id: userId,trackercontainer_id:tcId}})
-        .then(data=>{
+    UserAndTCS.findAll({
+        where:{
+            userid: req.params.userid,
+            trackercontainerid: req.params.trackercontainerid
+        }
+    })
+        .then(data =>{
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
-                message:"Cannot perform the operations due to following error" + err
+                message:
+                    err.message || " Could not find all the trackercotainers user have access to. "
             })
         })
 };
 
-// Find a single TrackerContainer with an id in the request
+// FIND TRACKER CONTAINER
 exports.findOne = (req, res) => {
-    const id = req.params.tcId;
-    TrackerContainer.findByPk(id)
+    TrackerContainer.findByPk(req.body.id)
         .then(data =>{
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
-                message:"Error retrieving the TrackerContainer"
+                message:
+                    err.message || " Error retrieving the TrackerContainer. "
             });
         });
 };
+
+// JOIN ACCESS TO TRACKER CONTAINER
 exports.joinTrackerContainer = (req, res) => {
-    const userId = req.params.userId;
-    const tcId = req.params.tcId;
-    TrackerContainer.findByPk(tcId)
+    TrackerContainer.findByPk(req.params.trackercontainerid)
         .then(data =>{
-            UserAndTCS.create({user_id : userId,trackercontainer_id: tcId,trackercontainercreator : data.creator})
+            UserAndTCS.create({
+                userid : req.params.userid,
+                trackercontainerid: req.params.trackercontainerid
+            })
                 .then(data =>{
                     res.send(data);
                 })
                 .catch(err => {
                     res.status(500).send({
-                        message:"Error retrieving the TrackerContainer"
+                        message:
+                            err.message || " Error retrieving the TrackerContainer"
                     });
                 })
         })
         .catch(err => {
             res.status(500).send({
-                message:"Error retrieving the TrackerContainer"
+                message:
+                    err.message || " Error retrieving the TrackerContainer. "
             });
         });
 
 }
-//check if user has access to tracker container
+// CHECK USER ACCESS
 exports.userAccessCheck = (req,res) => {
-    const userId = req.params.userId;
-    const tcId = req.params.tcId;
-    TrackerContainer.find({where:{user_id: userId,trackercontainer_id: tcId}})
+    TrackerContainer.find({
+        where:{
+            userid: req.params.userid,
+            trackercontainerid: req.params.trackercontainerid
+        }
+    })
         .then(function(data){
             if(!data){
                 return 'user notfound'
@@ -97,42 +110,63 @@ exports.userAccessCheck = (req,res) => {
                         })
                         .catch(err => {
                             res.status(500).send({
-                                message:"Error retrieving the TrackerContainer"
+                                message:
+                                err.message || "Error retrieving the TrackerContainer"
                             });
                         });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message:"Error check for access."
+                message:
+                    err.message || "Error check for access."
             });
         });
 }
-// Update a TrackerContainer by the id in the request
+// UPDATE TRACKER CONTAINER NAME
 exports.update = (req, res) => {
-    TrackerContainer.update({name:req.body.name,description: req.body.description},{where: {id: req.params.id},returning : true,plain:true})
+    // VAlIDATE REQUEST
+    if (!req.body.name) {
+        res.status(400).send({
+            message:
+                " Name cannot be empty. "
+        });
+        return;
+    }
+    TrackerContainer.update({
+        name:req.body.name,
+        description: req.body.description
+    },
+    {
+        where: {
+            id: req.params.id
+        },
+        returning : true,
+        plain:true
+    })
         .then(data =>{
             res.send(data);
         })
         .catch(err =>{
             res.status(500).send({
-                message:"Cannot perform the operations due to following error" + err
+                message:
+                    err.message || " Could not update. "
             })
         })
 };
 
-// Delete all Trackers from the TrackerContainer.
+// DELETE ALL TRACKERS FROM TRACKER CONTAINER
 exports.deleteTCandCCandTRandTCR = (req, res) => {
-    const tcId = req.params.tcId;
-    TrackerComments.destroy({ trackercontainer: tcId});
-    Tracker.destroy({where: {trackercontainer: tcId}});
-    CategoryContainer.destroy({where: {trackercontainer: tcId}});
-    UserAndTCS.destroy({where: {trackercontainer_id : tcId}});
-    TrackerContainer.destroy({where:{id: tcId}})
+    TrackerComments.destroy({ trackercontainerid: req.params.trackercontainerid});
+    Tracker.destroy({where: {trackercontainerid: req.params.trackercontainerid}});
+    CategoryContainer.destroy({where: {trackercontainerid: req.params.trackercontainerid}});
+    UserAndTCS.destroy({where: {trackercontainerid : req.params.trackercontainerid}});
+    TrackerContainer.destroy({where:{id: req.params.trackercontainerid}})
         .then(num => {
             if(num === 1){
                 res.send({
-                    message: "Deleted all trackers of trackercontainer successfully."
+                    message:
+                        " Deleted all trackers of trackercontainer successfully. "
                 });
             }
         })

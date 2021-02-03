@@ -1,108 +1,134 @@
 const RoomMessage = require('../models/roommessage')
-const RoomChannel = require('../models/channel');
-// Create and Save a new Tutorial
+const Channel = require('../models/channel');
+// CREATE AND SAVE ROOM MESSAGE
 exports.create = (req, res) => {
-    const channelId = req.params.channelId;
-    const chatroomId   = req.params.chatroomId;
-    const userId = req.params.userId;
-    RoomMessage.create({channel: channelId,room: chatroomId,creator: userId,content: req.body.content,forwarded:0})
+    RoomMessage.create({
+        creatorid: req.params.userid,
+        channelid: req.params.channelid,
+        roomid: req.params.roomid,
+        content: req.body.content
+    })
 };
 
-// Retrieve all roommessages from the database.
+// FIND ALL ROOM MESSAGES
 exports.findAll = (req, res) => {
-    RoomMessage.findAll({directchat : req.body.directchatId})
+    RoomMessage.findAll({
+        where : {
+            directchatid : req.body.directchatid
+        }
+    })
         .then(data =>  {
             res.send(data)
         })
         .catch(err =>{
             res.status(500).send({
-                message: "Operation not completed due to following error: " + err,
+                message:
+                    err.message || " Could not find all room messages. ",
             })
         })
 };
 
-// Find a single roommessage with an id
+// FIND A ROOM MESSAGE
 exports.findOne = (req, res) => {
-    RoomMessage.findOne()
+    RoomMessage.findOne({
+        where: {
+            id : req.body.id
+        }
+    })
         .then(data =>  {
             res.send(data)
         })
         .catch(err =>{
             res.status(500).send({
-                message: "Operation not completed due to following error: " + err,
+                message:
+                    err.message || " Could not find roommessage. " ,
             })
         })
 };
 
-// Update a Tutorial by the id in the request
+// UPDATE A ROOM MESSAGE
 exports.updateRoomMessage = (req, res) => {
-    RoomMessage.update({where: {id  : req.body.roommessageId}})
+    RoomMessage.update({
+        where: {
+            id  : req.body.id
+        }
+    })
         .then(data =>  {
             res.send(data)
         })
         .catch(err =>{
             res.status(500).send({
-                message: "Operation not completed due to following error: " + err,
+                message:
+                    err.message || " Could not upadte roommessage. ",
             })
         })
 };
 
-// Delete a Tutorial with the specified id in the request
+// DELETE A CHANNEL
 exports.deleteChannel = (req, res) => {
-    const channelId = req.params.channelId;
-    RoomMessage.destroy({where: {channel: channelId}})
+    RoomMessage.destroy({where: {channelid : req.params.channelid}})
         .then(num => {
             if (num === 1) {
             res.send({
-                message: "deleted all directmessages successfully."
+                message:
+                    "deleted all directmessages successfully."
             });
             } else {
             res.send({
-                message: "can't find directmessages."
+                message:
+                    " Could not find directmessages. "
             });
             }
         })
         .catch(err => {
             res.status(500).send({
-            message: "Could not delete directmessages."
+            message:
+                err.message || "Could not delete directmessages."
             });
         });
-        RoomChannel.destroy({where: {id: channelId}})
+        Channel.destroy({where: {id: req.params.channelid}})
         .then(num => {
             if (num === 1) {
             res.send({
-                message: "deleted all directmessages successfully."
+                message:
+                    " Deleted all directmessages successfully. "
             });
             } else {
             res.send({
-                message: "can't find directmessages."
+                message:
+                    " Could not find directmessages."
             });
             }
         })
         .catch(err => {
             res.status(500).send({
-            message: "Could not delete directmessages."
+            message:
+                err.message || " Could not delete directmessages. "
             });
         });
 };
 
-// Delete all directMessages from the database.
+// NOT REQUIRED
+// DELETE ROOM MESSAGES
 exports.deleteAllMessages = (req, res) => {
-    RoomMessage.destroy({where: {directchat: req.channelId}})
+    RoomMessage.destroy({where: {directchat: req.roomId}})
         .then(num => {
             if (num === 1) {
             res.send({
-                message: "deleted all directmessages successfully."
+                message:
+                    " Deleted all directmessages successfully. "
             });
             } else {
             res.send({
-                message: "can't find directmessages."
+                message:
+                    " Could not find directmessages."
             });
             }
         })
         .catch(err => {
             res.status(500).send({
-            message: "Could not delete directmessages."
+            message:
+                err.message || "Could not delete directmessages."
             });
         });
 };

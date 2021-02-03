@@ -66,7 +66,7 @@ const TrackerComment = db.define('trackercomment',{
     },
     content: {
       type: Sequelize.TEXT,
-      allowNull: true,
+      allowNull: false,
       defaultValue: null,
       comment: null,
       primaryKey: false,

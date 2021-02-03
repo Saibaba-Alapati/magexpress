@@ -88,6 +88,7 @@ CREATE TABLE tracker(
     creatorid INT NOT NULL,
     trackercontainerid INT NOT NULL,
     categorycontainerid INT NOT NULL,
+	name VARCHAR NOT NULL,
 	content TEXT,
 	createdat TIMESTAMP,
 	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -99,7 +100,7 @@ CREATE TABLE trackercomment (
 	trackercontainerid INT NOT NULL,
 	categorycontainerid INT NOT NULL,
 	trackerid INT NOT NULL,
-	content TEXT,
+	content TEXT NOT NULL,
 	createdat TIMESTAMP,
 	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

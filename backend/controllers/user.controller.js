@@ -5,147 +5,163 @@ const Tracker =  require('../models/tracker');
 const TrackerComment = require('../models/trackercomment');
 const CategoryContainer = require('../models/categorycontainer');
 exports.create = (req,res) => {
-    if(!req.body.first_name){
+    if(!req.body.firstname){
         res.status(400).send({
-            message: "Firstname cannot be empty!"
+            message:
+                "Firstname cannot be empty!"
         })
         return;
     }
-    if(!req.body.last_name){
+    if(!req.body.lastname){
         res.status(400).send({
-            message: "Lastname cannot be empty!"
+            message:
+                "Lastname cannot be empty!"
         })
         return;
     }
-    if(!req.body.user_name){
+    if(!req.body.username){
         res.status(400).send({
-            message: " Username cannot be empty!"
+            message:
+                " Username cannot be empty!"
         })
         return;
     }
     if(!req.body.email){
         res.status(400).send({
-            message: "Email cannot be empty!"
+            message:
+                "Email cannot be empty!"
         })
         return;
     }
     if(!req.body.password){
         res.status(400).send({
-            message: " Password cannot be empty!"
+            message:
+                " Password cannot be empty!"
         })
         return;
     }
-    const user = {
-        first_name : req.body.first_name,
-        last_name : req.body.last_name,
-        user_name: req.body.username,
+    User.create({
+        firstname : req.body.firstname,
+        lastname : req.body.lastname,
+        username: req.body.username,
         email : req.body.email,
         password : req.body.password,
-    };
-    User.create(user)
+    })
         .then(data => {
             res.send(data)
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Tutorial."
+                    err.message || " Some error occurred while creating the Tutorial. "
             });
         });
 }
 exports.findOne = (req, res) =>{
-    const userId = req.params.userId;
-    User.findByPk(userId)
+    User.findByPk(req.params.userid)
         .then(data=>{
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
-                message: "user not found."
+                message:
+                    err.message || " User not found. "
             })
         })
 }
 
 exports.update = (req,res) => {
-    const userId = req.params.userId;
     User.update(
         {
-            first_name : req.body.first_name,
-            last_name : req.body.last_name,
-            user_name: req.body.username,
+            firstname : req.body.firstname,
+            lastname : req.body.lastname,
+            username: req.body.username,
             email : req.body.email,
         },
         {
-        where: { id: userId }
+        where: {
+            id: req.params.userid
+        }
     })
         .then(num => {
             if (num === 1) {
                 res.send({
-                    message: "User info updated successfully!"
+                    message:
+                        " User info updated successfully! "
                 });
             } else {
             res.send({
-                message: `User not found.`
+                message:
+                    ' User not found. '
             });
             }
         })
         .catch(err => {
             res.status(500).send({
-            message: " Could not update User info."
+            message:
+                err.message || " Could not update User info. "
         });
         });
 }
 exports.updatePassword = (req,res) => {
-    const userId = req.params.userId;
     User.update(
         {
             password : req.body.password,
         },
         {
-        where: { id: userId }
+        where: {
+            id: req.params.userid
+        }
     })
         .then(num => {
             if (num === 1) {
                 res.send({
-                    message: "Tutorial was deleted successfully!"
+                    message:
+                        " Tutorial was deleted successfully! "
                 });
             } else {
             res.send({
-                message:"Password has been updated successfully!"
+                message:
+                    " Password has been updated successfully! "
             });
             }
         })
         .catch(err => {
             res.status(500).send({
-            message: "Could not update password."
+            message:
+                err.message || " Could not update password. "
         });
         });
 }
 
 exports.deleteUserandInfo = (req,res) => {
-    const userId = req.params.userId;
-    TrackerComment.destroy({creator : userId});
-    Tracker.destroy({where: {reporter: userId}});
-    CategoryContainer.destroy({where: {creator : userId}});
-    UserAndTCS.destroy({where: {creator : userId}});
-    TrackerContainer.destroy({where: {creator : userId}});
+    TrackerComment.destroy({creatorid : req.params.userid});
+    Tracker.destroy({where: {creatorid: req.params.userid}});
+    CategoryContainer.destroy({where: {creatorid : req.params.userid}});
+    UserAndTCS.destroy({where: {creatorid : req.params.userid}});
+    TrackerContainer.destroy({where: {creatorid : req.params.userid}});
     User.destroy({
-        where: { id: userId }
+        where: {
+                id: req.params.userid
+        }
     })
         .then(num => {
             if (num === 1) {
                 res.send({
-                    message: "User account and info deleted successfully."
+                    message:
+                        " User account and info deleted successfully. "
                 });
             } else {
             res.send({
-                message: `User account and info deletes successfully.`
+                message:
+                    ' User account and info deletes successfully.'
             });
             }
         })
         .catch(err => {
             res.status(500).send({
-            message: "Could not delete User account and info."
+            message:
+                err.message || " Could not delete User account and info. "
         });
         });
 }
