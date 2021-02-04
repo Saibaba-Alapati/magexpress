@@ -1,10 +1,10 @@
 const trackercontainer = require('../controllers/trackercontainer.controller');
 const  express = require('express');
 const trackercontainerroute = express.Router();
-trackercontainerroute.post('/',trackercontainer.createTrackerContainer);
-trackercontainerroute.get('/',trackercontainer.findAllContainersRelatedToUser);
-trackercontainerroute.get('/',trackercontainer.findOneTrackerContainer);
-trackercontainerroute.post('/',trackercontainer.joinTrackerContainer);
-trackercontainerroute.post('/:trackercontainerid/trackercontainerinfo',trackercontainer.updateTrackerContainer);
-trackercontainerroute.delete('/trackercontainerinfo',trackercontainer.deleteTCWithCCandTRandTCR);
+trackercontainerroute.post('/',trackercontainer.createTrackerContainer)
+    .get('/',trackercontainer.findAllContainersRelatedToUser)
+    .get('/',trackercontainer.findOneTrackerContainer)
+    .post('/',trackercontainer.joinTrackerContainer)
+    .post('/:trackercontainerid/trackercontainerinfo',trackercontainer.updateTrackerContainer)
+    .delete('/trackercontainerinfo',trackercontainer.deleteTCWithCCandTRandTCR);
 module.exports =  trackercontainerroute;
