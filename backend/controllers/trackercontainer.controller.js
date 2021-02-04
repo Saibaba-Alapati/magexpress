@@ -4,7 +4,7 @@ const Tracker =  require('../models/tracker');
 const TrackerComments = require('../models/trackercomment');
 const CategoryContainer = require('../models/categorycontainer');
 // CREATE AND SAVE TRACKER CONTAINER
-exports.create = (req, res) => {
+exports.createTrackerContainer = (req, res) => {
     if(!req.body.name){
         res.status(400).send({
             message : "name cannot be empty."
@@ -36,8 +36,7 @@ exports.create = (req, res) => {
 exports.findAllContainersRelatedToUser = (req, res) => {
     UserAndTCS.findAll({
         where:{
-            userid: req.params.userid,
-            trackercontainerid: req.params.trackercontainerid
+            userid: req.params.userid
         }
     })
         .then(data =>{
@@ -52,8 +51,8 @@ exports.findAllContainersRelatedToUser = (req, res) => {
 };
 
 // FIND TRACKER CONTAINER
-exports.findOne = (req, res) => {
-    TrackerContainer.findByPk(req.body.id)
+exports.findOneTrackerContainer = (req, res) => {
+    TrackerContainer.findByPk(req.body.trackercontainerid)
         .then(data =>{
             res.send(data);
         })
@@ -71,7 +70,7 @@ exports.joinTrackerContainer = (req, res) => {
         .then(data =>{
             UserAndTCS.create({
                 userid : req.params.userid,
-                trackercontainerid: req.params.trackercontainerid
+                trackercontainerid: req.body.trackercontainerid
             })
                 .then(data =>{
                     res.send(data);
@@ -103,7 +102,7 @@ exports.userAccessCheck = (req,res) => {
             if(!data){
                 return 'user notfound'
             }else{
-                const id = req.params.tcId;
+                const id = req.params.trackercontainerid;
                     TrackerContainer.findByPk(id)
                         .then(data =>{
                             res.send(data);
@@ -124,7 +123,7 @@ exports.userAccessCheck = (req,res) => {
         });
 }
 // UPDATE TRACKER CONTAINER NAME
-exports.update = (req, res) => {
+exports.updateTrackerContainer = (req, res) => {
     // VAlIDATE REQUEST
     if (!req.body.name) {
         res.status(400).send({
@@ -139,7 +138,7 @@ exports.update = (req, res) => {
     },
     {
         where: {
-            id: req.params.id
+            id: req.params.trackercontainerid
         },
         returning : true,
         plain:true
@@ -156,12 +155,12 @@ exports.update = (req, res) => {
 };
 
 // DELETE ALL TRACKERS FROM TRACKER CONTAINER
-exports.deleteTCandCCandTRandTCR = (req, res) => {
-    TrackerComments.destroy({ trackercontainerid: req.params.trackercontainerid});
-    Tracker.destroy({where: {trackercontainerid: req.params.trackercontainerid}});
-    CategoryContainer.destroy({where: {trackercontainerid: req.params.trackercontainerid}});
-    UserAndTCS.destroy({where: {trackercontainerid : req.params.trackercontainerid}});
-    TrackerContainer.destroy({where:{id: req.params.trackercontainerid}})
+exports.deleteTCWithCCandTRandTCR = (req, res) => {
+    TrackerComments.destroy({ trackercontainerid: req.body.trackercontainerid});
+    Tracker.destroy({where: {trackercontainerid: req.body.trackercontainerid}});
+    CategoryContainer.destroy({where: {trackercontainerid: req.body.trackercontainerid}});
+    UserAndTCS.destroy({where: {trackercontainerid : req.body.trackercontainerid}});
+    TrackerContainer.destroy({where:{id: req.body.trackercontainerid}})
         .then(num => {
             if(num === 1){
                 res.send({

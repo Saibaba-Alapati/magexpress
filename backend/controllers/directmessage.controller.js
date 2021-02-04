@@ -1,5 +1,6 @@
 const DirectMessage = require('../models/directmessage')
 // CREATE AND SAVE DIRECT MESSAGE
+// modify receiver id logic
 exports.createDirectMessage = (req, res) => {
     DirectMessage.create({
         aurthorid : req.params.userid,
@@ -24,7 +25,7 @@ exports.createDirectMessage = (req, res) => {
 exports.findOneDirectMessage = (req, res) => {
     DirectMessage.findOne({
         where: {
-            id : req.params.id
+            id : req.body.directmessageid
         }
     })
         .then(data => {
@@ -61,7 +62,7 @@ exports.findAllDirectMessages = (req, res) => {
 exports.deleteDirectMessage = (req, res) => {
     DirectMessage.destroy({
         where: {
-            id: req.body.id
+            id: req.body.direchatid
         }
     })
         .then(num => {

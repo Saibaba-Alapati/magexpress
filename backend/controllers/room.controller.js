@@ -1,7 +1,5 @@
 const Room = require('../models/room');
 const UsersAndRooms = require('../models/usersandrooms');
-const RoomMessage = require('../models/roommessage');
-const Channel = require('../models/channel')
 // CREATE AND SAVE ROOM
 exports.createRoom = (req, res) => {
     if (!req.body.name) {
@@ -50,7 +48,7 @@ exports.findAllRooms = (req, res) => {
 
 // Find a single room with an id
 exports.findRoom = (req, res) => {
-    Room.findByPk(req.params.roomid)
+    Room.findByPk(req.body.roomid)
         .then(data =>{
             res.send(data)
         })
@@ -65,7 +63,7 @@ exports.findRoom = (req, res) => {
 //     RoomMessage.find({where: { }})
 // }
 // UPADTE NAME AND DESCRIPION OF ROOM
-exports.update = (req, res) => {
+exports.updateRoom = (req, res) => {
     if (!req.body.name) {
         res.status(400).send({
             message:
@@ -94,7 +92,7 @@ exports.update = (req, res) => {
 };
 
 // DELETE A ROOM
-exports.delete = (req, res) => {
+exports.deleteRoom = (req, res) => {
     Room.destroy({
         where : {
             id : req.params.roomid
@@ -126,7 +124,8 @@ exports.delete = (req, res) => {
 exports.joinRoom = (req, res) => {
     UsersAndRooms.create({
         where : {
-            userid: req.params.userid,roomid: req.params.roomid
+            userid: req.params.userid,
+            roomid: req.body.roomid
         }
     })
         .then(data =>{

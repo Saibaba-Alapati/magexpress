@@ -3,10 +3,10 @@ const DirectMessage  = require('../models/directmessage');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 // CREATE SAVE DIRECT CHAT
-exports.create = (req, res) => {
+exports.createDirectChat = (req, res) => {
     DirectChat.create({
-        userid1: req.params.userid1,
-        userid2: req.params.userid2,
+        userid1: req.params.userid,
+        userid2: req.body.otheruserid,
     },)
         .then(data =>{
             res.send(data)
@@ -27,7 +27,8 @@ exports.findAllDirectchatOfUser = (req, res) => {
                 [Op.or]  : [{
                     userid1: req.params.userid
                 },
-                {userid2: req.params.userid
+                {
+                    userid2: req.params.userid
                 }
             ]
             }
@@ -46,7 +47,7 @@ exports.findAllDirectchatOfUser = (req, res) => {
 
 // FIND DIRECT CHAT
 exports.findOneDirectChat = (req, res) => {
-    DirectChat.findById(req.params.directchatid)
+    DirectChat.findById(req.body.directchatid)
         .then(data => {
             res.send(data);
         })
@@ -57,12 +58,12 @@ exports.findOneDirectChat = (req, res) => {
             })
         })
 };
-
+//from body and params
 // DELETE A DIRECT CHAT
 exports.deleteDirectChat = (req, res) => {
     DirectMessage.destroy({
         where: {
-            directchatid: req.params.directchatid
+            directchatid: (!req.params.directchatid) ? req.body.directchatid : req.params.directchatid ,
         }
     })
         .then(num => {
@@ -85,7 +86,7 @@ exports.deleteDirectChat = (req, res) => {
         });
         DirectChat.destroy({
             where: {
-                id: req.params.directchatid
+                id: (!req.params.directchatid) ? req.body.directchatid : req.params.directchatid ,
             }
         })
         .then(num => {
@@ -111,10 +112,10 @@ exports.deleteDirectChat = (req, res) => {
 
 //revise and reviseandfix
 // DELETE FEW DIRECT CHATS
-exports.deleteFew = (req, res) => {
+exports.deleteFewDirectChat = (req, res) => {
     DirectMessage.destroy({
         where: {
-            directchatid: req.params.chatids
+            directchatid: req.body.directchatids
         }
     })
         .then(num => {
@@ -138,7 +139,7 @@ exports.deleteFew = (req, res) => {
         });
     DirectChat.destroy({
         where:{
-            id : req.params.chatIds
+            id : req.body.directchatids
         }
     })
         .then(num => {

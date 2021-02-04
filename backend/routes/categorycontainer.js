@@ -1,13 +1,16 @@
 const categorycontainer = require('../controllers/categorycontainer.controller');
 const  express = require('express');
 const categorycontainerroute = express.Router();
-categorycontainerroute.post("/:userid/:trackercontainerid/createcategorycontainer",categorycontainer.createCategoryContainer);
-categorycontainerroute.get("/:userid/:trackercontainerid/FACCOTC",categorycontainer.FACCOTC);//findallcategorycontainersoftrackercontainer
-categorycontainerroute.put("/:userid/:trackercontainerid/:categorycontainerid/updatecategorycontainer",categorycontainer.updateCategoryContainer); //update category container
-categorycontainerroute.get("/:userid/:trackercontainerid/FACCOTC",categorycontainer.FACCOTC) //FIND ALL CATEGORY CONTAINER OF TRACKER CONTAINER
-categorycontainerroute.get("/:userid/:trackercontainerid/FATOCC",categorycontainer.FATOCC); //findAllTrackersOfCategoryContainers
-categorycontainerroute.put("/:userid/:trackercontainerid/:categorycontainerid/MTOCC",categorycontainer.MTOCC) // moveToOtherCategoryContainer
-categorycontainerroute.put("/:userid/:trackercontainerid/:categorycontainerid/:trackerid/MTOCC",categorycontainer.MTOCC) // moveToOtherCategoryContainer
-categorycontainerroute.delete("/:userid/:trackercontainerid/DCCWT",categorycontainer.DCCWT); //deleteCategoryContainersWithTrackers
-categorycontainerroute.delete("/:userid/:trackercontainerid/DATFCC",categorycontainer.DATFCC);//deleteAllTrackersFromCC)
+categorycontainerroute.post('/',categorycontainer.createCategoryContainer);
+categorycontainerroute.get('/',categorycontainer.FACCOTC);//findallcategorycontainersoftrackercontainer
+categorycontainerroute.put('/:categorycontainerid/categorycontainerinfo',categorycontainer.updateCategoryContainer); //update category container
+categorycontainerroute.get('/',categorycontainer.FATOCC); //findAllTrackersOfCategoryContainers
+categorycontainerroute.put('/',categorycontainer.MTOCC) // moveToOtherCategoryContainer
+categorycontainerroute.put('/:categorycontainerid',categorycontainer.MTOCC) // moveToOtherCategoryContainer
+categorycontainerroute.put('/:categorycontainerid/:trackerid',categorycontainer.MTOCC) // moveToOtherCategoryContainer
+categorycontainerroute.put('/:categorycontainerid/:trackerid',categorycontainer.MTOCC) // moveToOtherCategoryContainer
+categorycontainerroute.delete('/',categorycontainer.DCCWT); //deleteCategoryContainersWithTrackers
+categorycontainerroute.delete('/',categorycontainer.DATFCC);//deleteAllTrackersFromCC)
+categorycontainerroute.delete('/:categorycontainerid',categorycontainer.DCCWT); //deleteCategoryContainersWithTrackers
+categorycontainerroute.delete('/:categorycontainerid',categorycontainer.DATFCC);//deleteAllTrackersFromCC)
 module.exports =  categorycontainerroute;

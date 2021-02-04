@@ -29,7 +29,7 @@ exports.createChannel = (req, res) => {
 };
 
 // Retrieve all channels of a room from the database.
-exports.findAll = (req, res) => {
+exports.findAllChannels = (req, res) => {
     Channel.findAll({
         where: {
             room : req.params.roomid
@@ -47,10 +47,10 @@ exports.findAll = (req, res) => {
 };
 
 // Find a single channel with an id
-exports.findOne = (req, res) => {
+exports.findOneChannel = (req, res) => {
     Channel.findOne({
         where: {
-            id  : req.body.id
+            id  : req.body.channelid
         }
     })
         .then(data =>{
@@ -65,7 +65,7 @@ exports.findOne = (req, res) => {
 };
 
 // Update a Channel by the id in the request
-exports.update = (req, res) => {
+exports.updateChannel = (req, res) => {
     // VAlIDATE REQUEST
     if (!req.body.name) {
         res.status(400).send({
@@ -79,7 +79,7 @@ exports.update = (req, res) => {
     },
     {
         where: {
-            id  : req.body.id
+            id  : req.body.channelid
         }
     })
 };
@@ -109,7 +109,7 @@ exports.deleteChannel = (req, res) => {
                 err.message ||" Could not delete directmessages. "
             });
         });
-        Channel.destroy({where: {id: req.params.channelid}})
+    Channel.destroy({where: {id: req.params.channelid}})
         .then(num => {
             if (num === 1) {
             res.send({

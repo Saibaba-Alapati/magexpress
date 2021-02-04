@@ -1,6 +1,6 @@
 const TrackerComments = require('../models/trackercomment');
 // CREATE A TRACKER CONTAINER
-exports.create = (req, res) =>{
+exports.createComment = (req, res) =>{
     // VAlIDATE REQUEST
     if (!req.body.content) {
         res.status(400).send({
@@ -26,7 +26,7 @@ exports.create = (req, res) =>{
             });
         });
 }
-exports.update = (req, res) =>{
+exports.updateComment = (req, res) =>{
     // VAlIDATE REQUEST
     if (!req.body.content) {
         res.status(400).send({
@@ -39,7 +39,7 @@ exports.update = (req, res) =>{
         content:req.body.content
     },{
         where:{
-            id : req.body.id
+            id : req.body.trackercommentid
         },
         returning:true,
         plain:true
@@ -54,10 +54,10 @@ exports.update = (req, res) =>{
             });
         });
 }
-exports.delete = (req, res) => {
+exports.deleteComment = (req, res) => {
     TrackerComments.destroy({
         where : {
-            id : req.body.id
+            id : req.body.trackercommentid
         }
     })
         .then(num => {

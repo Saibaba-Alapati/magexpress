@@ -8,7 +8,10 @@ const cookieParser = require('cookie-parser');
 const trackerroute = require('./routes/tracker');
 const categorycontainerroute = require('./routes/categorycontainer');
 const trackercontainerroute = require('./routes/trackercontainer');
-const trackercommentroute = require('./routes/trackercomments');
+const directchatroute = require('./routes/directchat');
+const roomroute = require('./routes/room');
+const userroute = require('./routes/user');
+const channelroute = require('./routes/channel');
 //app
 const app = express();
 //db
@@ -36,11 +39,15 @@ app.use(passport.session());
 app.use(passport.initialize());
 const PORT = process.env.PORT || 8000;
 //routes
-// app.use('/api/users',userroute)
-app.use('/api/tracker',trackerroute);
-app.use('/api/categorycontainer',categorycontainerroute);
-app.use('/api/trackercontainer',trackercontainerroute);
-app.use('/api/trackercomment',trackercommentroute);
+app.use('/api/',userroute);
+app.use('/api/:userid',trackercontainerroute);
+app.use('/api/:userid/:trackercontainerid',categorycontainerroute);
+app.use('/api/:userid/:trackercontainerid',trackerroute);
+app.use('/api/:userid',roomroute);
+app.use('/api/:userid/:roomid',channelroute);
+app.use('/api/:userid',directchatroute);
+
+
 app.listen(PORT, () =>{
     console.log(`The server is running on ${PORT}`);
 })

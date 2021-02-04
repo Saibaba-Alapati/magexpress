@@ -9,10 +9,11 @@ exports.createTracker = (req, res) => {
         });
         return;
     }
+    const categorycontainerid =  (!req.params.categorycontainerid) ? req.body.categorycontainerid:req.params.categorycontainerid;
     Tracker.create({
         creatorid: req.params.userid,
         trackercontainerid : req.params.trackercontainerid,
-        categorycontainerid: req.params.categorycontainerid,
+        categorycontainerid: categorycontainerid,
         content: req.body.content
     })
         .then(data => {
@@ -45,10 +46,10 @@ exports.findAllCommentsOnTracker = (req, res) => {
 };
 
 // FIND A TRACKER
-exports.findOne = (req, res) => {
+exports.findOneTracker = (req, res) => {
     Tracker.findByPk({
         where:{
-            id:req.params.trackerid
+            id:req.body.trackerid
         }
     })
         .then(data=> {
@@ -63,7 +64,7 @@ exports.findOne = (req, res) => {
 };
 
 // UPDATE TRACKER CONTENT
-exports.update = (req, res) => {
+exports.updateTracker = (req, res) => {
     Tracker.update({
         content: req.body.content
     },{
@@ -84,7 +85,7 @@ exports.update = (req, res) => {
         });
 };
 // DELETE A TRACKER
-exports.delete = (req, res) => {
+exports.deleteTracker = (req, res) => {
     TrackerComment.destroy({
         where:{
             tracker: req.params.trackerid
@@ -131,7 +132,7 @@ exports.delete = (req, res) => {
 
 
 // DELETE FEW TRACKERS
-exports.deleteFew = (req, res) => {
+exports.deleteFewTrackers = (req, res) => {
     Tracker.destroy({
         where:{
             id : req.params.trackerids
