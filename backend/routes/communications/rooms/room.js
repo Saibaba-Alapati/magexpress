@@ -1,4 +1,4 @@
-const room = require('../controllers/room.controller');
+const room = require('../../../controllers/communication/rooms/room.controller');
 const  express = require('express');
 const roomroute = express.Router();
 

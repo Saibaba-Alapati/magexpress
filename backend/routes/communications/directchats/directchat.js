@@ -1,7 +1,7 @@
 const express = require('express');
 const directchatroute = express.Router();
-const directchat = require('../controllers/directchat.controller');
-const directmessage = require('../controllers/directmessage.controller');
+const directchat = require('../../../controllers/communication/directchat/directchat.controller');
+const directmessage = require('../../../controllers/communication/directchat/directmessage.controller');
 
 directchatroute.post('/',directchat.createDirectChat)
     .get('/',directchat.findAllDirectchatOfUser)

@@ -129,6 +129,28 @@ CREATE TABLE usersandtrackercontainers(
 	trackercontainerid INT NOT NULL
 );
 
+CREATE TABLE contact (
+	id BIGSERIAL PRIMARY KEY,
+	contactname VARCHAR,
+	about VARCHAR,
+	workemail TEXT,
+	personalemail TEXT,
+	phonenumber INT,
+	workaddress TEXT,
+	personaladdress TEXT,
+	preferredtimings TEXT,
+	whatsappnumber INT,
+	facebookid TEXT,
+	instagramid TEXT,
+	linkedinid TEXT,
+	snapchatid TEXT,
+	discordid TEXT,
+	scheduleddate ,
+
+	createdat TIMESTAMP,
+	updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 ALTER TABLE directchat ADD FOREIGN KEY (userid1) REFERENCES person (id);
 
 ALTER TABLE directchat ADD FOREIGN KEY (userid2) REFERENCES person (id);

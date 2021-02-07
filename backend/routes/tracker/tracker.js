@@ -1,7 +1,7 @@
 const express = require('express');
 const trackerroute = express.Router();
-const tracker = require('../controllers/tracker.controller');
-const trackercomment = require('../controllers/trackercomments.controller');
+const tracker = require('../../controllers/tracker/tracker.controller');
+const trackercomment = require('../../controllers/tracker/trackercomments.controller');
 trackerroute.post('/:categorycontainerid',tracker.createTracker)
     .post('/',tracker.createTracker)
     .get('/:categorycontainerid/:trackerid',tracker.findAllCommentsOnTracker)
