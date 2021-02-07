@@ -1,5 +1,5 @@
-const DirectChat = require('../models/directchat');
-const DirectMessage  = require('../models/directmessage');
+const DirectChat = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/directchat');
+const DirectMessage  = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/directmessage');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 // CREATE SAVE DIRECT CHAT

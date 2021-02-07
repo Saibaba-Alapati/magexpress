@@ -1,5 +1,5 @@
-const RoomMessage = require('../models/roommessage')
-const Channel = require('../models/channel')
+const RoomMessage = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/roommessage')
+const Channel = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/channel')
 
 // Create and Save a new Channel
 exports.createChannel = (req, res) => {

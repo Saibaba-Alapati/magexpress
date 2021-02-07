@@ -1,9 +1,9 @@
-const User = require('../models/person');
-const TrackerContainer = require('../models/trackercontainer');
-const UserAndTCS = require('../models/usersandtrackercontainers');
-const Tracker =  require('../models/tracker');
-const TrackerComment = require('../models/trackercomment');
-const CategoryContainer = require('../models/categorycontainer');
+const User = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/person');
+const TrackerContainer = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/trackercontainer');
+const UserAndTCS = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/usersandtrackercontainers');
+const Tracker =  require('/Users/saibabaalapati/Desktop/magexpress/backend/models/tracker');
+const TrackerComment = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/trackercomment');
+const CategoryContainer = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/categorycontainer');
 exports.create = (req,res) => {
     if(!req.body.firstname){
         res.status(400).send({

@@ -1,12 +1,12 @@
 const express = require('express');
 const channelroute = express.Router();
-const channel = require('../../../controllers/communication/rooms/roomchannel.controller');
-const roommessage = require('../../../controllers/communication/rooms/roommessage.controller');
-channelroute.post('/',channel.createChannel)
-    .get('/',channel.findAllChannels)
-    .get('/',channel.findOneChannel)
-    .put('/:channelid/channelinfo',channel.updateChannel)
-    .delete('/:channelid/channelinfo',channel.deleteChannel)
+const roomchannel = require('/Users/saibabaalapati/Desktop/magexpress/backend/controllers/communications/rooms/roomchannel.controller.js');
+const roommessage = require('/Users/saibabaalapati/Desktop/magexpress/backend/controllers/communications/rooms/roommessage.controller.js');
+channelroute.post('/',roomchannel.createChannel)
+    .get('/',roomchannel.findAllChannels)
+    .get('/',roomchannel.findOneChannel)
+    .put('/:channelid/channelinfo',roomchannel.updateChannel)
+    .delete('/:channelid/channelinfo',roomchannel.deleteChannel)
     .post('/:channelid',roommessage.createRoomMessage)
     .get('/:channelid',roommessage.findAllRoomMessages)
     .put('/:channelid',roommessage.updateRoomMessage)

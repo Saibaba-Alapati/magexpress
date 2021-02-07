@@ -1,4 +1,4 @@
-const TrackerComments = require('../models/trackercomment');
+const TrackerComments = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/trackercomment');
 // CREATE A TRACKER CONTAINER
 exports.createComment = (req, res) =>{
     // VAlIDATE REQUEST

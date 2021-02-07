@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 // IMPORTING ROUTERS
 const trackercontainerroute = require('./routes/tracker/trackercontainer');
 const categorycontainerroute = require('./routes/tracker/categorycontainer');
-const trackerroute = require('./routes/tracker');
+const trackerroute = require('./routes/tracker/tracker');
 const directchatroute = require('./routes/communications/directchats/directchat');
 const roomroute = require('./routes/communications/rooms/room');
 const channelroute = require('./routes/communications/rooms/channel');

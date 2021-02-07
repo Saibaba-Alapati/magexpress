@@ -1,5 +1,5 @@
-const Tracker = require('../models/tracker')
-const TrackerComment = require('../models/trackercomment')
+const Tracker = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/tracker')
+const TrackerComment = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/trackercomment')
 // CREATE AND SAVE TRACKER
 exports.createTracker = (req, res) => {
     // Validate request

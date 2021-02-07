@@ -1,8 +1,8 @@
-const TrackerContainer = require('../models/trackercontainer');
-const UserAndTCS = require('../models/usersandtrackercontainers');
-const Tracker =  require('../models/tracker');
-const TrackerComments = require('../models/trackercomment');
-const CategoryContainer = require('../models/categorycontainer');
+const TrackerContainer = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/trackercontainer.js');
+const UserAndTCS = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/usersandtrackercontainers');
+const Tracker =  require('/Users/saibabaalapati/Desktop/magexpress/backend/models/tracker');
+const TrackerComments = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/trackercomment');
+const CategoryContainer = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/categorycontainer');
 // CREATE AND SAVE TRACKER CONTAINER
 exports.createTrackerContainer = (req, res) => {
     if(!req.body.name){

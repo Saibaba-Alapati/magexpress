@@ -1,5 +1,5 @@
-const Room = require('../models/room');
-const UsersAndRooms = require('../models/usersandrooms');
+const Room = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/room');
+const UsersAndRooms = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/usersandrooms');
 // CREATE AND SAVE ROOM
 exports.createRoom = (req, res) => {
     if (!req.body.name) {

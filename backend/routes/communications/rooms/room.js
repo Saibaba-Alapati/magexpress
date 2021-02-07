@@ -1,4 +1,4 @@
-const room = require('../../../controllers/communication/rooms/room.controller');
+const room = require('/Users/saibabaalapati/Desktop/magexpress/backend/controllers/communications/rooms/room.controller.js');
 const  express = require('express');
 const roomroute = express.Router();
 

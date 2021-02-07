@@ -1,4 +1,4 @@
-const DirectMessage = require('../models/directmessage')
+const DirectMessage = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/directmessage')
 // CREATE AND SAVE DIRECT MESSAGE
 // modify receiver id logic
 exports.createDirectMessage = (req, res) => {

@@ -1,4 +1,4 @@
-const RoomMessage = require('../models/roommessage')
+const RoomMessage = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/roommessage')
 // CREATE AND SAVE ROOM MESSAGE
 exports.createRoomMessage = (req, res) => {
     RoomMessage.create({

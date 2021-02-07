@@ -1,5 +1,5 @@
-const Tracker = require('../models/tracker');
-const CategoryContainer = require('../models/categorycontainer');
+const Tracker = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/tracker');
+const CategoryContainer = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/categorycontainer');
 
 // CREATE AND SAVE A CATEGORY CONTAINER TO DATABASE
 exports.createCategoryContainer = (req, res) => {
