@@ -31,7 +31,7 @@ const Person = db.define('person', {
       autoIncrement: false
     },
     username: {
-      type: Sequelize.CHAR,
+      type: Sequelize.TEXT,
       allowNull: false,
       defaultValue: null,
       comment: null,
@@ -50,7 +50,7 @@ const Person = db.define('person', {
       autoIncrement: false
     },
     email: {
-      type: Sequelize.CHAR,
+      type: Sequelize.TEXT,
       allowNull: false,
       defaultValue: null,
       comment: null,

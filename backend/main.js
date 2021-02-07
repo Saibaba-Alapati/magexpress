@@ -41,7 +41,7 @@ app.use(cors)
     .use(passport.initialize())
 const PORT = process.env.PORT || 8000;
 //routes
-app.use('/api/',userroute)
+app.use('/user',userroute)// /api/
     .use('/api/:userid',trackercontainerroute)
     .use('/api/:userid/:trackercontainerid',categorycontainerroute)
     .use('/api/:userid/:trackercontainerid',trackerroute)
