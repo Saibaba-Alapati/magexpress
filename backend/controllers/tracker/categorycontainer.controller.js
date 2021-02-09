@@ -1,5 +1,4 @@
-const Tracker = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/tracker');
-const CategoryContainer = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/categorycontainer');
+const client = require('/Users/saibabaalapati/Desktop/magexpress/backend/database.js')
 
 // CREATE AND SAVE A CATEGORY CONTAINER TO DATABASE
 exports.createCategoryContainer = (req, res) => {
@@ -11,12 +10,13 @@ exports.createCategoryContainer = (req, res) => {
         });
         return;
     }
-    CategoryContainer.create({
-        creatorid : req.params.userid,
-        trackercontainerid: req.params.trackercontainerid,
-        name: req.body.name,
-        description: req.body.description,
-    })
+    const query ={
+        name : 'create-categorycontainer',
+        text :'INSERT INTO categorycontainer(creatorid,trackercontainerid,name,description) VALUES($1,$2,$3,$4) RETURNING *',
+        values :[req.params.userid,req.params.trackercontainerid,req.body.name,req.body.description,]
+    }
+    client
+        .query(query)
         .then(data => {
             res.send(data);
         })
@@ -30,11 +30,13 @@ exports.createCategoryContainer = (req, res) => {
 
 // FIND ALL CATEGORY CONTAINERS OF TRACKER CONTAINER
 exports.FACCOTC = (req, res) => {
-    CategoryContainer.findAll({
-        where:{
-            trackercontainerid : req.params.trackercontainerid
-        }
-    })
+    const query ={
+        name : 'get-allcategorycontainer-of-trackercontainer',
+        text :'SELECT * FROM categorycontainer WHERE trackercontainerid =$1',
+        values :[req.params.trackercontainerid]
+    }
+    client
+        .query(query)
         .then(data => {
             res.send(data);
         })
@@ -44,15 +46,17 @@ exports.FACCOTC = (req, res) => {
                 err.message || " Some error occurred while retrieving category containers. "
             });
         });
-    };
+};
 
 // FIND ALL TRACKERS OF CATEGORY CONTAINER
 exports.FATOCC = (req, res) => {
-    Tracker.findAll({
-        where:{
-            categorycontainerid : req.body.categorycontainerid
-        }
-    })
+    const query ={
+        name : 'get-allcategorycontainer-of-trackercontainer',
+        text :'SELECT * FROM tracker WHERE categorycontainerid =$1',
+        values :[req.params.categorycontainerid]
+    }
+    client
+        .query(query)
         .then(data => {
             res.send(data);
         })
@@ -66,14 +70,13 @@ exports.FATOCC = (req, res) => {
 
 // MOVE TRACKER TO OTHER CATEGORY CONTAINER
 exports.MTOCC = (req, res) => {
-    Tracker.update({
-        categorycontainerid : req.body.tocategorycontainerid
-    },
-    {
-        where:{
-            id: req.body.trackerid
-        }
-    })
+    const query ={
+        name : 'get-allcategorycontainer-of-trackercontainer',
+        text :'UPDATE tracker SET categorycontainerid=$1 WHERE id =$2',
+        values :[req.body.tocategorycontainerid,req.body.trackerid]
+    }
+    client
+        .query(query)
         .then(num => {
             if(num === 1){
                 res.send({
@@ -99,17 +102,14 @@ exports.updateCategoryContainer = (req, res) => {
         });
         return;
     }
-    CategoryContainer.update({
-        name:req.body.name,
-        description: req.body.description
-    },
-    {
-        where: {
-            id: req.params.categorycontainerid
-        },
-        returning : true,
-        plain:true
-    })
+    const categorycontainerid = (!req.params.categorycontainerid) ? req.body.categorycontainerid : req.params.categorycontainerid;
+    const query ={
+        name : 'get-allcategorycontainer-of-trackercontainer',
+        text :'UPDATE tracker SET name=$1,description=$2 WHERE id =$3',
+        values :[req.body.name,req.body.description,categorycontainerid]
+    }
+    client
+        .query(query)
         .then(data =>{
             res.send(data);
         })
@@ -124,11 +124,14 @@ exports.updateCategoryContainer = (req, res) => {
 
 // DELETE CATEGORY CONTAINER WITH TRACKERS
 exports.DCCWT = (req, res) => {
-    Tracker.destroy({
-        where:{
-            categorycontainerid: req.body.categorycontainerid
-        }
-    })
+    const categorycontainerid = (!req.params.categorycontainerid) ? req.body.categorycontainerid : req.params.categorycontainerid;
+    const query ={
+        name : 'delete-trackers-of-categorycontainer',
+        text :'DELETE tracker WHERE categorycontainerid =$1',
+        values :[categorycontainerid]
+    }
+    client
+        .query(query)
         .then(num => {
             if(num === 1){
                 res.send({
@@ -143,11 +146,13 @@ exports.DCCWT = (req, res) => {
                 err.message || " Could not delete all trackers of tracker conatiners. "
             });
         });
-    CategoryContainer.destroy({
-        where:{
-            id : req.body.categorycontainerid
-        }
-    })
+    const query2 ={
+        name : 'delete-categorycontainer',
+        text :'DELETE categorycontainer WHERE id =$1',
+        values :[categorycontainerid]
+    }
+    client
+        .query(query2)
         .then(num =>{
             if(num === 1){
                 res.send({
@@ -171,11 +176,14 @@ exports.DCCWT = (req, res) => {
 
 // DELETE ALL TRACKERS FROM CATEGORY CONTAINER
 exports.DATFCC = (req, res) => {
-    Tracker.destroy({
-        where:{
-            categorycontainerid : req.body.categorycontainerid
-        }
-    })
+    const categorycontainerid = (!req.params.categorycontainerid) ? req.body.categorycontainerid : req.params.categorycontainerid;
+    const query ={
+        name : 'delete-trackers-of-categorycontainer',
+        text :'DELETE tracker WHERE categorycontainerid =$1',
+        values :[categorycontainerid]
+    }
+    client
+        .query(query)
         .then(num => {
             if(num === 1){
                 res.send({

@@ -1,5 +1,4 @@
-const Room = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/room');
-const UsersAndRooms = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/usersandrooms');
+const client = require('/Users/saibabaalapati/Desktop/magexpress/backend/database.js')
 // CREATE AND SAVE ROOM
 exports.createRoom = (req, res) => {
     if (!req.body.name) {
@@ -9,16 +8,21 @@ exports.createRoom = (req, res) => {
         });
         return;
     }
-    Room.create({
-        creatorid: req.params.userid,
-        name: req.body.name,
-        description: req.body.description
-    })
+    const query ={
+        name : 'create-room',
+        text :'INSERT INTO room(creatorid,name,description) VALUES($1,$2,$3) RETURNING * ',
+        values :[req.params.userid,req.body.name,req.body.description],
+    }
+    client
+        .query(query)
         .then(data =>{
-            UsersAndRooms.create({
-                userid : req.params.userid,
-                roomid : data.id
-            })
+            const query ={
+                name : 'add-useraccess',
+                text :'INSERT INTO usersandrooms(userid,roomid) VALUES($1,$2,$3) RETURNING * ',
+                values :[req.params.userid,data.id,]
+            }
+            client
+                .query(query)
             res.send(data)
         })
         .catch(err =>{
@@ -31,11 +35,13 @@ exports.createRoom = (req, res) => {
 
 // FIND ALL THE ROOMS THAT USER HAS ACCESS TO
 exports.findAllRooms = (req, res) => {
-    UsersAndRooms.findAll({
-        where: {
-            userid : req.params.userid
-        }
-    })
+    const query ={
+        name : 'get-allrooms-of-user',
+        text :'SELECT * FROM usersandrooms WHERE userid =$1',
+        values :[req.params.userid]
+    }
+    client
+        .query(query)
         .then(data =>{
             res.send(data)
         })
@@ -48,7 +54,13 @@ exports.findAllRooms = (req, res) => {
 
 // Find a single room with an id
 exports.findRoom = (req, res) => {
-    Room.findByPk(req.body.roomid)
+    const query ={
+        name : 'get-room',
+        text :'SELECT * FROM room WHERE id =$1',
+        values :[req.body.roomid]
+    }
+    client
+        .query(query)
         .then(data =>{
             res.send(data)
         })
@@ -71,15 +83,13 @@ exports.updateRoom = (req, res) => {
         });
         return;
     }
-    Room.update({
-        name : req.body.name,
-        description : req.body.description
-    },
-    {
-        where:{
-            id: req.params.roomid
-        }
-    })
+    const query ={
+        name : 'update-roominfo',
+        text :'UPDATE room SET name=$1,description=$2 WHERE id =$3',
+        values :[ req.body.name,req.body.description,req.params.roomid]
+    }
+    client
+        .query(query)
         .then(data =>{
             res.send(data)
         })
@@ -93,11 +103,13 @@ exports.updateRoom = (req, res) => {
 
 // DELETE A ROOM
 exports.deleteRoom = (req, res) => {
-    Room.destroy({
-        where : {
-            id : req.params.roomid
-        }
-    })
+    const query ={
+        name : 'delete-room',
+        text :'DELETE room WHERE id =$1',
+        values :[req.params.roomid]
+    }
+    client
+        .query(query)
         .then(num => {
             if (num === 1) {
             res.send({
@@ -122,12 +134,13 @@ exports.deleteRoom = (req, res) => {
 
 // JOIN ROOM
 exports.joinRoom = (req, res) => {
-    UsersAndRooms.create({
-        where : {
-            userid: req.params.userid,
-            roomid: req.body.roomid
-        }
-    })
+    const query ={
+        name : 'update-roominfo',
+        text :'INSERT INTO usersandrooms(userid,roomid) VALUES($1,$2) RETURNING *',
+        values :[ req.params.userid,req.body.roomid]
+    }
+    client
+        .query(query)
         .then(data =>{
             res.send(data)
         })

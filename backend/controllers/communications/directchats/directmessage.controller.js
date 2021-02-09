@@ -1,15 +1,14 @@
-const DirectMessage = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/directmessage')
+const client = require('/Users/saibabaalapati/Desktop/magexpress/backend/database.js')
 // CREATE AND SAVE DIRECT MESSAGE
 // modify receiver id logic
-exports.createDirectMessage = (req, res) => {
-    DirectMessage.create({
-        aurthorid : req.params.userid,
-        receiverid : req.body.receiverid,
-        directchatid : req.params.directchatid,
-        content : req.body.content,
-        replyid : req.body.replyid,
-        privatereplyid : req.body.privatereplyid,
-    })
+exports.createDirectMessage = async(req, res) => {
+    const query ={
+        name : 'create-directmessage',
+        text :'INSERT INTO directmessage(authorid,receiverid,directchatid,content,replyid,privatereplyid) VALUES ($1,$2,$3,$4,$4,$6) RETURNING *',
+        values :[req.params.userid,req.body.receiverid,req.params.directchatid, req.body.content,req.body.replyid,req.body.privatereplyid],
+    }
+    client
+        .query(query)
         .then(data =>{
             res.send(data)
         })
@@ -22,12 +21,14 @@ exports.createDirectMessage = (req, res) => {
 };
 
 // FIND A DIRECT MESSAGE
-exports.findOneDirectMessage = (req, res) => {
-    DirectMessage.findOne({
-        where: {
-            id : req.body.directmessageid
-        }
-    })
+exports.findOneDirectMessage = async(req, res) => {
+    const query ={
+        name : 'fetch-directmessage',
+        text :'SELECT * FROM directmessage WHERE id=$1 ',
+        values :[req.body.directmessageid],
+    }
+    client
+        .query(query)
         .then(data => {
             res.send(data)
         })
@@ -40,12 +41,14 @@ exports.findOneDirectMessage = (req, res) => {
 };
 
 // FIND ALL DIRECT MESSAGES
-exports.findAllDirectMessages = (req, res) => {
-    DirectMessage.findAll({
-        where: {
-            directchatid: req.params.directchatid
-        }
-    })
+exports.findAllDirectMessages = async(req, res) => {
+    const query ={
+        name : 'fetch-alldirectmessages',
+        text :'SELECT * FROM directmessage WHERE directchatid=$1',
+        values :[req.params.directchatid],
+    }
+    client
+        .query(query)
         .then(data => {
             res.send(data)
         })
@@ -59,12 +62,14 @@ exports.findAllDirectMessages = (req, res) => {
 
 
 // DELETE A DIRECT MESSAGE
-exports.deleteDirectMessage = (req, res) => {
-    DirectMessage.destroy({
-        where: {
-            id: req.body.direchatid
-        }
-    })
+exports.deleteDirectMessage = async(req, res) => {
+    const query ={
+        name : 'fetch-alldirectmessages',
+        text :'DELETE FROM directmessage WHERE id=$1',
+        values :[req.body.directmessageid],
+    }
+    client
+        .query(query)
         .then(num => {
             if (num === 1) {
             res.send({
@@ -88,12 +93,14 @@ exports.deleteDirectMessage = (req, res) => {
 };
 
 // DELETE ALL DIRECT MESSAGES
-exports.deleteAllDirectMessages = (req, res) => {
-    DirectMessage.destroy({
-        where: {
-            directchatid: req.body.directchatid
-        }
-    })
+exports.deleteAllDirectMessages = async(req, res) => {
+    const query ={
+        name : 'destroy-alldirectmessages',
+        text :'DELETE FROM directmessage WHERE directchatid=$1',
+        values :[req.params.directchatid],
+    }
+    client
+        .query(query)
         .then(num => {
             if (num === 1) {
             res.send({

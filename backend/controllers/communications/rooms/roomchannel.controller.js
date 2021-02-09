@@ -1,5 +1,4 @@
-const RoomMessage = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/roommessage')
-const Channel = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/channel')
+const client = require('/Users/saibabaalapati/Desktop/magexpress/backend/database.js')
 
 // Create and Save a new Channel
 exports.createChannel = (req, res) => {
@@ -11,11 +10,13 @@ exports.createChannel = (req, res) => {
         });
         return;
     }
-    Channel.create({
-        creatorid : req.params.userid,
-        roomid : req.params.roomid,
-        name : req.body.name,
-    })
+    const query ={
+        name : 'create-channel',
+        text :'INSERT INTO channel(creatorid,roomid,name) VALUES($1,$2,$3) RETURNING *',
+        values :[ req.params.userid,req.params.roomid,req.body.name,]
+    }
+    client
+        .query(query)
     .then(data =>{
         res.send(data)
     })
@@ -30,11 +31,13 @@ exports.createChannel = (req, res) => {
 
 // Retrieve all channels of a room from the database.
 exports.findAllChannels = (req, res) => {
-    Channel.findAll({
-        where: {
-            room : req.params.roomid
-        }
-    })
+    const query ={
+        name : 'get-allchannels',
+        text :'SELECT * FROM channel WHERE roomid=$1',
+        values :[ req.params.roomid]
+    }
+    client
+        .query(query)
         .then(data =>{
             res.send(data)
         })
@@ -48,11 +51,13 @@ exports.findAllChannels = (req, res) => {
 
 // Find a single channel with an id
 exports.findOneChannel = (req, res) => {
-    Channel.findOne({
-        where: {
-            id  : req.body.channelid
-        }
-    })
+    const query ={
+        name : 'get-channel',
+        text :'SELECT * FROM channel WHERE id=$1',
+        values :[req.body.channelid]
+    }
+    client
+        .query(query)
         .then(data =>{
             res.send(data)
         })
@@ -74,22 +79,24 @@ exports.updateChannel = (req, res) => {
         });
         return;
     }
-    Channel.update({
-        name : req.body.name
-    },
-    {
-        where: {
-            id  : req.body.channelid
-        }
-    })
+    const query ={
+        name : 'update-channelinfo',
+        text :'UPDATE channel SET name=$1 WHERE id=$2',
+        values :[req.body.name,req.body.channelid]
+    }
+    client
+        .query(query)
 };
 
 exports.deleteChannel = (req, res) => {
-    RoomMessage.destroy({
-        where: {
-            channelid: req.params.channelid
-        }
-    })
+    const channelid = (!req.params.channelid) ? req.body.channelid : req.params.channelid;
+    const query ={
+        name : 'update-channelinfo',
+        text :'DELETE roommessage WHERE channelid=$1',
+        values :[channelid]
+    }
+    client
+        .query(query)
         .then(num => {
             if (num === 1) {
             res.send({
@@ -109,7 +116,13 @@ exports.deleteChannel = (req, res) => {
                 err.message ||" Could not delete directmessages. "
             });
         });
-    Channel.destroy({where: {id: req.params.channelid}})
+    const query2 ={
+        name : 'update-channelinfo',
+        text :'DELETE channel WHERE id=$1',
+        values :[channelid]
+    }
+    client
+        .query(query2)
         .then(num => {
             if (num === 1) {
             res.send({

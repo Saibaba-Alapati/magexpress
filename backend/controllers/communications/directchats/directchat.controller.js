@@ -1,13 +1,12 @@
-const DirectChat = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/directchat');
-const DirectMessage  = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/directmessage');
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
-// CREATE SAVE DIRECT CHAT
+const client = require('/Users/saibabaalapati/Desktop/magexpress/backend/database.js')
 exports.createDirectChat = (req, res) => {
-    DirectChat.create({
-        userid1: req.params.userid,
-        userid2: req.body.otheruserid,
-    },)
+    const query ={
+        name : 'create-directchat',
+        text :' INSERT INTO directchat(userid1,userid2) VALUES ($1,$2) RETURNING *',
+        values :[req.params.userid,req.body.otheruserid],
+    }
+    client
+        .query(query)
         .then(data =>{
             res.send(data)
         })
@@ -21,19 +20,13 @@ exports.createDirectChat = (req, res) => {
 
 // FIND ALL DIRECT CHATS OF THE USER
 exports.findAllDirectchatOfUser = (req, res) => {
-    DirectChat.findAll(
-        {
-            where:{
-                [Op.or]  : [{
-                    userid1: req.params.userid
-                },
-                {
-                    userid2: req.params.userid
-                }
-            ]
-            }
-        }
-    )
+    const query ={
+        name : 'find-alldirectchat',
+        text :' SELECT * FROM directchat userid1=$1 OR userid2=$1',
+        values :[req.params.userid],
+    }
+    client
+        .query(query)
         .then(data =>{
             res.send(data);
         })
@@ -47,7 +40,14 @@ exports.findAllDirectchatOfUser = (req, res) => {
 
 // FIND DIRECT CHAT
 exports.findOneDirectChat = (req, res) => {
-    DirectChat.findById(req.body.directchatid)
+    // DirectChat.findById(req.body.directchatid)
+    const query ={
+        name : 'find-alldirectchat',
+        text :' SELECT * FROM directchat userid1=$1 OR userid2=$1',
+        values :[req.params.userid],
+    }
+    client
+        .query(query)
         .then(data => {
             res.send(data);
         })
@@ -61,11 +61,14 @@ exports.findOneDirectChat = (req, res) => {
 //from body and params
 // DELETE A DIRECT CHAT
 exports.deleteDirectChat = (req, res) => {
-    DirectMessage.destroy({
-        where: {
-            directchatid: (!req.params.directchatid) ? req.body.directchatid : req.params.directchatid ,
-        }
-    })
+    const directchatid = (!req.params.directchatid) ? req.body.directchatid : req.params.directchatid ;
+    const query ={
+        name : 'destroy-directmessages-of-directchat',
+        text :'DELETE FROM directmessage WHERE directchatid=$1 ',
+        values :[directchatid],
+    }
+    client
+        .query(query)
         .then(num => {
             if (num === 1) {
             res.send({
@@ -84,11 +87,13 @@ exports.deleteDirectChat = (req, res) => {
             message: " Could not delete directmessages. "
             });
         });
-        DirectChat.destroy({
-            where: {
-                id: (!req.params.directchatid) ? req.body.directchatid : req.params.directchatid ,
-            }
-        })
+    const query2 ={
+        name : 'destroy-directchat',
+        text :'DELETE FROM directchat WHERE id=$1 ',
+        values :[directchatid],
+    }
+    client
+        .query(query2)
         .then(num => {
             if (num === 1) {
             res.send({
@@ -113,11 +118,13 @@ exports.deleteDirectChat = (req, res) => {
 //revise and reviseandfix
 // DELETE FEW DIRECT CHATS
 exports.deleteFewDirectChat = (req, res) => {
-    DirectMessage.destroy({
-        where: {
-            directchatid: req.body.directchatids
-        }
-    })
+    const query ={
+        name : 'destroy-messages -of-fewdirectchat',
+        text :'DELETE FROM directmessage WHERE directchatid=$1 ',
+        values :[req.body.directchatids],
+    }
+    client
+        .query(query)
         .then(num => {
             if (num === 1) {
             res.send({
@@ -137,11 +144,14 @@ exports.deleteFewDirectChat = (req, res) => {
                 err.message || " Could not delete directmessages. "
             });
         });
-    DirectChat.destroy({
-        where:{
-            id : req.body.directchatids
-        }
-    })
+
+    const query2 ={
+        name : 'destroy-fewdirectchat',
+        text :'DELETE FROM directmessage WHERE id=$1 ',
+        values :[req.body.directchatids],
+    }
+    client
+        .query(query2)
         .then(num => {
             if (num === 1) {
             res.send({

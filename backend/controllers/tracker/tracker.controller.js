@@ -1,5 +1,4 @@
-const Tracker = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/tracker')
-const TrackerComment = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/trackercomment')
+const client = require('/Users/saibabaalapati/Desktop/magexpress/backend/database.js')
 // CREATE AND SAVE TRACKER
 exports.createTracker = (req, res) => {
     // Validate request
@@ -10,12 +9,13 @@ exports.createTracker = (req, res) => {
         return;
     }
     const categorycontainerid =  (!req.params.categorycontainerid) ? req.body.categorycontainerid:req.params.categorycontainerid;
-    Tracker.create({
-        creatorid: req.params.userid,
-        trackercontainerid : req.params.trackercontainerid,
-        categorycontainerid: categorycontainerid,
-        content: req.body.content
-    })
+    const query ={
+        name : 'delete-trackercomments',
+        text :'INSERT INTO tracker(creatorid,trackercontainerid,categorycontainerid,content) VALUES($1,$2,$3,$4) RETURNING *',
+        values :[req.params.userid,req.params.trackercontainerid,categorycontainerid,req.body.content]
+    }
+    client
+        .query(query)
         .then(data => {
             res.send(data);
         })
@@ -29,11 +29,13 @@ exports.createTracker = (req, res) => {
 
 // FIND ALL COMMENTS ON A TRACKER
 exports.findAllCommentsOnTracker = (req, res) => {
-    TrackerComment.findAll({
-        where:{
-            tracker: req.params.trackerid
-        }
-    })
+    const query ={
+        name : 'delete-trackercomments',
+        text :'SELECT * FROM trackercomment WHERE trackerid =$1',
+        values :[req.params.trackerid]
+    }
+    client
+        .query(query)
         .then(data => {
             res.send(data);
         })
@@ -47,11 +49,13 @@ exports.findAllCommentsOnTracker = (req, res) => {
 
 // FIND A TRACKER
 exports.findOneTracker = (req, res) => {
-    Tracker.findByPk({
-        where:{
-            id:req.body.trackerid
-        }
-    })
+    const query ={
+        name : 'delete-trackercomments',
+        text :'SELECT * FROM tracker WHERE id =$1',
+        values :[req.body.trackerid]
+    }
+    client
+        .query(query)
         .then(data=> {
             res.send(data);
         })
@@ -65,15 +69,13 @@ exports.findOneTracker = (req, res) => {
 
 // UPDATE TRACKER CONTENT
 exports.updateTracker = (req, res) => {
-    Tracker.update({
-        content: req.body.content
-    },{
-        where:{
-            tracker: req.params.trackerid
-        },
-        returning:true,
-        plain:true
-    })
+    const query ={
+        name : 'delete-trackercomments',
+        text :'UPDATE tracker SET content =$1 WHERE id =$2',
+        values :[req.body.content,req.params.trackerid]
+    }
+    client
+        .query(query)
         .then(data => {
             res.send(data);
         })
@@ -86,11 +88,14 @@ exports.updateTracker = (req, res) => {
 };
 // DELETE A TRACKER
 exports.deleteTracker = (req, res) => {
-    TrackerComment.destroy({
-        where:{
-            tracker: req.params.trackerid
-        }
-    })
+    const trackerid = (!req.params.trackerid) ? req.body.trackerid : req.params.trackerid;
+    const query ={
+        name : 'delete-trackercomments',
+        text :'DELETE trackercomment WHERE trackerid =$1',
+        values :[trackerid]
+    }
+    client
+        .query(query)
         .then(num => {
             if (num === 1) {
             res.send({
@@ -110,11 +115,13 @@ exports.deleteTracker = (req, res) => {
                 err.message || " Could not delete comments on tracker. "
             });
         });
-    Tracker.destroy({
-        where:{
-            id : req.body.id
-        }
-    })
+    const query2 ={
+        name : 'delete-trackers-of-categorycontainer',
+        text :'DELETE tracker WHERE id =$1',
+        values :[trackerid]
+    }
+    client
+        .query(query2)
         .then(num => {
             if(num === 1){
                 res.send({
@@ -133,11 +140,13 @@ exports.deleteTracker = (req, res) => {
 
 // DELETE FEW TRACKERS
 exports.deleteFewTrackers = (req, res) => {
-    Tracker.destroy({
-        where:{
-            id : req.params.trackerids
-        }
-    })
+    const query ={
+        name : 'delete-trackers-of-categorycontainer',
+        text :'DELETE tracker WHERE id =$1',
+        values :[req.body.trackerids]
+    }
+    client
+        .query(query)
         .then(num => {
             if (num === 1) {
             res.send({

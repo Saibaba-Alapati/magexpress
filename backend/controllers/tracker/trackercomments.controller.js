@@ -1,4 +1,4 @@
-const TrackerComments = require('/Users/saibabaalapati/Desktop/magexpress/backend/models/trackercomment');
+const client = require('/Users/saibabaalapati/Desktop/magexpress/backend/database.js')
 // CREATE A TRACKER CONTAINER
 exports.createComment = (req, res) =>{
     // VAlIDATE REQUEST
@@ -9,13 +9,13 @@ exports.createComment = (req, res) =>{
         });
         return;
     }
-    TrackerComments.create({
-        creatorid : req.params.userid,
-        trackercontainerid :req.params.trackercontainerid,
-        categorycontainerid : req.params.categorycontainerid,
-        content : req.body.content,
-        tracker: req.params.trackerid
-    })
+    const query ={
+        name : 'create-trackercomment',
+        text :'INSERT INTO trackercomment(creatorid,trackercontainerid,categorycontainerid ,content,tracker) VALUES($1,$2,$3,$4) RETURNING *',
+        values :[req.params.userid,req.params.trackercontainerid,req.params.categorycontainerid, req.body.content,req.params.trackerid]
+    }
+    client
+        .query(query)
         .then(data =>{
             res.send(data);
         })
@@ -35,15 +35,13 @@ exports.updateComment = (req, res) =>{
         });
         return;
     }
-    TrackerComments.update({
-        content:req.body.content
-    },{
-        where:{
-            id : req.body.trackercommentid
-        },
-        returning:true,
-        plain:true
-    })
+    const query ={
+        name : 'update-trackercomment',
+        text :'UPDATE trackercomment SET content =$1 WHERE id =$2',
+        values :[req.body.content,req.body.trackercommentid]
+    }
+    client
+        .query(query)
         .then(data =>{
             res.send(data);
         })
@@ -55,11 +53,13 @@ exports.updateComment = (req, res) =>{
         });
 }
 exports.deleteComment = (req, res) => {
-    TrackerComments.destroy({
-        where : {
-            id : req.body.trackercommentid
-        }
-    })
+    const query ={
+        name : 'delete-trackercomment',
+        text :'DELETE trackercomment WHERE id =$1',
+        values :[req.body.trackercommentid]
+    }
+    client
+        .query(query)
         .then(num => {
             if(num === 1){
                 res.send({

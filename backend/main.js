@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const session = require("express-session");
-const passport = require('passport');
 const cookieParser = require('cookie-parser');
+
 
 // IMPORTING ROUTERS
 const trackercontainerroute = require('./routes/tracker/trackercontainer');
@@ -16,17 +16,12 @@ const userroute = require('./routes/user/user');
 
 //app
 const app = express();
-//db
-const db = require('./models/database')
-db.authenticate()
-    .then(() => console.log('Database Connected......'))
-    .catch(err => console.log('Error: ' + err))
 //middlewares
-app.use(cors)
-    .use(express.static("public"))
+app
     .use(express.json())
-    .use(cookieParser)
     .use(express.urlencoded({extended: true}))
+    .use(cors())
+    .use(cookieParser())
     .use(session({
         name: process.env.SESS_NAME,
         secret: process.env.SESSION_SECRET,
@@ -37,11 +32,33 @@ app.use(cors)
             sameSite:true,
         }
     }))
-    .use(passport.session())
-    .use(passport.initialize())
-const PORT = process.env.PORT || 8000;
+    // .use(passport.session())
+    // .use(passport.initialize());
+//test requests
+app.get('/testReq',(req,res) => {
+    res.send('Hello All');
+});
+app.post('/testReq', (req,res) => {
+    console.log('POST WORK');
+    console.log(req.body.name);
+    res.json(req.body.name);
+});
+
+//db
+const client = require('/Users/saibabaalapati/Desktop/magexpress/backend/database.js')
+client.connect()
+    .then(() => console.log('Database Connected......'))
+    .catch(err => console.log('Error: ' + err))
+
+
 //routes
-app.use('/user',userroute)// /api/
+
+const PORT = process.env.PORT||8080;
+
+app.listen(PORT, () => {
+    console.log(`Listening on http://localhost:${PORT}`);
+});
+app.use('/user',userroute)
     .use('/api/:userid',trackercontainerroute)
     .use('/api/:userid/:trackercontainerid',categorycontainerroute)
     .use('/api/:userid/:trackercontainerid',trackerroute)
@@ -50,9 +67,7 @@ app.use('/user',userroute)// /api/
     .use('/api/:userid',directchatroute);
 
 
-app.listen(PORT, () =>{
-    console.log(`The server is running on ${PORT}`);
-})
+
 app.delete('/logout',(req,res)=>{
     req.logOut()
     res.redirect('/login')
