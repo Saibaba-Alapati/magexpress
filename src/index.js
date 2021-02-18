@@ -2,9 +2,9 @@ import React from 'react';
 import {BrowserRouter, Route} from 'react-router-dom'
 import ReactDOM from 'react-dom';
 import './index.css';
-import Createaccount from '../src/Authentication/CreateNewAccount.jsx'
 import Youraccount from './Authentication/Youraccount';
 import HomePage from './Authentication/HomePage';
+import RegisterAccount from './Authentication/RegisterAccount';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -15,7 +15,7 @@ ReactDOM.render(
       <Youraccount/>
     </Route>
     <Route path="/register">
-      <Createaccount />
+      <RegisterAccount/>
     </Route>
   </BrowserRouter>,
   document.getElementById('root')

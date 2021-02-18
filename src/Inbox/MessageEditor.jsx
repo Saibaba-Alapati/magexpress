@@ -8,7 +8,7 @@ handleEditorChange = (content, editor) => {
 
 render() {
     return (
-    <div className="h-full w-full px-3 py-3">
+    <div className="">
         <Editor
         initialValue="<p>This is the initial content of the editor</p>"
         init={{
