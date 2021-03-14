@@ -1,5 +1,4 @@
 const  Client = require('pg').Client
-const dbConfig = require('./config/db.config')
 const client = new Client({
     user: process.env.USER,
     host: process.env.HOST,
