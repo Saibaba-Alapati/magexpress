@@ -4,10 +4,6 @@
 /node_modules
 /.pnp
 .pnp.js
-/notes
-/src/tracker
-/src/infopanel
-/src/directchat
 # testing
 /coverage
 
