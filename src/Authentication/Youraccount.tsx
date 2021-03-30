@@ -2,7 +2,7 @@ import CreateAccount from '/Users/saibabaalapati/Desktop/magexpress/src/Authenti
 import * as yup from "yup";
 import {yupResolver} from '@hookform/resolvers/yup'
 import {useForm} from 'react-hook-form';
-import { useState } from 'react';
+// import { useState } from 'react';
 interface ILoginFormInputs {
     username: string,
     password: string,
@@ -30,7 +30,7 @@ export default function YourAccount():any {
                         <p className="text-white text-2xl py-4">Don't have and account?</p>
                     </div>
                     
-                    <input className="buttonregister rounded-md p-5 bg-purple-900 text-white text-3xl w-1/12" type="submit" value="Go to Account" />
+                    <input className="buttonregister rounded-md p-5 bg-purple-900 text-white text-3xl" type="submit" value="Go to Account" />
                 </form>
             </div>
         </div>
