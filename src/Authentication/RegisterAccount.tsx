@@ -26,36 +26,36 @@ export default function RegisterAccount():any {
     })
     const onSubmit = (data: IRegisterFormInputs) => console.log(data);
     return(
-        <div className="registerPage flex flex-row h-screen bg-black">
-            <img className="registerImage w-5/6" src={CreateAccount} alt="createaccount"/>
-            <div className="registerAccountForm flex items-center bg-gray-900 w-full h-full">
-                <form className="registerForm flex flex-col w-full h-1/2 space items-center" onSubmit={handleSubmit(onSubmit)}>
-                    <input className="rounded-md p-5 bg-black w-1/2 text-white text-3xl font-light py-4 m-4" type="text" name="firstname" placeholder="firstname" ref={register}/>
-                    <p className="text-red-600 text-2xl">{errors.firstname?.message}</p>
+        <div className="registerPage">
+            <img className="registerImage" src={CreateAccount} alt="createaccount"/>
+            <div className="registerAccountForm">
+                <form className="registerForm" onSubmit={handleSubmit(onSubmit)}>
+                    <input className="inputFields" type="text" name="firstname" placeholder="firstname" ref={register}/>
+                    <p className="errorText">{errors.firstname?.message}</p>
 
-                    <input  className="rounded-md p-5 bg-black w-1/2 text-white text-3xl font-light py-4 m-4" type="text" name="lastname" placeholder="lastname" ref={register}/>
-                    <p className="text-red-600 text-2xl">{errors.lastname?.message}</p>
+                    <input  className="inputFields" type="text" name="lastname" placeholder="lastname" ref={register}/>
+                    <p className="errorText">{errors.lastname?.message}</p>
 
-                    <input  className="rounded-md p-5 bg-black w-1/2 text-white text-3xl font-light py-4 m-4" type="text" name="username" placeholder="username" ref={register}/>
-                    <p className="text-red-600 text-2xl">{errors.username?.message}</p>
+                    <input  className="inputFields" type="text" name="username" placeholder="username" ref={register}/>
+                    <p className="errorText">{errors.username?.message}</p>
 
-                    <input  className="rounded-md p-5 bg-black w-1/2 text-white text-3xl font-light py-4 m-4" type="text" name="companyname" placeholder="companyname" ref={register}/>
-                    <p className="text-red-600 text-2xl">{errors.companyname?.message}</p>
+                    <input  className="inputFields" type="text" name="companyname" placeholder="companyname" ref={register}/>
+                    <p className="errorText">{errors.companyname?.message}</p>
 
-                    <input  className="rounded-md p-5 bg-black w-1/2 text-white text-3xl font-light py-4 m-4" type="text" name="email" placeholder="email" ref={register}/>
-                    <p className="text-red-600 text-2xl">{errors.email?.message}</p>
+                    <input  className="inputFields" type="text" name="email" placeholder="email" ref={register}/>
+                    <p className="errorText">{errors.email?.message}</p>
 
-                    <input  className="rounded-md p-5 bg-black w-1/2 text-white text-3xl font-light py-4 m-4" type="text" name="password" placeholder="password" ref={register}/>
-                    <p className="text-red-600 text-2xl">{errors.password?.message}</p>
+                    <input  className="inputFields" type="text" name="password" placeholder="password" ref={register}/>
+                    <p className="errorText">{errors.password?.message}</p>
 
-                    <input  className="rounded-md p-5 bg-black w-1/2 text-white text-3xl font-light py-4 m-4" type="text" name="confirmpassword" placeholder="confirmpassword" ref={register}/>
-                    <p className="text-red-600 text-2xl">{errors.confirmpassword?.message}</p>
+                    <input  className="inputFields" type="text" name="confirmpassword" placeholder="confirmpassword" ref={register}/>
+                    <p className="errorText">{errors.confirmpassword?.message}</p>
 
-                    <div className="flex flex-row">
-                        <p className="text-white text-2xl py-4">Already have and account?</p>
+                    <div style={{display:'flex',flexDirection:'row'}}>
+                        <p className="alternateText">Already have and account?</p>
                     </div>
                     
-                    <input className="buttonregister rounded-md p-2 bg-purple-900 text-white text-2xl w-1/2" type="submit" value="Register Account" />
+                    <input className="buttonregister" type="submit" value="Register Account" />
                 </form>
             </div>
         </div>

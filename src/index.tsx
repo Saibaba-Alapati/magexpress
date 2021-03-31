@@ -1,9 +1,7 @@
-import DashBoard from './tracker/DashBoard'
-import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import RegisterAccount from './Authentication/RegisterAccount';
 
 ReactDOM.render(
-  <DashBoard/>,
+  <RegisterAccount/>,
   document.getElementById('root')
 );
