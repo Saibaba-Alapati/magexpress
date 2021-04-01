@@ -2,6 +2,7 @@ import CreateAccount from '/Users/saibabaalapati/Desktop/magexpress/src/Authenti
 import * as yup from "yup";
 import {yupResolver} from '@hookform/resolvers/yup'
 import {useForm} from 'react-hook-form';
+import './registeraccount.scss';
 interface IRegisterFormInputs {
     firstname: string,
     lastname: string,
