@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
-import RegisterAccount from './Authentication/RegisterAccount';
+import Tracker from './tracker/Tracker';
 
 ReactDOM.render(
-  <RegisterAccount/>,
+  <Tracker/>,
   document.getElementById('root')
 );

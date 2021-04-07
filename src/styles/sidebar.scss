@@ -1,0 +1,165 @@
+.sidebar {
+    width: 40%;
+    height: 100vh;
+    background-color: #121212;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+.personInfo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    .wrapper1{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        #avatar {
+            height: 60px;
+            width: 60px;
+            background-color: #504CCA;
+            border-radius: 10px;
+        }
+    }
+    #addIcon {
+        color: white;
+        background-color: #504CCA;
+        height: 40px;
+        width: 50px;
+        border-radius: 10px;
+    }
+}
+
+.nameAndRole {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    .userName {
+        color: white;
+        font-size: 30px;
+        font-weight: lighter;
+        padding: 1;
+        margin: 0px;
+    }
+    .userRole {
+        color: gray;
+        font-size: 25px;
+        padding: 1;
+        margin: 0px;
+    }
+}
+
+.menuButton {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    width: 100%;
+    border: none;
+    margin: 0px;
+    background-color: #121212;
+    opacity: 80%;
+    align-items: center;
+}
+.menuButton:hover {
+    background-color: #000;
+    border-radius: 10px;
+    opacity: 50%;
+}
+.menuButton:focus {
+    outline: none;
+}
+.menuButton:active{
+    background-color: #504CCA;
+    #menuButtonIcon{
+        color: white;
+    }
+}
+#menuButtonIcon {
+    color: gray;
+}
+
+#menuButtonText {
+    color: white;
+    padding-left: 10px;
+    font-size: 30px;
+    font-weight: normal;
+}
+.appInfo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    justify-content: space-between;
+    #wrapper2 {
+        display: flex;
+        flex-direction: row;
+        #appSymbol{ 
+            background-color:#504CCA;
+            border-radius: 10px;
+            p {
+            color: white;
+            font-size: 30px;
+            padding-right: 20px;
+            padding-left: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }}
+        #wrapper3{
+            display: flex;
+            flex-direction: column;
+            padding-left: 10px;
+            #appName {
+                color: white;
+                font-size: 25px;
+                font-weight: lighter;
+            }
+            #version {
+                color: gray;
+            }
+        }
+    }
+    .moreButton{
+        background-color: black;
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+        border: none;
+    }
+}
+
+.recentProjectButton {
+    display:flex ;
+    flex-direction: row;
+    align-items:center;
+    padding:10px;
+    background-color: #121212;
+    margin:0px;
+    border: 0px;
+}
+.recentProjectButton:focus {
+    outline: none;
+}
+
+.recentProjectButton:hover {
+    outline: none;
+    background-color: #000;
+    border-radius: 10px;
+    opacity: 50%;
+}
+
+#projectAvatar {
+    height:30px;
+    width:30px;
+    background-color:#504CCA;
+    border-radius:10px
+}
+
+#projectName {
+    color:white;
+    font-size:20px;
+    font-weight:lighter;
+    padding-left:10px
+}
