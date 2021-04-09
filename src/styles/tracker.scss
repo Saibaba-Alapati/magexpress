@@ -1,3 +1,14 @@
 body {
     background-color: black;
 }
+
+.tracker {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.infoPanel {
+    display: flex;
+    flex-direction: column;
+}
