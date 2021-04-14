@@ -1,33 +1,7 @@
-// import React from 'react'
-// import {Editor} from '@tinymce/tinymce-react'
-// class TextEditor extends React.Component {
-//     handleEditorChange = (e: { target: { getContent: () => any; }; }) => {
-//         console.log('Content was updated:', e.target.getContent());
-//     }
-//     render(){
-//         return (
-//             <Editor
-//             init={{
-//                 skin: 'oxide-dark',
-//                 content_css: 'dark',
-//                 placeholder:"Addcomment...",
-//                 inline:true,
-//                 plugins: 'link image code autoresize',
-//                 toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
-//             }}
-//             onChange={this.handleEditorChange}
-//         />
-//         )
-//     }
-// }
-
-// export default TextEditor;
-
-
 import React from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-class TextEditor extends React.Component {
+class CommentEditor extends React.Component {
     handleEditorChange = (e: { target: { getContent: () => any; }; }) => {
         console.log(
         'Content was updated:',
@@ -43,6 +17,7 @@ render() {
                 content_css: 'dark',
                 placeholder:"Addcomment...",
                 height: 500,
+                inline:true,
                 menubar: false,
                 plugins: [
                     'advlist autolink lists link image',
@@ -62,4 +37,4 @@ render() {
     }
 }
 
-export default TextEditor;
+export default CommentEditor;

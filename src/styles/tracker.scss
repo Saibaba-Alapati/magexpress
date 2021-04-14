@@ -5,10 +5,43 @@ body {
 .tracker {
     display: flex;
     flex-direction: row;
-
+    width: 100%;
+    height: 100vh;
 }
 
-.infoPanel {
+.bodyOfTracker {
     display: flex;
     flex-direction: column;
+    width: 80%;
+    height: 100%;
+}
+
+.infoPanel{
+    color: gray;
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    height: 100%;
+    .information{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    .wrap{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        .addComment{
+            background-color: aqua;
+            width: 100%;
+            padding: 20px;
+        }
+    }
+}
+
+.trackerDescription{
+    width: 100%;
+    height: 100%;
 }
