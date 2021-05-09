@@ -17,7 +17,6 @@ render() {
                 content_css: 'dark',
                 placeholder:"Addcomment...",
                 height: 500,
-                inline:true,
                 menubar: false,
                 plugins: [
                     'advlist autolink lists link image',
