@@ -17,6 +17,7 @@ body {
 }
 
 .infoPanel{
+    padding-top: 20px;
     color: gray;
     display: flex;
     flex-direction: column;
@@ -53,3 +54,69 @@ p{
     color: white;
     padding: 5px;
 }
+.linkers{
+    display: flex;
+    padding: 10px;
+    flex-direction: row;
+}
+.commentWrapper{
+    display:flex;
+    flex-direction: column;
+    max-height: 400px;
+    overflow: scroll;
+    scroll-behavior: smooth;
+    width: 100%;
+    padding: 30px;
+    .commentEditor{
+        width: 97%;
+        height: 50px;
+        overflow: scroll;
+        scroll-behavior: smooth;
+        background-color: #121212;
+        color: white;
+        border: none;
+        display: flex;
+    }
+    .commentEditor:focus{
+        outline: none;
+    }
+    .trackerComments{
+        display:flex;
+        flex-direction:column;
+        background-color:#121212;
+        padding:10px;
+        width: 90%;
+        .cover{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            .comment{
+                padding:10px;
+                display:flex;
+                flex-direction:row;
+                align-items:center;
+            }
+            .moreOptions{
+                background-color: #121212;
+                color: white;
+                border: none;
+            }
+            
+        }
+        .commentArea{
+            display:flex;
+            width:80%;
+            background-color:black;
+            border:none;
+            outline: none;
+        }
+        .commentArea:focus{
+            display:flex;
+            width:80%;
+            background-color:black;
+            outline: none;
+        }
+    }
+}
+
