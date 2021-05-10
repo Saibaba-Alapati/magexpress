@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
-import Tracker from './tracker/Tracker';
+import DashBoard from './tracker/DashBoard';
 
 ReactDOM.render(
-  <Tracker/>,
+  <DashBoard/>,
   document.getElementById('root')
 );

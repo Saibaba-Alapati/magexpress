@@ -8,26 +8,20 @@ import LinkIcon from '@material-ui/icons/Link';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import CloseIcon from '@material-ui/icons/Close';
+import FilterNoneIcon from '@material-ui/icons/FilterNone';
 export default function Tracker() {
     let createdat = "Apr 3 2021,at 2:39PM";
     let updatedat = "Apr 4 2021,at 2:39PM"
     let projectname = "projectTitle";
+    let issuename = "issueTitle";
     const useStyles = makeStyles((theme) => ({
-        root: {
-            display: 'flex',
-            '& > *': {
-            margin: theme.spacing(1),
-            },
-        },
         small: {
-            width: theme.spacing(3),
-            height: theme.spacing(3),
+            width: theme.spacing(5),
+            height: theme.spacing(5),
             color:'white',
             backgroundColor:'purple'
-        },
-        large: {
-            width: theme.spacing(7),
-            height: theme.spacing(7),
         },
     }));
     const employeeUnderProject=[
@@ -105,110 +99,124 @@ export default function Tracker() {
     };
     const classes = useStyles();
     return (
-        <div className="tracker">
-            <div className="bodyOfTracker">
-                <div className="trackerInfo">
-                    <p id="projectTitle">{projectname}</p>
+        <div className="trackerPage">
+            <div className="topbar">
+                <div className="topbarInfo">
+                    <CloseIcon style={{color:'red',borderRadius:'10px',padding:'10px'}}/>
+                    <CheckBoxIcon style={{color:'#00B8D9'}}/>
+                    <p style={{fontSize:'20px',padding:'10px'}}>{projectname}</p>
+                    <FilterNoneIcon style={{color:'gray'}}/>
                 </div>
-                <div className="linkers">
-                    <button id="addAttachment" style={{margin:'10px',borderRadius:'10px',backgroundColor:'#121212',color:'white',border:'none',padding:'10px'}}>
-                        <AttachFileIcon/>
-                    </button>
-                    <button id="subTask" style={{margin:'10px',borderRadius:'10px',backgroundColor:'#121212',color:'white',border:'none',padding:'10px'}}>
-                        <LibraryAddCheckIcon/>
-                    </button>
-                    <button id="linkTask" style={{margin:'10px',borderRadius:'10px',backgroundColor:'#121212',color:'white',border:'none',padding:'10px'}}>
-                        <LinkIcon/>
-                    </button>
-                </div>
-                <div className="trackerDescription">
-                    <textarea className="mainBodyEditor"/>
-                </div>
-                <div className="commentWrapper">
-                    <div className="commentBox">
-                        <div className="trackerComments">
-                            <div className="cover">
-                                <div className="comment">
-                                    <Avatar className={classes.small}></Avatar>
-                                    <label style={{padding:'10px',color:'white'}}>User Name</label>
-                                </div>
-                                <button className="moreOptions">
-                                    <MoreHorizIcon/>
-                                </button>
-                            </div>
-                            <textarea className="commentArea" style={{}}/>
-                        </div>
-                        <p>example comments two</p>
-                        <p>example comments third</p>
-                        <p>example comments fourth</p>
-                        <div style={{height:'1px',width:'100%',backgroundColor:'white',opacity:'50%'}}></div>
-                        <div className="addComment">
-                            <textarea className="commentEditor" />
-                        </div>
-                    </div>
+                <div className="topbarOptions">
+                    <MoreHorizIcon style={{color:'white',paddingRight:'20px'}}/>
                 </div>
             </div>
-            <div className="infoPanel">
-                <div className="information">
-                    <div className='warpper'>
-                        <div className="statusSelect" style={{display:'flex',flexDirection:'column'}}>
-                            <label style={{padding:'10px'}}>Status</label>
+            <div style={{backgroundColor:'white',height:'2px',width:'100%',opacity:'30%'}}></div>
+            <div className="tracker">
+                <div className="bodyOfTracker">
+                    <div className="trackerInfo">
+                        <p id="issueTitle" style={{fontSize:'20px'}}>{issuename}</p>
+                    </div>
+                    <div className="linkers">
+                        <button id="addAttachment" style={{margin:'10px',borderRadius:'10px',backgroundColor:'#121212',color:'white',border:'none',padding:'10px'}}>
+                            <AttachFileIcon/>
+                        </button>
+                        <button id="subTask" style={{margin:'10px',borderRadius:'10px',backgroundColor:'#121212',color:'white',border:'none',padding:'10px'}}>
+                            <LibraryAddCheckIcon/>
+                        </button>
+                        <button id="linkTask" style={{margin:'10px',borderRadius:'10px',backgroundColor:'#121212',color:'white',border:'none',padding:'10px'}}>
+                            <LinkIcon/>
+                        </button>
+                    </div>
+                    <div className="trackerDescription">
+                        <textarea className="mainBodyEditor"/>
+                    </div>
+                    <div className="commentWrapper">
+                        <div className="commentBox">
+                            <div className="trackerComments">
+                                <div className="cover">
+                                    <div className="comment">
+                                        <Avatar className={classes.small}></Avatar>
+                                        <label style={{padding:'10px',color:'white'}}>User Name</label>
+                                    </div>
+                                    <button className="moreOptions">
+                                        <MoreHorizIcon/>
+                                    </button>
+                                </div>
+                                <textarea className="commentArea" style={{}}/>
+                            </div>
+                            <p>example comments two</p>
+                            <p>example comments third</p>
+                            <p>example comments fourth</p>
+                            <div style={{height:'1px',width:'100%',backgroundColor:'white',opacity:'50%'}}></div>
+                            <div className="addComment">
+                                <textarea className="commentEditor" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="infoPanel">
+                    <div className="information">
+                        <div className='warpper'>
+                            <div className="statusSelect" style={{display:'flex',flexDirection:'column'}}>
+                                <label style={{padding:'10px'}}>Status</label>
+                                <Select 
+                                    placeholder="Search...."
+                                    styles={{
+                                        control: (styles: any) => ({ ...styles, backgroundColor: '#121212', outline: 'none',margin: 0,marginLeft: 0,border: "0px solid black"}),
+                                        option:(styles: any) => ({ ...styles, backgroundColor: '#121212', color:'white'}),
+                                        singleValue:(styles: any) => ({ ...styles, backgroundColor: '#121212', color:'white'}),
+                                    }}
+                                    options={statusOptions}  
+                                    isSearchable
+                                />
+                        </div>
+                        <div className="assigneeSelect" style={{display:'flex',flexDirection:'column'}}>
+                            <label style={{padding:'10px'}}>Assignee</label>
                             <Select 
-                                placeholder="Search...."
-                                styles={{
-                                    control: (styles: any) => ({ ...styles, backgroundColor: '#121212', outline: 'none',margin: 0,marginLeft: 0,border: "0px solid black"}),
-                                    option:(styles: any) => ({ ...styles, backgroundColor: '#121212', color:'white'}),
-                                    singleValue:(styles: any) => ({ ...styles, backgroundColor: '#121212', color:'white'}),
-                                }}
-                                options={statusOptions}  
-                                isSearchable
+                            isSearchable 
+                            isMulti  
+                            styles={colourStyles}
+                            options={employeeUnderProject} />
+                        </div>
+                        <div className="labelSelect" style={{display:'flex',flexDirection:'column'}}>
+                            <label style={{padding:'10px'}}>Labels</label>
+                            <Select 
+                                defaultValue={[issueLabels[1], issueLabels[2]]}
+                                isMulti
+                                styles={colourStyles}
+                                options={issueLabels} 
+                                className="labels" 
                             />
-                    </div>
-                    <div className="assigneeSelect" style={{display:'flex',flexDirection:'column'}}>
-                        <label style={{padding:'10px'}}>Assignee</label>
-                        <Select 
-                        isSearchable 
-                        isMulti  
-                        styles={colourStyles}
-                        options={employeeUnderProject} />
-                    </div>
-                    <div className="labelSelect" style={{display:'flex',flexDirection:'column'}}>
-                        <label style={{padding:'10px'}}>Labels</label>
-                        <Select 
-                            defaultValue={[issueLabels[1], issueLabels[2]]}
+                        </div>
+                        <div className="reporterSelect" style={{display:'flex',flexDirection:'column'}}>
+                            <label style={{padding:'10px'}}>Reporter</label>
+                            <Select 
                             isMulti
                             styles={colourStyles}
-                            options={issueLabels} 
-                            className="labels" 
-                        />
-                    </div>
-                    <div className="reporterSelect" style={{display:'flex',flexDirection:'column'}}>
-                        <label style={{padding:'10px'}}>Reporter</label>
-                        <Select 
-                        isMulti
-                        styles={colourStyles}
-                        isSearchable 
-                        options={employeeUnderProject}
-                        />
-                    </div>
-                    <div className="projectSelect" style={{display:'flex',flexDirection:'column'}}>
-                        <label style={{padding:'10px'}}>Project</label>
-                        <Select 
-                        isSearchable 
-                        styles={{
-                            control: (styles: any) => ({ ...styles, backgroundColor: '#121212', outline: 'none',margin: 0,marginLeft: 0,border: "0px solid black"}),
-                            option:(styles: any) => ({ ...styles, backgroundColor: '#121212', color:'white'}),
-                            singleValue:(styles: any) => ({ ...styles, backgroundColor: '#121212', color:'white'}),
-                        }}
-                        options={projects}
-                        />
-                    </div>
-                    <div className="changes"style={{display:'flex',flexDirection:'column'}}>
-                        <label style={{padding:'10px'}}>Created at</label>
-                        <p style={{color:'white'}}>{createdat}</p>
-                        <label>Updated at</label>
-                        <p style={{color:'white'}}>A{updatedat}</p>
-                    </div>
+                            isSearchable 
+                            options={employeeUnderProject}
+                            />
+                        </div>
+                        <div className="projectSelect" style={{display:'flex',flexDirection:'column'}}>
+                            <label style={{padding:'10px'}}>Project</label>
+                            <Select 
+                            isSearchable 
+                            styles={{
+                                control: (styles: any) => ({ ...styles, backgroundColor: '#121212', outline: 'none',margin: 0,marginLeft: 0,border: "0px solid black"}),
+                                option:(styles: any) => ({ ...styles, backgroundColor: '#121212', color:'white'}),
+                                singleValue:(styles: any) => ({ ...styles, backgroundColor: '#121212', color:'white'}),
+                            }}
+                            options={projects}
+                            />
+                        </div>
+                        <div className="changes"style={{display:'flex',flexDirection:'column'}}>
+                            <label style={{padding:'10px'}}>Created at</label>
+                            <p style={{color:'white'}}>{createdat}</p>
+                            <label>Updated at</label>
+                            <p style={{color:'white'}}>A{updatedat}</p>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>
