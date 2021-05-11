@@ -1,0 +1,14 @@
+body{
+    background-color: black;
+}
+
+.frontbody{
+    display: flex;
+    flex-direction: row;
+    width: '100%';
+    height: 100vh;
+    .contentDisplay{
+        width: 100%;
+        height: 100%;
+    }
+}

@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
-import DashBoard from './tracker/DashBoard';
+import FrontPage from './tracker/FrontPage';
 
 ReactDOM.render(
-  <DashBoard/>,
+  <FrontPage/>,
   document.getElementById('root')
 );
