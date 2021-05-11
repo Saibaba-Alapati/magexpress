@@ -4,13 +4,13 @@ import SearchIcon from '@material-ui/icons/Search';
 export default function DashBoard() {
     return (
         <div className="bodyOfPage">
-            <Sidebar/>
+            <div className="sidebarWrapper">
+                <Sidebar/>
+            </div>
             <div className="wrapper">
                 <div className="search">
-                    <div className="wrapper1">
-                        <SearchIcon style={{color:'gray'}}/>
-                        <input className="searchBar" type="text" placeholder= "Search anything Here..."/>
-                    </div>
+                    <SearchIcon style={{color:'gray'}}/>
+                    <input className="searchBar" type="text" placeholder= "Search anything Here..."/>
                 </div>
             </div>
         </div>

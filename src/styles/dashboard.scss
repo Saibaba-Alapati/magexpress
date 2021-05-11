@@ -10,29 +10,33 @@ body {
 .bodyOfPage {
     display: flex;
     flex-direction: row;
-}
-.wrapper{
     width: 100%;
-    display: flex;
-}
-.search{
-    padding-left: 20px;
-    padding-top: 40px;
-    width: 100%;
-}
-.wrapper1{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    background-color: #121212;
-    padding: 10px;
-}
-.searchBar {
-    background-color: #121212;
-    color: gray;
-    font-size: x-large;
-    width: 100%;
-    outline: none;
-    border: none;
-    padding: 10px;
+    .sidebarWrapper{
+        width: fit-content;
+    }
+    .wrapper{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        .search{
+            padding-left: 20px;
+            padding-top: 40px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            background-color: #121212;
+            padding: 10px;
+            margin: 10px;
+            .searchBar {
+                background-color: #121212;
+                color: gray;
+                font-size: x-large;
+                width: 100%;
+                outline: none;
+                border: none;
+                padding: 10px;
+            }
+        }
+    }
 }
